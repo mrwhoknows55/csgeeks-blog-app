@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/article_nav_graph.xml"
+    app:startDestination="@id/articlesListFragment">
+
+    <fragment
+        android:id="@+id/articlesListFragment"
+        android:name="com.mrwhoknows.csgeeks.ui.ArticlesListFragment"
+        android:label="fragment_articles_list"
+        tools:layout="@layout/fragment_articles_list" >
+        <action
+            android:id="@+id/action_articlesListFragment_to_articleFragment"
+            app:destination="@id/articleFragment"
+            app:enterAnim="@anim/fragment_open_enter"
+            app:exitAnim="@anim/fragment_open_exit"
+            app:popEnterAnim="@anim/fragment_close_enter"
+            app:popExitAnim="@anim/fragment_close_exit" />
+    </fragment>
+    <fragment
+        android:id="@+id/articleFragment"
+        android:name="com.mrwhoknows.csgeeks.ui.ArticleFragment"
+        android:label="ArticleFragment" >
+        <argument
+            android:name="articleID"
+            app:argType="string" />
+    </fragment>
+</navigation>

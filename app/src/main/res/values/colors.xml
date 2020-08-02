@@ -1,6 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#6200EE</color>
-    <color name="colorPrimaryDark">#3700B3</color>
-    <color name="colorAccent">#03DAC5</color>
+    <color name="colorPrimary">#3B4252</color>
+    <color name="colorPrimaryDark">#2E3440</color>
+    <color name="colorAccent">#A3BE8C</color>
+
+    <color name="colorBackgroundDark">#2E3440</color>
+    <color name="colorBackgroundDark2">#3B4252</color>
+    <color name="colorBackgroundDark3">#434C5E</color>
+    <color name="colorBackgroundLight">#ECEFF4</color>
+
+    <color name="colorNordRed">#BF616A</color>
+    <color name="colorNordBlue">#5E81AC</color>
+    <color name="colorNordOrange">#D08770</color>
+    <color name="colorNordYellow">#EBCB8B</color>
+    <color name="colorNordGreen">#A3BE8C</color>
+
+    <color name="colorTextPrimary">#ECEFF4</color>
+    <color name="colorTextSecondary">#D8DEE9</color>
 </resources>
