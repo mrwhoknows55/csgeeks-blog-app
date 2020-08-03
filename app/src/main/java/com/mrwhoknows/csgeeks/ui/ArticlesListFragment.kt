@@ -6,6 +6,7 @@ import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.material.snackbar.Snackbar
 import com.mrwhoknows.csgeeks.R
 import com.mrwhoknows.csgeeks.adapter.ArticleListAdapter
 import com.mrwhoknows.csgeeks.api.RetrofitInstance
@@ -24,10 +25,7 @@ class ArticlesListFragment : Fragment(R.layout.fragment_articles_list) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        btGetAllArticles.setOnClickListener {
-            getAllArticles()
-        }
+        getAllArticles(view)
     }
 
     private fun initRecyclerView(data: ArticleList) {
@@ -38,13 +36,13 @@ class ArticlesListFragment : Fragment(R.layout.fragment_articles_list) {
         }
     }
 
-    private fun getAllArticles() {
+    private fun getAllArticles(view: View) {
         CoroutineScope(Dispatchers.IO).launch {
             val postMetaResponse = RetrofitInstance.api.getAllPosts()
 
             if (postMetaResponse.isSuccessful) {
                 Log.d(TAG, "onCreate: ${postMetaResponse.body().toString()}")
-                if (postMetaResponse.body()!!.articles.isNotEmpty()) {
+                if (postMetaResponse.body()!!.success) {
                     withContext(Dispatchers.Main) {
                         initRecyclerView(postMetaResponse.body()!!)
                         articleAdapter.setOnItemClickListener {
@@ -55,10 +53,22 @@ class ArticlesListFragment : Fragment(R.layout.fragment_articles_list) {
                             )
                         }
                     }
-                } else
+                } else {
                     Log.d(TAG, "error: ${postMetaResponse.message()}")
-            } else
+                    Snackbar.make(
+                        view,
+                        "Something wrong happened please try later!",
+                        Snackbar.LENGTH_SHORT
+                    ).show()
+                }
+            } else {
                 Log.d(TAG, "error: ${postMetaResponse.message()}")
+                Snackbar.make(
+                    view,
+                    "Something wrong happened please try later!",
+                    Snackbar.LENGTH_SHORT
+                ).show()
+            }
         }
     }
 }

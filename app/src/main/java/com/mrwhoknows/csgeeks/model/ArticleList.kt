@@ -5,7 +5,9 @@ import com.google.gson.annotations.SerializedName
 
 data class ArticleList(
     @SerializedName("articles")
-    val articles: List<Article>
+    val articles: List<Article>,
+    @SerializedName("success")
+    val success: Boolean
 ) {
     data class Article(
         @SerializedName("author")
