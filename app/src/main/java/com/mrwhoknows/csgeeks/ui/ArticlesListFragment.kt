@@ -41,7 +41,6 @@ class ArticlesListFragment : Fragment(R.layout.fragment_articles_list) {
             val postMetaResponse = RetrofitInstance.api.getAllPosts()
 
             if (postMetaResponse.isSuccessful) {
-                Log.d(TAG, "onCreate: ${postMetaResponse.body().toString()}")
                 if (postMetaResponse.body()!!.success) {
                     withContext(Dispatchers.Main) {
                         initRecyclerView(postMetaResponse.body()!!)

@@ -47,7 +47,6 @@ class ArticleListAdapter(private val articleMetaList: ArticleList) :
 
             val inputDateFormatter =
                 SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS+00:00", Locale.getDefault())
-                // SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ", Locale.getDefault())
             inputDateFormatter.timeZone = TimeZone.getTimeZone("UTC")
 
             val outputDateFormatter =
