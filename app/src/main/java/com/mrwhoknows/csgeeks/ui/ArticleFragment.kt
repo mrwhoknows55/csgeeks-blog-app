@@ -9,6 +9,7 @@ import com.google.android.material.snackbar.Snackbar
 import com.mrwhoknows.csgeeks.R
 import com.mrwhoknows.csgeeks.api.RetrofitInstance
 import io.noties.markwon.Markwon
+import io.noties.markwon.image.glide.GlideImagesPlugin
 import kotlinx.android.synthetic.main.fragment_article.*
 import kotlinx.android.synthetic.main.fragment_article.bounceLoader
 import kotlinx.android.synthetic.main.fragment_articles_list.*
@@ -41,7 +42,9 @@ class ArticleFragment : Fragment(R.layout.fragment_article) {
                 withContext(Dispatchers.Main) {
                     isLoading(false)
                     tvArticleTitle.text = data.title
-                    val markwon = Markwon.create(requireContext())
+                    val markwon = Markwon.builder(requireContext())
+                        .usePlugin(GlideImagesPlugin.create(requireContext()))
+                        .build()
                     markwon.setMarkdown(tvArticleBody, data.content)
 
                     Glide.with(view.context).load(data.thumbnail).into(ivArticleThumbnail)

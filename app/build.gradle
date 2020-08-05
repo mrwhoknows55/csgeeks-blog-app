@@ -64,6 +64,7 @@ dependencies {
 
     // Markown
     implementation "io.noties.markwon:core:4.5.0"
+    implementation "io.noties.markwon:image-glide:4.5.0"
 
     // progress bar
     implementation 'com.agrawalsuneet.androidlibs:dotsloader:1.4'
