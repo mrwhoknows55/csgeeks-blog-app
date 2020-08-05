@@ -13,6 +13,7 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
+        android:contentDescription="@string/blog_article_thumbnail"
         android:scaleType="centerCrop"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -25,23 +26,25 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginEnd="2dp"
-        android:text="Lorem ipsum random text, lorem ipsum random text "
         android:textColor="@color/colorNordGreen"
-        android:textSize="30sp"
+        android:textSize="32sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ivArticleThumbnail" />
+        app:layout_constraintTop_toBottomOf="@+id/ivArticleThumbnail"
+        tools:text="Lorem ipsum random text, lorem ipsum random text " />
 
     <TextView
         android:id="@+id/tvAuthorName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
-        android:text="Created by, WhoKnows"
+        android:layout_marginTop="2dp"
         android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle2"
         android:textColor="#88C0D0"
+        android:textSize="12sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvArticleTitle" />
+        app:layout_constraintTop_toBottomOf="@+id/tvArticleTitle"
+        tools:text="Created by, WhoKnows" />
 
     <TextView
         android:id="@+id/tvArticleBody"
@@ -50,10 +53,10 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
-        android:text="TextView"
         android:textColor="#88C0D0"
         android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvAuthorName" />
+        app:layout_constraintTop_toBottomOf="@+id/tvAuthorName"
+        tools:text="TextView" />
 </androidx.constraintlayout.widget.ConstraintLayout>

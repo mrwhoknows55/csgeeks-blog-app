@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
 import com.mrwhoknows.csgeeks.R
 import com.mrwhoknows.csgeeks.api.RetrofitInstance
+import io.noties.markwon.Markwon
 import kotlinx.android.synthetic.main.fragment_article.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -36,7 +37,10 @@ class ArticleFragment : Fragment(R.layout.fragment_article) {
                 val data = articleResponse.body()!!.article
                 withContext(Dispatchers.Main) {
                     tvArticleTitle.text = data.title
-                    tvArticleBody.text = data.content
+
+                    val markwon = Markwon.create(requireContext())
+                    markwon.setMarkdown(tvArticleBody, data.content)
+
                     Glide.with(view.context).load(data.thumbnail).into(ivArticleThumbnail)
 
                     val inputDateFormatter =

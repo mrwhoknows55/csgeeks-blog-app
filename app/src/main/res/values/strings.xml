@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">CS Geeks</string>
+    <string name="blog_article_thumbnail">Blog Article Thumbnail</string>
 </resources>
