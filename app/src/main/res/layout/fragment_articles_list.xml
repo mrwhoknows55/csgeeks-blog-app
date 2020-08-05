@@ -7,6 +7,19 @@
     android:background="@color/colorPrimaryDark"
     tools:context=".ui.ArticlesListFragment">
 
+    <com.agrawalsuneet.dotsloader.loaders.BounceLoader
+        android:id="@+id/bounceLoader"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:bounce_animDuration="400"
+        app:bounce_ballColor="@color/colorAccent"
+        app:bounce_ballRadius="22dp"
+        app:bounce_showShadow="true"
+        app:layout_constraintBottom_toBottomOf="@+id/rv_articleList"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_articleList"
         android:layout_width="0dp"
