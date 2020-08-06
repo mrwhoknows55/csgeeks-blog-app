@@ -37,12 +37,14 @@ class ArticlesListFragment : Fragment(R.layout.fragment_articles_list) {
     }
 
     private fun getAllArticles(view: View) {
+        isLoading(true)
         CoroutineScope(Dispatchers.IO).launch {
             val postMetaResponse = RetrofitInstance.api.getAllPosts()
 
             if (postMetaResponse.isSuccessful) {
                 if (postMetaResponse.body()!!.success) {
                     withContext(Dispatchers.Main) {
+                        isLoading(false)
                         initRecyclerView(postMetaResponse.body()!!)
                         articleAdapter.setOnItemClickListener {
                             findNavController().navigate(
@@ -53,6 +55,9 @@ class ArticlesListFragment : Fragment(R.layout.fragment_articles_list) {
                         }
                     }
                 } else {
+                    withContext(Dispatchers.Main) {
+                        isLoading(false)
+                    }
                     Log.d(TAG, "error: ${postMetaResponse.message()}")
                     Snackbar.make(
                         view,
@@ -61,13 +66,24 @@ class ArticlesListFragment : Fragment(R.layout.fragment_articles_list) {
                     ).show()
                 }
             } else {
-                Log.d(TAG, "error: ${postMetaResponse.message()}")
-                Snackbar.make(
-                    view,
-                    "Something wrong happened please try later!",
-                    Snackbar.LENGTH_SHORT
-                ).show()
+                withContext(Dispatchers.Main) {
+                    isLoading(false)
+                    Log.d(TAG, "error: ${postMetaResponse.message()}")
+                    Snackbar.make(
+                        view,
+                        "Something wrong happened please try later!",
+                        Snackbar.LENGTH_SHORT
+                    ).show()
+                }
             }
+        }
+    }
+
+    private fun isLoading(bool: Boolean) {
+        if (bool) {
+            bounceLoader.visibility = View.VISIBLE
+        } else {
+            bounceLoader.visibility = View.GONE
         }
     }
 }
