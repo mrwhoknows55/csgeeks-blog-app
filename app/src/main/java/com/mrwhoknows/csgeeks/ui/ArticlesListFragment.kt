@@ -4,28 +4,56 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
+import com.mrwhoknows.csgeeks.MainActivity
 import com.mrwhoknows.csgeeks.R
 import com.mrwhoknows.csgeeks.adapter.ArticleListAdapter
-import com.mrwhoknows.csgeeks.api.RetrofitInstance
 import com.mrwhoknows.csgeeks.model.ArticleList
+import com.mrwhoknows.csgeeks.util.Resource
 import kotlinx.android.synthetic.main.fragment_articles_list.*
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
 private const val TAG = "ListFragment"
 
 class ArticlesListFragment : Fragment(R.layout.fragment_articles_list) {
 
     private lateinit var articleAdapter: ArticleListAdapter
+    private lateinit var viewModel: ArticleViewModel
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        getAllArticles(view)
+
+        viewModel = (activity as MainActivity).viewModel
+
+        viewModel.articles.observe(viewLifecycleOwner, Observer { response ->
+            when (response) {
+                is Resource.Success -> {
+                    showProgressbar(false)
+                    response.data?.let { articleList ->
+                        initRecyclerView(articleList)
+                        articleAdapter.setOnItemClickListener {
+                            findNavController().navigate(
+                                ArticlesListFragmentDirections.actionArticlesListFragmentToArticleFragment(
+                                    it.id.toString()
+                                )
+                            )
+                        }
+                    }
+                }
+                is Resource.Error -> {
+                    showProgressbar(false)
+                    response.message?.let {
+                        Log.e(TAG, "Error: $it")
+                        Snackbar.make(view, "Error: $it", Snackbar.LENGTH_SHORT).show()
+                    }
+                }
+                is Resource.Loading -> {
+                    showProgressbar(true)
+                }
+            }
+        })
     }
 
     private fun initRecyclerView(data: ArticleList) {
@@ -36,50 +64,7 @@ class ArticlesListFragment : Fragment(R.layout.fragment_articles_list) {
         }
     }
 
-    private fun getAllArticles(view: View) {
-        isLoading(true)
-        CoroutineScope(Dispatchers.IO).launch {
-            val postMetaResponse = RetrofitInstance.api.getAllPosts()
-
-            if (postMetaResponse.isSuccessful) {
-                if (postMetaResponse.body()!!.success) {
-                    withContext(Dispatchers.Main) {
-                        isLoading(false)
-                        initRecyclerView(postMetaResponse.body()!!)
-                        articleAdapter.setOnItemClickListener {
-                            findNavController().navigate(
-                                ArticlesListFragmentDirections.actionArticlesListFragmentToArticleFragment(
-                                    it.id.toString()
-                                )
-                            )
-                        }
-                    }
-                } else {
-                    withContext(Dispatchers.Main) {
-                        isLoading(false)
-                    }
-                    Log.d(TAG, "error: ${postMetaResponse.message()}")
-                    Snackbar.make(
-                        view,
-                        "Something wrong happened please try later!",
-                        Snackbar.LENGTH_SHORT
-                    ).show()
-                }
-            } else {
-                withContext(Dispatchers.Main) {
-                    isLoading(false)
-                    Log.d(TAG, "error: ${postMetaResponse.message()}")
-                    Snackbar.make(
-                        view,
-                        "Something wrong happened please try later!",
-                        Snackbar.LENGTH_SHORT
-                    ).show()
-                }
-            }
-        }
-    }
-
-    private fun isLoading(bool: Boolean) {
+    private fun showProgressbar(bool: Boolean) {
         if (bool) {
             bounceLoader.visibility = View.VISIBLE
         } else {
