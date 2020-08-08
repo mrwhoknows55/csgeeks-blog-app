@@ -4,8 +4,8 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.lifecycle.ViewModelProvider
 import com.mrwhoknows.csgeeks.repository.BlogRepository
-import com.mrwhoknows.csgeeks.ui.ArticleViewModel
-import com.mrwhoknows.csgeeks.ui.ArticleViewModelFactory
+import com.mrwhoknows.csgeeks.viewmodels.ArticleViewModel
+import com.mrwhoknows.csgeeks.viewmodels.ArticleViewModelFactory
 
 private const val TAG = "MainActivity"
 
@@ -18,7 +18,10 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         val blogRepository = BlogRepository()
-        val viewModelFactory = ArticleViewModelFactory(blogRepository)
+        val viewModelFactory =
+            ArticleViewModelFactory(
+                blogRepository
+            )
         viewModel = ViewModelProvider(this, viewModelFactory).get(ArticleViewModel::class.java)
     }
 }

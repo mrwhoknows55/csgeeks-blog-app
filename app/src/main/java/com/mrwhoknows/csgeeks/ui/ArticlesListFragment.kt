@@ -13,6 +13,7 @@ import com.mrwhoknows.csgeeks.R
 import com.mrwhoknows.csgeeks.adapter.ArticleListAdapter
 import com.mrwhoknows.csgeeks.model.ArticleList
 import com.mrwhoknows.csgeeks.util.Resource
+import com.mrwhoknows.csgeeks.viewmodels.ArticleViewModel
 import kotlinx.android.synthetic.main.fragment_articles_list.*
 
 private const val TAG = "ListFragment"

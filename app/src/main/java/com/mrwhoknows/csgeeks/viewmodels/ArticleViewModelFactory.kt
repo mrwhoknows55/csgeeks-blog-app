@@ -1,4 +1,4 @@
-package com.mrwhoknows.csgeeks.ui
+package com.mrwhoknows.csgeeks.viewmodels
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
