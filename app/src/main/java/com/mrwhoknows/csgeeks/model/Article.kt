@@ -5,7 +5,9 @@ import com.google.gson.annotations.SerializedName
 
 data class Article(
     @SerializedName("article")
-    val article: Article
+    val article: Article,
+    @SerializedName("success")
+    val success: Boolean
 ) {
     data class Article(
         @SerializedName("author")
@@ -18,6 +20,8 @@ data class Article(
         val description: String,
         @SerializedName("_id")
         val id: Int,
+        @SerializedName("tags")
+        val tags: List<String>,
         @SerializedName("thumbnail")
         val thumbnail: String,
         @SerializedName("title")

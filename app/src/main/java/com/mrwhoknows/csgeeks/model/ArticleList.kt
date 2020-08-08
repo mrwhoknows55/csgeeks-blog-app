@@ -18,6 +18,8 @@ data class ArticleList(
         val description: String,
         @SerializedName("_id")
         val id: Int,
+        @SerializedName("tags")
+        val tags: List<String>,
         @SerializedName("thumbnail")
         val thumbnail: String,
         @SerializedName("title")
