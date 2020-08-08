@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginHorizontal="16dp"
@@ -19,28 +20,40 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginEnd="8dp"
-            android:text="Lorem ipsum random text, lorem ipsum random text "
             android:textColor="@color/colorNordGreen"
             android:textSize="30sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/ivThubm" />
+            app:layout_constraintTop_toBottomOf="@+id/ivThumbnailItem"
+            tools:text="Lorem ipsum random text, lorem ipsum random text " />
 
         <TextView
-            android:id="@+id/tvAutherNameItem"
+            android:id="@+id/tvAuthorNameItem"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="18dp"
-            android:text="Created by, WhoKnows"
             android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle2"
             android:textColor="#88C0D0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tvArticleItemTitle" />
+            app:layout_constraintTop_toBottomOf="@+id/tvArticleItemTitle"
+            tools:text="Created by, WhoKnows" />
+
+        <TextView
+            android:id="@+id/tvArticleDateItem"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle2"
+            android:textColor="#88C0D0"
+            app:layout_constraintStart_toEndOf="@+id/tvAuthorNameItem"
+            app:layout_constraintTop_toBottomOf="@+id/tvArticleItemTitle"
+            tools:text="08, Aug 2020 07:46 PM" />
 
         <ImageView
-            android:id="@+id/ivThubm"
+            android:id="@+id/ivThumbnailItem"
             android:layout_width="0dp"
             android:layout_height="160dp"
+            android:contentDescription="@string/blog_article_thumbnail"
             android:scaleType="centerCrop"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -55,12 +68,12 @@
             android:layout_marginTop="8dp"
             android:layout_marginEnd="16dp"
             android:layout_marginBottom="8dp"
-            android:text="TextView"
             android:textColor="#88C0D0"
             android:textSize="18sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tvAutherNameItem" />
+            app:layout_constraintTop_toBottomOf="@+id/tvAuthorNameItem"
+            tools:text="TextView" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </com.google.android.material.card.MaterialCardView>

@@ -9,9 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.mrwhoknows.csgeeks.R
 import com.mrwhoknows.csgeeks.model.ArticleList
-import java.text.SimpleDateFormat
-import java.util.Locale
-import java.util.TimeZone
+import com.mrwhoknows.csgeeks.util.StringFormatter
 
 class ArticleListAdapter(private val articleMetaList: ArticleList) :
     RecyclerView.Adapter<ArticleListAdapter.ArticleListViewHolder>() {
@@ -34,29 +32,26 @@ class ArticleListAdapter(private val articleMetaList: ArticleList) :
     override fun getItemCount() = articleMetaList.articles.size
 
     inner class ArticleListViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        private val title: TextView = itemView.findViewById(R.id.tvArticleItemTitle)
-        private val author: TextView = itemView.findViewById(R.id.tvAutherNameItem)
-        private val desc: TextView = itemView.findViewById(R.id.tvDesc)
 
-        //TODO add time
-        private val thmb: ImageView = itemView.findViewById(R.id.ivThubm)
+        private val title: TextView = itemView.findViewById(R.id.tvArticleItemTitle)
+        private val author: TextView = itemView.findViewById(R.id.tvAuthorNameItem)
+        private val createdAt: TextView = itemView.findViewById(R.id.tvArticleDateItem)
+        private val desc: TextView = itemView.findViewById(R.id.tvDesc)
+        private val thmb: ImageView = itemView.findViewById(R.id.ivThumbnailItem)
+
         fun bind(data: ArticleList.Article) {
             title.text = data.title
             desc.text = data.description
+            author.text = "Created by, ${data.author}"
+
+            val date = StringFormatter.convertDateTimeToString(
+                data.created,
+                "yyyy-MM-dd'T'HH:mm:ss.SSS+00:00",
+                "dd, MMM yyyy hh:mm a"
+            )
+            createdAt.text = "at  $date"
+
             Glide.with(itemView.context).load(data.thumbnail).into(thmb)
-
-            val inputDateFormatter =
-                SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS+00:00", Locale.getDefault())
-            inputDateFormatter.timeZone = TimeZone.getTimeZone("UTC")
-
-            val outputDateFormatter =
-                SimpleDateFormat("dd, MMM yyyy hh:mm a", Locale.getDefault())
-            outputDateFormatter.timeZone = TimeZone.getDefault()
-
-            val dateTime = inputDateFormatter.parse(data.created)
-            val date = outputDateFormatter.format(dateTime!!)
-
-            author.text = "Created by, ${data.author} at  $date"
         }
     }
 

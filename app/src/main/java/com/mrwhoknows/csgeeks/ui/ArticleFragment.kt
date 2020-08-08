@@ -8,18 +8,15 @@ import com.bumptech.glide.Glide
 import com.google.android.material.snackbar.Snackbar
 import com.mrwhoknows.csgeeks.R
 import com.mrwhoknows.csgeeks.api.RetrofitInstance
+import com.mrwhoknows.csgeeks.util.StringFormatter
 import io.noties.markwon.Markwon
 import io.noties.markwon.image.glide.GlideImagesPlugin
 import kotlinx.android.synthetic.main.fragment_article.*
 import kotlinx.android.synthetic.main.fragment_article.bounceLoader
-import kotlinx.android.synthetic.main.fragment_articles_list.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import java.text.SimpleDateFormat
-import java.util.Locale
-import java.util.TimeZone
 
 private const val TAG = "ArticleFragment"
 
@@ -37,29 +34,30 @@ class ArticleFragment : Fragment(R.layout.fragment_article) {
         CoroutineScope(Dispatchers.IO).launch {
             val articleResponse = RetrofitInstance.api.getPostById(articleID)
             if (articleResponse.isSuccessful) {
+
                 Log.d(TAG, "onCreate: ${articleResponse.body().toString()}")
                 val data = articleResponse.body()!!.article
+
                 withContext(Dispatchers.Main) {
+
                     isLoading(false)
+
                     tvArticleTitle.text = data.title
+                    tvAuthorName.text = "Created by, ${data.author}"
+
+                    val date = StringFormatter.convertDateTimeToString(
+                        data.created,
+                        "yyyy-MM-dd'T'HH:mm:ss.SSS+00:00",
+                        "dd, MMM yyyy hh:mm a"
+                    )
+                    tvArticleDate.text = "at  $date"
+
                     val markwon = Markwon.builder(requireContext())
                         .usePlugin(GlideImagesPlugin.create(requireContext()))
                         .build()
                     markwon.setMarkdown(tvArticleBody, data.content)
 
                     Glide.with(view.context).load(data.thumbnail).into(ivArticleThumbnail)
-
-                    val inputDateFormatter =
-                        SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS+00:00", Locale.getDefault())
-                    inputDateFormatter.timeZone = TimeZone.getTimeZone("UTC")
-                    val outputDateFormatter =
-                        SimpleDateFormat("dd, MMM yyyy hh:mm a", Locale.getDefault())
-                    outputDateFormatter.timeZone = TimeZone.getDefault()
-
-                    val dateTime = inputDateFormatter.parse(data.created)
-                    val date = outputDateFormatter.format(dateTime!!)
-
-                    tvAuthorName.text = "Created by, ${data.author} at  $date"
                 }
             } else {
                 Log.d(TAG, "onViewCreated: error")
