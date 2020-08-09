@@ -5,7 +5,7 @@ import com.google.gson.annotations.SerializedName
 
 data class Author(
     @SerializedName("author")
-    val author: List<Author>,
+    val author: Author,
     @SerializedName("success")
     val success: Boolean
 ) {
@@ -19,6 +19,13 @@ data class Author(
         @SerializedName("name")
         val name: String,
         @SerializedName("social")
-        val social: List<List<String>>
-    )
+        val social: List<Social>
+    ) {
+        data class Social(
+            @SerializedName("name")
+            val name: String,
+            @SerializedName("url")
+            val url: String
+        )
+    }
 }

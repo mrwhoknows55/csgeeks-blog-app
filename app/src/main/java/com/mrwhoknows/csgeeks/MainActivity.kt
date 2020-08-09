@@ -4,14 +4,14 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.lifecycle.ViewModelProvider
 import com.mrwhoknows.csgeeks.repository.BlogRepository
-import com.mrwhoknows.csgeeks.viewmodels.ArticleViewModel
-import com.mrwhoknows.csgeeks.viewmodels.ArticleViewModelFactory
+import com.mrwhoknows.csgeeks.viewmodels.BlogViewModel
+import com.mrwhoknows.csgeeks.viewmodels.BlogViewModelFactory
 
 private const val TAG = "MainActivity"
 
 class MainActivity : AppCompatActivity() {
 
-    lateinit var viewModel: ArticleViewModel
+    lateinit var viewModel: BlogViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -19,9 +19,9 @@ class MainActivity : AppCompatActivity() {
 
         val blogRepository = BlogRepository()
         val viewModelFactory =
-            ArticleViewModelFactory(
+            BlogViewModelFactory(
                 blogRepository
             )
-        viewModel = ViewModelProvider(this, viewModelFactory).get(ArticleViewModel::class.java)
+        viewModel = ViewModelProvider(this, viewModelFactory).get(BlogViewModel::class.java)
     }
 }

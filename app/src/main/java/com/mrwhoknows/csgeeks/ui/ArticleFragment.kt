@@ -11,7 +11,7 @@ import com.mrwhoknows.csgeeks.MainActivity
 import com.mrwhoknows.csgeeks.R
 import com.mrwhoknows.csgeeks.util.Resource
 import com.mrwhoknows.csgeeks.util.Util
-import com.mrwhoknows.csgeeks.viewmodels.ArticleViewModel
+import com.mrwhoknows.csgeeks.viewmodels.BlogViewModel
 import io.noties.markwon.Markwon
 import io.noties.markwon.image.glide.GlideImagesPlugin
 import kotlinx.android.synthetic.main.fragment_article.*
@@ -24,7 +24,8 @@ private const val TAG = "ArticleFragment"
 class ArticleFragment : Fragment(R.layout.fragment_article) {
 
     private lateinit var args: ArticleFragmentArgs
-    private lateinit var viewModel: ArticleViewModel
+    private lateinit var viewModel: BlogViewModel
+    private lateinit var authorName: String
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -46,11 +47,12 @@ class ArticleFragment : Fragment(R.layout.fragment_article) {
                 is Resource.Success -> {
                     Util.isLoading(bounceLoader, false)
 
-                    val resource = articleResource.data?.let {
+                    articleResource.data?.let {
                         val data = it.article
 
                         tvArticleTitle.text = data.title
                         tvAuthorName.text = "Created by, ${data.author}"
+                        authorName = data.author
 
                         val date = Util.convertDateTimeToString(
                             data.created,
@@ -82,18 +84,24 @@ class ArticleFragment : Fragment(R.layout.fragment_article) {
 
         })
 
-        // TODO After changes from backend and
-
-        //     tvAuthorName.setOnClickListener {
-        //         viewModel.author.observe(viewLifecycleOwner, Observer { authorResource ->
-        //             when (authorResource) {
-        //                 is Resource.Success -> {
-        //                     authorResource.data?.let {
-        //                         // Log.d(TAG, "author: ${it.author.id}")
-        //                     }
-        //                 }
-        //             }
-        //         })
-        //     }
+        tvAuthorName.setOnClickListener {
+            CoroutineScope(Dispatchers.IO).launch {
+                viewModel.getAuthor(authorName)
+            }
+            viewModel.author.observe(viewLifecycleOwner, Observer { authorResource ->
+                when (authorResource) {
+                    is Resource.Success -> {
+                        authorResource.data?.let {
+                            Log.d(TAG, "author: ${it.author.name}")
+                            Log.d(TAG, "author: ${it.author.authId}")
+                            Log.d(
+                                TAG,
+                                "author: ${it.author.social[1].name} : ${it.author.social[1].url}"
+                            )
+                        }
+                    }
+                }
+            })
+        }
     }
 }

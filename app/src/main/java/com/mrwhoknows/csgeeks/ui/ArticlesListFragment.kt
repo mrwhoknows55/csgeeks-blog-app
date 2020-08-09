@@ -13,7 +13,7 @@ import com.mrwhoknows.csgeeks.R
 import com.mrwhoknows.csgeeks.adapter.ArticleListAdapter
 import com.mrwhoknows.csgeeks.model.ArticleList
 import com.mrwhoknows.csgeeks.util.Resource
-import com.mrwhoknows.csgeeks.viewmodels.ArticleViewModel
+import com.mrwhoknows.csgeeks.viewmodels.BlogViewModel
 import kotlinx.android.synthetic.main.fragment_articles_list.*
 
 private const val TAG = "ListFragment"
@@ -21,7 +21,7 @@ private const val TAG = "ListFragment"
 class ArticlesListFragment : Fragment(R.layout.fragment_articles_list) {
 
     private lateinit var articleAdapter: ArticleListAdapter
-    private lateinit var viewModel: ArticleViewModel
+    private lateinit var viewModel: BlogViewModel
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

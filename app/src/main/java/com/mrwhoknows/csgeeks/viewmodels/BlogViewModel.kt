@@ -14,7 +14,7 @@ import retrofit2.Response
 import java.io.IOException
 import java.lang.Exception
 
-class ArticleViewModel(
+class BlogViewModel(
     private val repository: BlogRepository
 ) : ViewModel() {
 
