@@ -4,91 +4,92 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorPrimaryDark">
+    android:background="@color/colorBackgroundDark">
 
-        <com.agrawalsuneet.dotsloader.loaders.BounceLoader
-            android:id="@+id/bounceLoader"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:bounce_animDuration="400"
-            app:bounce_ballColor="@color/colorAccent"
-            app:bounce_ballRadius="22dp"
-            app:bounce_showShadow="true"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/ivArticleThumbnail" />
+    <com.agrawalsuneet.dotsloader.loaders.BounceLoader
+        android:id="@+id/bounceLoader"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        app:bounce_animDuration="400"
+        app:bounce_ballColor="@color/colorAccent"
+        app:bounce_ballRadius="22dp"
+        app:bounce_showShadow="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/ivArticleThumbnail" />
 
-        <ImageView
-            android:id="@+id/ivArticleThumbnail"
-            android:layout_width="0dp"
-            android:layout_height="200dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="8dp"
-            android:contentDescription="@string/blog_article_thumbnail"
-            android:scaleType="centerCrop"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:srcCompat="@drawable/ic_launcher_background" />
+    <ImageView
+        android:id="@+id/ivArticleThumbnail"
+        android:layout_width="0dp"
+        android:layout_height="200dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:contentDescription="@string/blog_article_thumbnail"
+        android:scaleType="centerCrop"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:srcCompat="@drawable/ic_launcher_background" />
+
+    <TextView
+        android:id="@+id/tvArticleTitle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="2dp"
+        android:textColor="@color/colorNordGreen"
+        android:textSize="32sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ivArticleThumbnail"
+        tools:text="Lorem ipsum random text, lorem ipsum random text " />
+
+    <TextView
+        android:id="@+id/tvAuthorName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="2dp"
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle2"
+        android:textColor="#88C0D0"
+        android:textSize="12sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvArticleTitle"
+        tools:text="Created by, WhoKnows" />
+
+    <TextView
+        android:id="@+id/tvArticleDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="2dp"
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle2"
+        android:textColor="#88C0D0"
+        android:textSize="12sp"
+        app:layout_constraintStart_toEndOf="@+id/tvAuthorName"
+        app:layout_constraintTop_toBottomOf="@+id/tvArticleTitle"
+        tools:text="08, Aug 2020 07:46 PM" />
+
+    <ScrollView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvAuthorName">
 
         <TextView
-            android:id="@+id/tvArticleTitle"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginEnd="2dp"
-            android:textColor="@color/colorNordGreen"
-            android:textSize="32sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/ivArticleThumbnail"
-            tools:text="Lorem ipsum random text, lorem ipsum random text " />
-
-        <TextView
-            android:id="@+id/tvAuthorName"
+            android:id="@+id/tvArticleBody"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:layout_marginTop="2dp"
-            android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle2"
+            android:paddingBottom="8dp"
             android:textColor="#88C0D0"
-            android:textSize="12sp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tvArticleTitle"
-            tools:text="Created by, WhoKnows" />
-
-        <TextView
-            android:id="@+id/tvArticleDate"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="4dp"
-            android:layout_marginTop="2dp"
-            android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle2"
-            android:textColor="#88C0D0"
-            android:textSize="12sp"
-            app:layout_constraintStart_toEndOf="@+id/tvAuthorName"
-            app:layout_constraintTop_toBottomOf="@+id/tvArticleTitle"
-            tools:text="08, Aug 2020 07:46 PM" />
-
-        <ScrollView
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginEnd="8dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tvAuthorName">
-
-            <TextView
-                android:id="@+id/tvArticleBody"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:paddingBottom="8dp"
-                android:textColor="#88C0D0"
-                android:textSize="20sp"
-                tools:text="TextView" />
-        </ScrollView>
+            android:textSize="20sp"
+            tools:text="TextView" />
+    </ScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>

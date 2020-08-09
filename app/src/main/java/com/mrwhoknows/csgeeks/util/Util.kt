@@ -1,11 +1,13 @@
 package com.mrwhoknows.csgeeks.util
 
+import android.view.View
+import kotlinx.android.synthetic.main.fragment_article.*
 import java.lang.Exception
 import java.text.SimpleDateFormat
 import java.util.Locale
 import java.util.TimeZone
 
-object StringFormatter {
+object Util {
 
     fun convertDateTimeToString(
         dateTimeString: String,
@@ -29,5 +31,13 @@ object StringFormatter {
             e.printStackTrace()
         }
         return date
+    }
+
+    fun isLoading(view: View, bool: Boolean) {
+        if (bool) {
+            view.visibility = View.VISIBLE
+        } else {
+            view.visibility = View.GONE
+        }
     }
 }
