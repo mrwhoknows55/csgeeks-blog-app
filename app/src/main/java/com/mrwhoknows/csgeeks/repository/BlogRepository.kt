@@ -5,8 +5,11 @@ import com.mrwhoknows.csgeeks.api.RetrofitInstance
 class BlogRepository {
 
     suspend fun getAllArticles() =
-        RetrofitInstance.api.getAllPosts()
+        RetrofitInstance.api.getAllArticles()
 
     suspend fun getArticle(id: String) =
-        RetrofitInstance.api.getPostById(id)
+        RetrofitInstance.api.getArticle(id)
+
+    suspend fun getAuthor(authorName: String) =
+        RetrofitInstance.api.getAuthor(authorName)
 }

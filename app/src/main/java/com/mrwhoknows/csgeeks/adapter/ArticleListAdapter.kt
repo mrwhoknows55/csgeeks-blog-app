@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.mrwhoknows.csgeeks.R
 import com.mrwhoknows.csgeeks.model.ArticleList
-import com.mrwhoknows.csgeeks.util.StringFormatter
+import com.mrwhoknows.csgeeks.util.Util
 
 class ArticleListAdapter(private val articleMetaList: ArticleList) :
     RecyclerView.Adapter<ArticleListAdapter.ArticleListViewHolder>() {
@@ -44,7 +44,7 @@ class ArticleListAdapter(private val articleMetaList: ArticleList) :
             desc.text = data.description
             author.text = "Created by, ${data.author}"
 
-            val date = StringFormatter.convertDateTimeToString(
+            val date = Util.convertDateTimeToString(
                 data.created,
                 "yyyy-MM-dd'T'HH:mm:ss.SSS+00:00",
                 "dd, MMM yyyy hh:mm a"
