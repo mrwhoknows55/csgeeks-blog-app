@@ -48,6 +48,21 @@
         app:layout_constraintTop_toBottomOf="@+id/tvAuthorBio"
         tools:text="example@mail.xyz" />
 
+    <TextView
+        android:id="@+id/tvAuthorSocials"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginTop="16dp"
+        android:textAlignment="center"
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
+        android:textColor="@color/colorNordYellow"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvAuthorEmail"
+        tools:text="instagram: lol.com" />
+
     <com.agrawalsuneet.dotsloader.loaders.BounceLoader
         android:id="@+id/bounceLoader"
         android:layout_width="match_parent"

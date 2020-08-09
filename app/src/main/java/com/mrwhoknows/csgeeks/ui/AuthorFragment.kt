@@ -2,18 +2,18 @@ package com.mrwhoknows.csgeeks.ui
 
 import android.content.Intent
 import android.os.Bundle
+import android.text.util.Linkify
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import com.google.android.material.snackbar.Snackbar
 import com.mrwhoknows.csgeeks.MainActivity
 import com.mrwhoknows.csgeeks.R
+import com.mrwhoknows.csgeeks.model.Author
 import com.mrwhoknows.csgeeks.util.Resource
 import com.mrwhoknows.csgeeks.util.Util
 import com.mrwhoknows.csgeeks.viewmodels.BlogViewModel
 import kotlinx.android.synthetic.main.fragment_author.*
-
-private const val TAG = "AuthorFragment"
 
 class AuthorFragment : Fragment(R.layout.fragment_author) {
 
@@ -27,10 +27,6 @@ class AuthorFragment : Fragment(R.layout.fragment_author) {
         viewModel = (activity as MainActivity).viewModel
 
         getAuthorData()
-
-        tvAuthorEmail.setOnClickListener {
-            sendMailToAuthor()
-        }
     }
 
     private fun getAuthorData() {
@@ -47,8 +43,15 @@ class AuthorFragment : Fragment(R.layout.fragment_author) {
                         tvAuthorProfileName.text = authorName
                         tvAuthorBio.text = data.bio
                         tvAuthorEmail.text = "email: $authorEmail"
-                        //    TODO: Add socials text chips or something
+
+                        var socials = ""
+                        for (social: Author.Author.Social in data.social) {
+                            socials += "${social.name}: ${social.url}\n\n"
+                        }
+                        tvAuthorSocials.text = socials
                     }
+                    Linkify.addLinks(tvAuthorEmail, Linkify.ALL)
+                    Linkify.addLinks(tvAuthorSocials, Linkify.ALL)
                 }
                 is Resource.Loading -> {
                     Util.isLoading(bounceLoader, true)
