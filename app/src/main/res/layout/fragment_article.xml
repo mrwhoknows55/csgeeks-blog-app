@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorBackgroundDark">
+    android:background="@color/colorBackgroundDark3">
 
     <com.agrawalsuneet.dotsloader.loaders.BounceLoader
         android:id="@+id/bounceLoader"
@@ -40,7 +40,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginEnd="2dp"
-        android:textColor="@color/colorNordGreen"
+        android:textColor="@color/colorTextPrimary"
         android:textSize="32sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -53,9 +53,8 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
         android:layout_marginTop="2dp"
-        android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle2"
-        android:textColor="#88C0D0"
-        android:textSize="12sp"
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
+        android:textColor="@color/colorNordOrange"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvArticleTitle"
         tools:text="Created by, WhoKnows" />
@@ -66,9 +65,8 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="4dp"
         android:layout_marginTop="2dp"
-        android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle2"
-        android:textColor="#88C0D0"
-        android:textSize="12sp"
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
+        android:textColor="@color/colorNordOrange"
         app:layout_constraintStart_toEndOf="@+id/tvAuthorName"
         app:layout_constraintTop_toBottomOf="@+id/tvArticleTitle"
         tools:text="08, Aug 2020 07:46 PM" />
@@ -88,7 +86,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingBottom="8dp"
-            android:textColor="#88C0D0"
+            android:textColor="@color/colorTextSecondary"
             android:textSize="20sp"
             tools:text="TextView" />
     </ScrollView>
