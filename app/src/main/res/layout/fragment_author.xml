@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorBackgroundDark">
+    android:background="@color/colorBackgroundDark3">
 
     <TextView
         android:id="@+id/tvAuthorProfileName"
@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="120dp"
         android:textAppearance="@style/TextAppearance.MaterialComponents.Headline3"
-        android:textColor="@color/colorNordGreen"
+        android:textColor="@color/colorNordOrange"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -56,7 +56,7 @@
         android:layout_marginTop="16dp"
         android:textAlignment="center"
         android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
-        android:textColor="@color/colorNordYellow"
+        android:textColor="@color/colorNordOrange"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"

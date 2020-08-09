@@ -4,10 +4,10 @@
     <color name="colorPrimaryDark">#2E3440</color>
     <color name="colorAccent">#A3BE8C</color>
 
-    <color name="colorBackgroundDark">#2E3440</color>
-    <color name="colorBackgroundDark2">#3B4252</color>
-    <color name="colorBackgroundDark3">#434C5E</color>
-    <color name="colorBackgroundLight">#ECEFF4</color>
+    <color name="colorBackgroundDark">#ECEFF4</color>
+    <color name="colorBackgroundDark2">#E5E9F0</color>
+    <color name="colorBackgroundDark3">#D8DEE9</color>
+    <color name="colorForeground">#2E3440</color>
 
     <color name="colorNordRed">#BF616A</color>
     <color name="colorNordBlue">#5E81AC</color>
@@ -15,6 +15,7 @@
     <color name="colorNordYellow">#EBCB8B</color>
     <color name="colorNordGreen">#A3BE8C</color>
 
-    <color name="colorTextPrimary">#ECEFF4</color>
-    <color name="colorTextSecondary">#D8DEE9</color>
+    <color name="colorTextPrimary">#3B4252</color>
+    <color name="colorTextSecondary">#434C5E</color>
+    <color name="colorTextToolbar">#ECEFF4</color>
 </resources>

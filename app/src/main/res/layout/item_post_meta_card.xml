@@ -6,13 +6,14 @@
     android:layout_height="wrap_content"
     android:layout_marginHorizontal="16dp"
     android:layout_marginTop="16dp"
-    android:backgroundTint="@color/colorBackgroundDark3"
+    android:background="@color/colorBackgroundDark3"
     app:cardCornerRadius="8dp"
     app:cardElevation="8dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@color/colorBackgroundDark2">
 
         <TextView
             android:id="@+id/tvArticleItemTitle"
@@ -20,7 +21,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginEnd="8dp"
-            android:textColor="@color/colorNordGreen"
+            android:textColor="@color/colorTextPrimary"
             android:textSize="30sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -33,7 +34,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="18dp"
             android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle2"
-            android:textColor="#88C0D0"
+            android:textColor="@color/colorNordOrange"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tvArticleItemTitle"
             tools:text="Created by, WhoKnows" />
@@ -44,7 +45,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="4dp"
             android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle2"
-            android:textColor="#88C0D0"
+            android:textColor="@color/colorNordOrange"
             app:layout_constraintStart_toEndOf="@+id/tvAuthorNameItem"
             app:layout_constraintTop_toBottomOf="@+id/tvArticleItemTitle"
             tools:text="08, Aug 2020 07:46 PM" />
@@ -68,7 +69,7 @@
             android:layout_marginTop="8dp"
             android:layout_marginEnd="16dp"
             android:layout_marginBottom="8dp"
-            android:textColor="#88C0D0"
+            android:textColor="@color/colorTextSecondary"
             android:textSize="18sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
