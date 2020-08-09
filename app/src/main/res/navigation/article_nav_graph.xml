@@ -26,5 +26,17 @@
         <argument
             android:name="articleID"
             app:argType="string" />
+        <action
+            android:id="@+id/action_articleFragment_to_authorFragment"
+            app:destination="@id/authorFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim"
+            app:popUpTo="@id/articleFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/authorFragment"
+        android:name="com.mrwhoknows.csgeeks.ui.AuthorFragment"
+        android:label="AuthorFragment" />
 </navigation>

@@ -5,6 +5,7 @@ import android.util.Log
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
+import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.google.android.material.snackbar.Snackbar
 import com.mrwhoknows.csgeeks.MainActivity
@@ -88,20 +89,7 @@ class ArticleFragment : Fragment(R.layout.fragment_article) {
             CoroutineScope(Dispatchers.IO).launch {
                 viewModel.getAuthor(authorName)
             }
-            viewModel.author.observe(viewLifecycleOwner, Observer { authorResource ->
-                when (authorResource) {
-                    is Resource.Success -> {
-                        authorResource.data?.let {
-                            Log.d(TAG, "author: ${it.author.name}")
-                            Log.d(TAG, "author: ${it.author.authId}")
-                            Log.d(
-                                TAG,
-                                "author: ${it.author.social[1].name} : ${it.author.social[1].url}"
-                            )
-                        }
-                    }
-                }
-            })
+            findNavController().navigate(R.id.action_articleFragment_to_authorFragment)
         }
     }
 }
