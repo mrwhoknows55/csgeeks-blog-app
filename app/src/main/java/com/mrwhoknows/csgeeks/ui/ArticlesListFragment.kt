@@ -55,6 +55,10 @@ class ArticlesListFragment : Fragment(R.layout.fragment_articles_list) {
                 }
             }
         })
+
+        fabCreateArticle.setOnClickListener {
+            findNavController().navigate(R.id.action_articlesListFragment_to_createArticleFragment)
+        }
     }
 
     private fun initRecyclerView(data: ArticleList) {
