@@ -1,6 +1,5 @@
 package com.mrwhoknows.csgeeks.viewmodels
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -9,6 +8,7 @@ import com.mrwhoknows.csgeeks.model.Article
 import com.mrwhoknows.csgeeks.model.ArticleList
 import com.mrwhoknows.csgeeks.model.Author
 import com.mrwhoknows.csgeeks.model.ResultResponse
+import com.mrwhoknows.csgeeks.model.SendArticle
 import com.mrwhoknows.csgeeks.repository.BlogRepository
 import com.mrwhoknows.csgeeks.util.Resource
 import kotlinx.coroutines.launch
@@ -24,6 +24,10 @@ class BlogViewModel(
     private var articlesResponse: ArticleList? = null
 
     init {
+        getAllArticles()
+    }
+
+    fun getAllArticles() {
         viewModelScope.launch {
             getArticles()
         }
@@ -110,13 +114,13 @@ class BlogViewModel(
     val createArticleResponseLiveData: LiveData<Resource<ResultResponse>> = _createArticleResponse
     private var createArticleResponse: ResultResponse? = null
 
-    fun sendArticleToServer(article: Article.Article) {
+    fun sendArticleToServer(article: SendArticle) {
         viewModelScope.launch {
             createArticle(article)
         }
     }
 
-    private suspend fun createArticle(article: Article.Article) {
+    private suspend fun createArticle(article: SendArticle) {
         _createArticleResponse.postValue(Resource.Loading())
         try {
             val response = repository.createArticle(article)
