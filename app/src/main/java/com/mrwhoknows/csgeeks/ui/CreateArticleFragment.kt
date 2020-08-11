@@ -86,11 +86,10 @@ class CreateArticleFragment : Fragment(R.layout.fragment_create_article) {
             when (it) {
                 is Resource.Loading -> {
                     Util.isLoading(bounceLoader, true)
-                    // Util.isLoading(bounceLoaderBG, true)
                 }
                 is Resource.Success -> {
                     Util.isLoading(bounceLoader, false)
-                    Util.isLoading(bounceLoaderBG,false)
+                    Util.isLoading(bounceLoaderBG, false)
 
                     if (it.data!!.success) {
                         Snackbar.make(
