@@ -39,6 +39,6 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:defaultNavHost="true"
-            app:navGraph="@navigation/article_nav_graph" />
+            app:navGraph="@navigation/blog_nav_graph" />
     </FrameLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

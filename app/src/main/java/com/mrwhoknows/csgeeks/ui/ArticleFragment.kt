@@ -44,9 +44,11 @@ class ArticleFragment : Fragment(R.layout.fragment_article) {
             when (articleResource) {
                 is Resource.Loading -> {
                     Util.isLoading(bounceLoader, true)
+                    Util.isLoading(bounceLoaderBG, true)
                 }
                 is Resource.Success -> {
                     Util.isLoading(bounceLoader, false)
+                    Util.isLoading(bounceLoaderBG, false)
 
                     articleResource.data?.let {
                         val data = it.article
@@ -73,6 +75,7 @@ class ArticleFragment : Fragment(R.layout.fragment_article) {
                 is Resource.Error -> {
                     Log.d(TAG, "onViewCreated: error")
                     Util.isLoading(bounceLoader, false)
+                    Util.isLoading(bounceLoaderBG, false)
                     articleResource.message?.let {
                         Snackbar.make(
                             view,

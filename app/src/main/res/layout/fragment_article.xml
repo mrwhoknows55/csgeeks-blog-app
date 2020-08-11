@@ -6,10 +6,21 @@
     android:layout_height="match_parent"
     android:background="@color/colorBackgroundDark3">
 
-    <com.agrawalsuneet.dotsloader.loaders.BounceLoader
-        android:id="@+id/bounceLoader"
+    <FrameLayout
+        android:id="@+id/bounceLoaderBG"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@color/colorBackgroundDark3"
+        android:elevation="10dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:visibility="gone" />
+
+    <com.agrawalsuneet.dotsloader.loaders.BounceLoader
+        android:id="@+id/bounceLoader"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:elevation="12dp"
         android:gravity="center"
         app:bounce_animDuration="400"
         app:bounce_ballColor="@color/colorAccent"

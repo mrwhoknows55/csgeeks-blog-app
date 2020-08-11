@@ -1,7 +1,7 @@
 package com.mrwhoknows.csgeeks.repository
 
 import com.mrwhoknows.csgeeks.api.RetrofitInstance
-import com.mrwhoknows.csgeeks.model.Article
+import com.mrwhoknows.csgeeks.model.SendArticle
 
 class BlogRepository {
 
@@ -14,14 +14,7 @@ class BlogRepository {
     suspend fun getAuthor(authorName: String) =
         RetrofitInstance.api.getAuthor(authorName)
 
-    suspend fun createArticle(article: Article.Article) =
-        RetrofitInstance.api.createArticle(
-            article.title,
-            article.content,
-            article.author,
-            article.description,
-            article.thumbnail,
-            //TODO fix this tags issue
-            article.tags[0]
-        )
+    suspend fun createArticle(article: SendArticle) =
+        RetrofitInstance.api.createArticle(article)
+
 }
