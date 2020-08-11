@@ -1,5 +1,6 @@
 package com.mrwhoknows.csgeeks.viewmodels
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -7,12 +8,12 @@ import androidx.lifecycle.viewModelScope
 import com.mrwhoknows.csgeeks.model.Article
 import com.mrwhoknows.csgeeks.model.ArticleList
 import com.mrwhoknows.csgeeks.model.Author
+import com.mrwhoknows.csgeeks.model.ResultResponse
 import com.mrwhoknows.csgeeks.repository.BlogRepository
 import com.mrwhoknows.csgeeks.util.Resource
 import kotlinx.coroutines.launch
 import retrofit2.Response
 import java.io.IOException
-import java.lang.Exception
 
 class BlogViewModel(
     private val repository: BlogRepository
@@ -100,6 +101,40 @@ class BlogViewModel(
                 authorResponse = it
                 return Resource.Success(authorResponse ?: it)
             }
+        }
+        return Resource.Error(response.message())
+    }
+
+    private val _createArticleResponse: MutableLiveData<Resource<ResultResponse>> =
+        MutableLiveData()
+    val createArticleResponseLiveData: LiveData<Resource<ResultResponse>> = _createArticleResponse
+    private var createArticleResponse: ResultResponse? = null
+
+    fun sendArticleToServer(article: Article.Article) {
+        viewModelScope.launch {
+            createArticle(article)
+        }
+    }
+
+    private suspend fun createArticle(article: Article.Article) {
+        _createArticleResponse.postValue(Resource.Loading())
+        try {
+            val response = repository.createArticle(article)
+            if (response.isSuccessful) {
+                if (response.body()!!.success) {
+                    _createArticleResponse.postValue(handleCreateArticleResponse(response))
+                }
+            }
+        } catch (t: Throwable) {
+            if (t is IOException) _createArticleResponse.postValue(Resource.Error("Network Failure"))
+            else _createArticleResponse.postValue(Resource.Error("Conversion Error"))
+        }
+    }
+
+    private fun handleCreateArticleResponse(response: Response<ResultResponse>): Resource<ResultResponse> {
+        response.body()?.let {
+            createArticleResponse = it
+            return Resource.Success(createArticleResponse ?: it)
         }
         return Resource.Error(response.message())
     }
