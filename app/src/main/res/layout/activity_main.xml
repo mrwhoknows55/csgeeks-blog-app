@@ -18,6 +18,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/mainToolbar"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:title="@string/app_name"
