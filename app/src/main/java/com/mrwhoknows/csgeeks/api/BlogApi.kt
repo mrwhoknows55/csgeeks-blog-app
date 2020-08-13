@@ -2,6 +2,7 @@ package com.mrwhoknows.csgeeks.api
 
 import com.mrwhoknows.csgeeks.model.Article
 import com.mrwhoknows.csgeeks.model.ArticleList
+import com.mrwhoknows.csgeeks.model.ArticleTags
 import com.mrwhoknows.csgeeks.model.Author
 import com.mrwhoknows.csgeeks.model.ResultResponse
 import com.mrwhoknows.csgeeks.model.SendArticle
@@ -36,4 +37,9 @@ interface BlogApi {
         @Body
         article: SendArticle
     ): Response<ResultResponse>
+
+    @GET("blog")
+    suspend fun getTags(
+        @Query("get") tags: String = "tags"
+    ): Response<ArticleTags>
 }
