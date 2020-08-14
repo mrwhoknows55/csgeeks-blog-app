@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/colorBackgroundDark3">
+    android:layout_height="match_parent">
 
     <FrameLayout
         android:id="@+id/bounceLoaderBG"
@@ -20,85 +19,23 @@
         android:id="@+id/bounceLoader"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="center"
         android:elevation="12dp"
         android:gravity="center"
         app:bounce_animDuration="400"
         app:bounce_ballColor="@color/colorAccent"
         app:bounce_ballRadius="22dp"
-        app:bounce_showShadow="true"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/ivArticleThumbnail" />
-
-    <ImageView
-        android:id="@+id/ivArticleThumbnail"
-        android:layout_width="0dp"
-        android:layout_height="200dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:contentDescription="@string/blog_article_thumbnail"
-        android:scaleType="centerCrop"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:srcCompat="@drawable/ic_launcher_background" />
+        app:bounce_showShadow="true" />
 
     <TextView
-        android:id="@+id/tvArticleTitle"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="2dp"
-        android:textColor="@color/colorTextPrimary"
-        android:textSize="32sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ivArticleThumbnail"
-        tools:text="Lorem ipsum random text, lorem ipsum random text " />
-
-    <TextView
-        android:id="@+id/tvAuthorName"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="2dp"
-        android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
-        android:textColor="@color/colorNordOrange"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvArticleTitle"
-        tools:text="Created by, WhoKnows" />
-
-    <TextView
-        android:id="@+id/tvArticleDate"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="4dp"
-        android:layout_marginTop="2dp"
-        android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
-        android:textColor="@color/colorNordOrange"
-        app:layout_constraintStart_toEndOf="@+id/tvAuthorName"
-        app:layout_constraintTop_toBottomOf="@+id/tvArticleTitle"
-        tools:text="08, Aug 2020 07:46 PM" />
-
-    <ScrollView
-        android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:id="@+id/tvArticleBody"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginHorizontal="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvAuthorName">
-
-        <TextView
-            android:id="@+id/tvArticleBody"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingBottom="8dp"
-            android:textColor="@color/colorTextSecondary"
-            android:textSize="20sp"
-            tools:text="TextView" />
-    </ScrollView>
-</androidx.constraintlayout.widget.ConstraintLayout>
+        android:paddingBottom="16dp"
+        android:textColor="@color/colorTextSecondary"
+        android:textSize="20sp"
+        tools:text="TextView" />
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -37,19 +37,6 @@ class MainActivity : AppCompatActivity() {
         NavigationUI.setupActionBarWithNavController(this, navController, drawerLayout)
     }
 
-    //TODO move it to tags fragment
-    override fun onStart() {
-        super.onStart()
-        viewModel.getArticleTags()
-        viewModel.tags.observe(this, Observer {
-            when (it) {
-                is Resource.Success -> {
-                    Log.d(TAG, "tags: ${it.data}")
-                }
-            }
-        })
-    }
-
     override fun onSupportNavigateUp(): Boolean {
         val navController = this.findNavController(R.id.navHostFragment)
         return NavigationUI.navigateUp(navController, drawerLayout)

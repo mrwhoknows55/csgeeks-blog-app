@@ -2,8 +2,11 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:icon="@drawable/ic_add"
         android:id="@+id/articlesListFragment"
         android:title="Home" />
-<!--TODO add real items-->
+
+    <item
+        android:id="@+id/articlesCategoriesFragment"
+        android:title="Categories" />
+
 </menu>
