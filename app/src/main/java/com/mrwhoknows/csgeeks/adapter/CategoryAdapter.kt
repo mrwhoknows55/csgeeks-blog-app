@@ -8,12 +8,17 @@ import com.mrwhoknows.csgeeks.R
 import com.mrwhoknows.csgeeks.model.ArticleTags
 import kotlinx.android.synthetic.main.item_categories.view.*
 
-class CategoryAdapter(private val tags: ArticleTags) :
+class CategoryAdapter(
+    private val tags: ArticleTags,
+    private val itemClickListener: OnItemClickListener
+) :
     RecyclerView.Adapter<CategoryAdapter.CategoryViewHolder>() {
 
-    inner class CategoryViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        fun bind(tag: String) {
+    inner class CategoryViewHolder(itemView: View) :
+        RecyclerView.ViewHolder(itemView) {
+        fun bind(tag: String, itemClickListener: OnItemClickListener) {
             itemView.tvCategoryName.text = tag
+            itemView.setOnClickListener { itemClickListener.onItemClicked(tag) }
         }
     }
 
@@ -25,6 +30,11 @@ class CategoryAdapter(private val tags: ArticleTags) :
     override fun getItemCount(): Int = tags.tags.size
 
     override fun onBindViewHolder(holder: CategoryViewHolder, position: Int) {
-        holder.bind(tags.tags[position])
+
+        holder.bind(tags.tags[position], itemClickListener)
     }
+}
+
+interface OnItemClickListener {
+    fun onItemClicked(tag: String)
 }

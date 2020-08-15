@@ -15,19 +15,23 @@ import com.mrwhoknows.csgeeks.model.ArticleList
 import com.mrwhoknows.csgeeks.util.Resource
 import com.mrwhoknows.csgeeks.util.Util
 import com.mrwhoknows.csgeeks.viewmodels.BlogViewModel
-import kotlinx.android.synthetic.main.fragment_articles_list.*
+import kotlinx.android.synthetic.main.fragment_articles_by_category.*
 
-private const val TAG = "ListFragment"
+private const val TAG = "ArticlesByCategory"
 
-class ArticlesListFragment : Fragment(R.layout.fragment_articles_list) {
+class ArticlesByCategoryFragment : Fragment(R.layout.fragment_articles_by_category) {
 
-    private lateinit var articleAdapter: ArticleListAdapter
     private lateinit var viewModel: BlogViewModel
+    private lateinit var args: ArticlesByCategoryFragmentArgs
+    private lateinit var articleAdapter: ArticleListAdapter
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         viewModel = (activity as MainActivity).viewModel
+        args = ArticlesByCategoryFragmentArgs.fromBundle(requireArguments())
+
+        viewModel.getArticlesByTag(args.tag)
 
         viewModel.articles.observe(viewLifecycleOwner, Observer { response ->
             when (response) {
@@ -38,7 +42,7 @@ class ArticlesListFragment : Fragment(R.layout.fragment_articles_list) {
                         initRecyclerView(articleList)
                         articleAdapter.setOnItemClickListener {
                             findNavController().navigate(
-                                ArticlesListFragmentDirections.actionArticlesListFragmentToArticleFragment(
+                                ArticlesByCategoryFragmentDirections.actionArticlesByCategoryFragmentToArticleFragment(
                                     it.id.toString()
                                 )
                             )
@@ -59,10 +63,6 @@ class ArticlesListFragment : Fragment(R.layout.fragment_articles_list) {
                 }
             }
         })
-
-        fabCreateArticle.setOnClickListener {
-            findNavController().navigate(R.id.action_articlesListFragment_to_createArticleFragment)
-        }
     }
 
     private fun initRecyclerView(data: ArticleList) {

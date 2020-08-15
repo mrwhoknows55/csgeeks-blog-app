@@ -40,6 +40,13 @@ interface BlogApi {
 
     @GET("blog")
     suspend fun getTags(
-        @Query("get") tags: String = "tags"
+        @Query("get")
+        tags: String = "tags"
     ): Response<ArticleTags>
+
+    @GET("blog/posts")
+    suspend fun getArticleByTag(
+        @Query("tag")
+        tag: String
+    ): Response<ArticleList>
 }

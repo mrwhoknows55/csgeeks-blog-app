@@ -5,10 +5,12 @@ import android.util.Log
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.mrwhoknows.csgeeks.MainActivity
 import com.mrwhoknows.csgeeks.R
 import com.mrwhoknows.csgeeks.adapter.CategoryAdapter
+import com.mrwhoknows.csgeeks.adapter.OnItemClickListener
 import com.mrwhoknows.csgeeks.model.ArticleTags
 import com.mrwhoknows.csgeeks.util.Resource
 import com.mrwhoknows.csgeeks.viewmodels.BlogViewModel
@@ -16,9 +18,10 @@ import kotlinx.android.synthetic.main.fragment_categories.*
 
 private const val TAG = "ArticlesCategories"
 
-class ArticlesCategoriesFragment : Fragment(R.layout.fragment_categories) {
+class ArticlesCategoriesFragment : Fragment(R.layout.fragment_categories), OnItemClickListener {
 
     private lateinit var viewModel: BlogViewModel
+    private lateinit var categoryAdapter: CategoryAdapter
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -30,16 +33,28 @@ class ArticlesCategoriesFragment : Fragment(R.layout.fragment_categories) {
             when (it) {
                 is Resource.Success -> {
                     Log.d(TAG, "tags: ${it.data}")
-                    it.data?.let { it1 -> initRecyclerView(it1) }
+                    it.data?.let { tags ->
+                        initRecyclerView(tags)
+                    }
                 }
             }
         })
     }
 
-    fun initRecyclerView(tags: ArticleTags) {
+    private fun initRecyclerView(tags: ArticleTags) {
         rvCategory.apply {
             layoutManager = LinearLayoutManager(activity)
-            adapter = CategoryAdapter(tags)
+            categoryAdapter = CategoryAdapter(tags, this@ArticlesCategoriesFragment)
+            adapter = categoryAdapter
         }
+    }
+
+    override fun onItemClicked(tag: String) {
+        Log.d(TAG, "onItemClicked: $tag")
+        findNavController().navigate(
+            ArticlesCategoriesFragmentDirections.actionArticlesCategoriesFragmentToArticlesByCategoryFragment(
+                tag
+            )
+        )
     }
 }

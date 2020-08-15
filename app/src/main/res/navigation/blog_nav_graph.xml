@@ -63,5 +63,30 @@
     <fragment
         android:id="@+id/articlesCategoriesFragment"
         android:name="com.mrwhoknows.csgeeks.ui.ArticlesCategoriesFragment"
-        android:label="Categories" />
+        android:label="Categories" >
+        <action
+            android:id="@+id/action_articlesCategoriesFragment_to_articlesByCategoryFragment"
+            app:destination="@id/articlesByCategoryFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim"
+            app:popUpTo="@id/articlesCategoriesFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/articlesByCategoryFragment"
+        android:name="com.mrwhoknows.csgeeks.ui.ArticlesByCategoryFragment"
+        android:label="Articles">
+        <action
+            android:id="@+id/action_articlesByCategoryFragment_to_articleFragment"
+            app:destination="@id/articleFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim"
+            app:popUpTo="@id/articlesByCategoryFragment" />
+        <argument
+            android:name="tag"
+            app:argType="string" />
+    </fragment>
 </navigation>

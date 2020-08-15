@@ -171,4 +171,23 @@ class BlogViewModel(
         }
         return Resource.Error(response.message())
     }
+
+    fun getArticlesByTag(tag: String) {
+        viewModelScope.launch {
+            getArticles(tag)
+        }
+    }
+
+    private suspend fun getArticles(tag: String) {
+        _articles.postValue(Resource.Loading())
+        try {
+            val response = repository.getArticleByTag(tag)
+            _articles.postValue(handleArticles(response))
+        } catch (t: Throwable) {
+            when (t) {
+                is IOException -> _articles.postValue(Resource.Error("Network Failure"))
+                else -> _articles.postValue(Resource.Error("Conversion Error"))
+            }
+        }
+    }
 }

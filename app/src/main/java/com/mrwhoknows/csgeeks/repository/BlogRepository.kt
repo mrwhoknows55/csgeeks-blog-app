@@ -19,4 +19,7 @@ class BlogRepository {
 
     suspend fun getArticleTags() =
         RetrofitInstance.api.getTags()
+
+    suspend fun getArticleByTag(tag: String) =
+        RetrofitInstance.api.getArticleByTag(tag)
 }
