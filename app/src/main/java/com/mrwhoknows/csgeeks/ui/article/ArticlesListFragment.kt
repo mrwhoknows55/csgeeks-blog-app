@@ -1,4 +1,4 @@
-package com.mrwhoknows.csgeeks.ui
+package com.mrwhoknows.csgeeks.ui.article
 
 import android.os.Bundle
 import android.util.Log
@@ -29,6 +29,7 @@ class ArticlesListFragment : Fragment(R.layout.fragment_articles_list) {
 
         viewModel = (activity as MainActivity).viewModel
 
+        viewModel.getAllArticles()
         viewModel.articles.observe(viewLifecycleOwner, Observer { response ->
             when (response) {
                 is Resource.Success -> {
@@ -59,10 +60,6 @@ class ArticlesListFragment : Fragment(R.layout.fragment_articles_list) {
                 }
             }
         })
-
-        fabCreateArticle.setOnClickListener {
-            findNavController().navigate(R.id.action_articlesListFragment_to_createArticleFragment)
-        }
     }
 
     private fun initRecyclerView(data: ArticleList) {

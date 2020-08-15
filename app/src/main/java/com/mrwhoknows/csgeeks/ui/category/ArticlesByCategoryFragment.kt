@@ -1,4 +1,4 @@
-package com.mrwhoknows.csgeeks.ui
+package com.mrwhoknows.csgeeks.ui.category
 
 import android.os.Bundle
 import android.util.Log
@@ -29,12 +29,20 @@ class ArticlesByCategoryFragment : Fragment(R.layout.fragment_articles_by_catego
         super.onViewCreated(view, savedInstanceState)
 
         viewModel = (activity as MainActivity).viewModel
-        args = ArticlesByCategoryFragmentArgs.fromBundle(requireArguments())
+        args =
+            ArticlesByCategoryFragmentArgs.fromBundle(
+                requireArguments()
+            )
 
         viewModel.getArticlesByTag(args.tag)
 
         viewModel.articles.observe(viewLifecycleOwner, Observer { response ->
             when (response) {
+                is Resource.Loading -> {
+                    Util.isLoading(bounceLoader, true)
+                    Util.isLoading(bounceLoaderBG, true)
+                }
+
                 is Resource.Success -> {
                     Util.isLoading(bounceLoader, false)
                     Util.isLoading(bounceLoaderBG, false)
@@ -56,10 +64,6 @@ class ArticlesByCategoryFragment : Fragment(R.layout.fragment_articles_by_catego
                         Log.e(TAG, "Error: $it")
                         Snackbar.make(view, "Error: $it", Snackbar.LENGTH_SHORT).show()
                     }
-                }
-                is Resource.Loading -> {
-                    Util.isLoading(bounceLoader, true)
-                    Util.isLoading(bounceLoaderBG, true)
                 }
             }
         })

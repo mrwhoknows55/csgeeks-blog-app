@@ -24,10 +24,6 @@ class BlogViewModel(
     val articles: LiveData<Resource<ArticleList>> = _articles
     private var articlesResponse: ArticleList? = null
 
-    init {
-        getAllArticles()
-    }
-
     fun getAllArticles() =
         viewModelScope.launch {
             getArticles()

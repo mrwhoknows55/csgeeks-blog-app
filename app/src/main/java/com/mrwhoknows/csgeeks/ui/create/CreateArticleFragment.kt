@@ -1,4 +1,4 @@
-package com.mrwhoknows.csgeeks.ui
+package com.mrwhoknows.csgeeks.ui.create
 
 import android.os.Bundle
 import android.view.View

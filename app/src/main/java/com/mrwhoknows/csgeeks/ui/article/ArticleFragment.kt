@@ -1,4 +1,4 @@
-package com.mrwhoknows.csgeeks.ui
+package com.mrwhoknows.csgeeks.ui.article
 
 import android.os.Bundle
 import android.util.Log
@@ -30,7 +30,10 @@ class ArticleFragment : Fragment(R.layout.fragment_article) {
         super.onViewCreated(view, savedInstanceState)
 
         viewModel = (activity as MainActivity).viewModel
-        args = ArticleFragmentArgs.fromBundle(requireArguments())
+        args =
+            ArticleFragmentArgs.fromBundle(
+                requireArguments()
+            )
 
         val articleID = args.articleID
 
