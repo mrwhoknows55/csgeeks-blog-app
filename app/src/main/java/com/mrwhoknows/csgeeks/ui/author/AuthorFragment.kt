@@ -1,4 +1,4 @@
-package com.mrwhoknows.csgeeks.ui
+package com.mrwhoknows.csgeeks.ui.author
 
 import android.content.Intent
 import android.os.Bundle

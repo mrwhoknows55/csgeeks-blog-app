@@ -19,7 +19,6 @@
         android:id="@+id/bounceLoader"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:elevation="11dp"
         app:bounce_animDuration="400"
         app:bounce_ballColor="@color/colorAccent"
         app:bounce_ballRadius="22dp"
@@ -37,16 +36,5 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fabCreateArticle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="32dp"
-        android:layout_marginBottom="24dp"
-        android:backgroundTint="@color/colorNordBlue"
-        android:src="@drawable/ic_add"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.mrwhoknows.csgeeks.model.Article
 import com.mrwhoknows.csgeeks.model.ArticleList
+import com.mrwhoknows.csgeeks.model.ArticleTags
 import com.mrwhoknows.csgeeks.model.Author
 import com.mrwhoknows.csgeeks.model.ResultResponse
 import com.mrwhoknows.csgeeks.model.SendArticle
@@ -23,14 +24,13 @@ class BlogViewModel(
     val articles: LiveData<Resource<ArticleList>> = _articles
     private var articlesResponse: ArticleList? = null
 
-    init {
-        getAllArticles()
-    }
-
-    fun getAllArticles() {
+    fun getAllArticles() =
         viewModelScope.launch {
             getArticles()
         }
+
+    fun getArticleTags() = viewModelScope.launch {
+        getTags()
     }
 
     private suspend fun getArticles() {
@@ -141,5 +141,49 @@ class BlogViewModel(
             return Resource.Success(createArticleResponse ?: it)
         }
         return Resource.Error(response.message())
+    }
+
+    private val _tags: MutableLiveData<Resource<ArticleTags>> = MutableLiveData()
+    val tags: LiveData<Resource<ArticleTags>> = _tags
+    private var tagResponse: ArticleTags? = null
+
+    private suspend fun getTags() {
+        _tags.postValue(Resource.Loading())
+        try {
+            val response = repository.getArticleTags()
+            _tags.postValue(handleTagsResponse(response))
+        } catch (t: Throwable) {
+            if (t is IOException)
+                _tags.postValue(Resource.Error("Network Problem"))
+            else
+                _tags.postValue(Resource.Error("Req Conversion Error"))
+        }
+    }
+
+    private fun handleTagsResponse(response: Response<ArticleTags>): Resource<ArticleTags> {
+        response.body()?.let {
+            tagResponse = it
+            return Resource.Success(tagResponse ?: it)
+        }
+        return Resource.Error(response.message())
+    }
+
+    fun getArticlesByTag(tag: String) {
+        viewModelScope.launch {
+            getArticles(tag)
+        }
+    }
+
+    private suspend fun getArticles(tag: String) {
+        _articles.postValue(Resource.Loading())
+        try {
+            val response = repository.getArticleByTag(tag)
+            _articles.postValue(handleArticles(response))
+        } catch (t: Throwable) {
+            when (t) {
+                is IOException -> _articles.postValue(Resource.Error("Network Failure"))
+                else -> _articles.postValue(Resource.Error("Conversion Error"))
+            }
+        }
     }
 }

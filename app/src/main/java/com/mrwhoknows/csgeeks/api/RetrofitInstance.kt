@@ -1,12 +1,11 @@
 package com.mrwhoknows.csgeeks.api
 
+import com.mrwhoknows.csgeeks.util.Constants.BASE_URL
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.converter.scalars.ScalarsConverterFactory
-
-const val BASE_URL = "https://redrangerpostgres1.herokuapp.com/"
 
 class RetrofitInstance {
     companion object {

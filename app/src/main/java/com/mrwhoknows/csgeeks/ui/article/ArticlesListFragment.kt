@@ -1,4 +1,4 @@
-package com.mrwhoknows.csgeeks.ui
+package com.mrwhoknows.csgeeks.ui.article
 
 import android.os.Bundle
 import android.util.Log
@@ -13,6 +13,7 @@ import com.mrwhoknows.csgeeks.R
 import com.mrwhoknows.csgeeks.adapter.ArticleListAdapter
 import com.mrwhoknows.csgeeks.model.ArticleList
 import com.mrwhoknows.csgeeks.util.Resource
+import com.mrwhoknows.csgeeks.util.Util
 import com.mrwhoknows.csgeeks.viewmodels.BlogViewModel
 import kotlinx.android.synthetic.main.fragment_articles_list.*
 
@@ -28,10 +29,12 @@ class ArticlesListFragment : Fragment(R.layout.fragment_articles_list) {
 
         viewModel = (activity as MainActivity).viewModel
 
+        viewModel.getAllArticles()
         viewModel.articles.observe(viewLifecycleOwner, Observer { response ->
             when (response) {
                 is Resource.Success -> {
-                    showProgressbar(false)
+                    Util.isLoading(bounceLoader, false)
+                    Util.isLoading(bounceLoaderBG, false)
                     response.data?.let { articleList ->
                         initRecyclerView(articleList)
                         articleAdapter.setOnItemClickListener {
@@ -44,21 +47,19 @@ class ArticlesListFragment : Fragment(R.layout.fragment_articles_list) {
                     }
                 }
                 is Resource.Error -> {
-                    showProgressbar(false)
+                    Util.isLoading(bounceLoader, false)
+                    Util.isLoading(bounceLoaderBG, false)
                     response.message?.let {
                         Log.e(TAG, "Error: $it")
                         Snackbar.make(view, "Error: $it", Snackbar.LENGTH_SHORT).show()
                     }
                 }
                 is Resource.Loading -> {
-                    showProgressbar(true)
+                    Util.isLoading(bounceLoader, true)
+                    Util.isLoading(bounceLoaderBG, true)
                 }
             }
         })
-
-        fabCreateArticle.setOnClickListener {
-            findNavController().navigate(R.id.action_articlesListFragment_to_createArticleFragment)
-        }
     }
 
     private fun initRecyclerView(data: ArticleList) {
@@ -66,14 +67,6 @@ class ArticlesListFragment : Fragment(R.layout.fragment_articles_list) {
             articleAdapter = ArticleListAdapter(data)
             layoutManager = LinearLayoutManager(context)
             adapter = articleAdapter
-        }
-    }
-
-    private fun showProgressbar(bool: Boolean) {
-        if (bool) {
-            bounceLoader.visibility = View.VISIBLE
-        } else {
-            bounceLoader.visibility = View.GONE
         }
     }
 }
