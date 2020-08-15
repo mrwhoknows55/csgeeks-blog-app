@@ -82,4 +82,8 @@
             android:name="tag"
             app:argType="string" />
     </fragment>
+    <fragment
+        android:id="@+id/loginFragment"
+        android:name="com.mrwhoknows.csgeeks.ui.login.LoginFragment"
+        android:label="Login" />
 </navigation>
