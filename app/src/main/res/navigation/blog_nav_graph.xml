@@ -82,4 +82,12 @@
             android:name="tag"
             app:argType="string" />
     </fragment>
+    <fragment
+        android:id="@+id/loginFragment"
+        android:name="com.mrwhoknows.csgeeks.ui.login.LoginFragment"
+        android:label="Login" >
+        <action
+            android:id="@+id/action_loginFragment_to_createArticleFragment"
+            app:destination="@id/createArticleFragment" />
+    </fragment>
 </navigation>
