@@ -8,6 +8,7 @@ import com.mrwhoknows.csgeeks.model.Article
 import com.mrwhoknows.csgeeks.model.ArticleList
 import com.mrwhoknows.csgeeks.model.ArticleTags
 import com.mrwhoknows.csgeeks.model.Author
+import com.mrwhoknows.csgeeks.model.LoginResponse
 import com.mrwhoknows.csgeeks.model.ResultResponse
 import com.mrwhoknows.csgeeks.model.SendArticle
 import com.mrwhoknows.csgeeks.repository.BlogRepository
@@ -185,5 +186,32 @@ class BlogViewModel(
                 else -> _articles.postValue(Resource.Error("Conversion Error"))
             }
         }
+    }
+
+    private val _loginUser: MutableLiveData<Resource<LoginResponse>> = MutableLiveData()
+    val loginUser: LiveData<Resource<LoginResponse>> = _loginUser
+    private var loginResponse: LoginResponse? = null
+
+    fun loginUserToServer(username: String, passwd: String) {
+        viewModelScope.launch {
+            _loginUser.postValue(Resource.Loading())
+            try {
+                val response = repository.login(username, passwd)
+                _loginUser.postValue(handleLogin(response))
+            } catch (t: Throwable) {
+                when (t) {
+                    is IOException -> _loginUser.postValue(Resource.Error("Network Failure"))
+                    else -> _loginUser.postValue(Resource.Error("Conversion Error"))
+                }
+            }
+        }
+    }
+
+    private fun handleLogin(response: Response<LoginResponse>): Resource<LoginResponse> {
+        response.body()?.let {
+            loginResponse = it
+            return Resource.Success(loginResponse ?: it)
+        }
+        return Resource.Error(response.message())
     }
 }

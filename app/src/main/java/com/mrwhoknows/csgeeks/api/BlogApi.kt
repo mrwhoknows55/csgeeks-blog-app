@@ -4,6 +4,7 @@ import com.mrwhoknows.csgeeks.model.Article
 import com.mrwhoknows.csgeeks.model.ArticleList
 import com.mrwhoknows.csgeeks.model.ArticleTags
 import com.mrwhoknows.csgeeks.model.Author
+import com.mrwhoknows.csgeeks.model.LoginResponse
 import com.mrwhoknows.csgeeks.model.ResultResponse
 import com.mrwhoknows.csgeeks.model.SendArticle
 import com.mrwhoknows.csgeeks.util.Keys.C_AUTH
@@ -11,7 +12,9 @@ import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.Headers
+import retrofit2.http.Multipart
 import retrofit2.http.POST
+import retrofit2.http.Part
 import retrofit2.http.Query
 
 interface BlogApi {
@@ -49,4 +52,13 @@ interface BlogApi {
         @Query("tag")
         tag: String
     ): Response<ArticleList>
+
+    @Multipart
+    @POST("blog/login")
+    suspend fun login(
+        @Part("username")
+        username: String,
+        @Part("password")
+        passwd: String
+    ): Response<LoginResponse>
 }

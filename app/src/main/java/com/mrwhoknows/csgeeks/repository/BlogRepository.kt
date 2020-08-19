@@ -22,4 +22,7 @@ class BlogRepository {
 
     suspend fun getArticleByTag(tag: String) =
         RetrofitInstance.api.getArticleByTag(tag)
+
+    suspend fun login(username: String, passwd: String) =
+        RetrofitInstance.api.login(username, passwd)
 }
