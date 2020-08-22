@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/articlesListFragment"
-        android:name="com.mrwhoknows.csgeeks.ui.article.ArticlesListFragment"
+        android:name="com.mrwhoknows.csgeeks.main_ui.article.ArticlesListFragment"
         android:label="@string/app_name"
         tools:layout="@layout/fragment_articles_list">
         <action
@@ -29,7 +29,7 @@
     </fragment>
     <fragment
         android:id="@+id/articleFragment"
-        android:name="com.mrwhoknows.csgeeks.ui.article.ArticleFragment"
+        android:name="com.mrwhoknows.csgeeks.main_ui.article.ArticleFragment"
         android:label="Article">
         <argument
             android:name="articleID"
@@ -45,11 +45,11 @@
     </fragment>
     <fragment
         android:id="@+id/authorFragment"
-        android:name="com.mrwhoknows.csgeeks.ui.author.AuthorFragment"
+        android:name="com.mrwhoknows.csgeeks.main_ui.author.AuthorFragment"
         android:label="Author" />
     <fragment
         android:id="@+id/createArticleFragment"
-        android:name="com.mrwhoknows.csgeeks.ui.create.CreateArticleFragment"
+        android:name="com.mrwhoknows.csgeeks.main_ui.create.CreateArticleFragment"
         android:label="Create Article">
         <action
             android:id="@+id/action_createArticleFragment_to_articlesListFragment"
@@ -63,7 +63,7 @@
     </fragment>
     <fragment
         android:id="@+id/articlesCategoriesFragment"
-        android:name="com.mrwhoknows.csgeeks.ui.category.ArticlesCategoriesFragment"
+        android:name="com.mrwhoknows.csgeeks.main_ui.category.ArticlesCategoriesFragment"
         android:label="Categories" >
         <action
             android:id="@+id/action_articlesCategoriesFragment_to_articlesByCategoryFragment"
@@ -76,7 +76,7 @@
     </fragment>
     <fragment
         android:id="@+id/articlesByCategoryFragment"
-        android:name="com.mrwhoknows.csgeeks.ui.category.ArticlesByCategoryFragment"
+        android:name="com.mrwhoknows.csgeeks.main_ui.category.ArticlesByCategoryFragment"
         android:label="Articles">
         <action
             android:id="@+id/action_articlesByCategoryFragment_to_articleFragment"
@@ -92,7 +92,7 @@
     </fragment>
     <fragment
         android:id="@+id/loginFragment"
-        android:name="com.mrwhoknows.csgeeks.ui.login.LoginFragment"
+        android:name="com.mrwhoknows.csgeeks.main_ui.login.LoginFragment"
         android:label="Login" >
         <action
             android:id="@+id/action_loginFragment_to_articlesListFragment"

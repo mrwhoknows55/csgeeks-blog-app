@@ -1,14 +1,12 @@
-package com.mrwhoknows.csgeeks
+package com.mrwhoknows.csgeeks.main_ui
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
 import androidx.navigation.ui.NavigationUI
+import com.mrwhoknows.csgeeks.R
 import com.mrwhoknows.csgeeks.repository.BlogRepository
-import com.mrwhoknows.csgeeks.util.Resource
 import com.mrwhoknows.csgeeks.viewmodels.BlogViewModel
 import com.mrwhoknows.csgeeks.viewmodels.BlogViewModelFactory
 import kotlinx.android.synthetic.main.activity_main.*
