@@ -18,6 +18,14 @@
             app:popEnterAnim="@anim/fragment_close_enter"
             app:popExitAnim="@anim/fragment_close_exit"
             app:popUpTo="@id/articlesListFragment" />
+        <action
+            android:id="@+id/action_articlesListFragment_to_createArticleFragment"
+            app:destination="@id/createArticleFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim"
+            app:popUpTo="@id/articlesListFragment" />
     </fragment>
     <fragment
         android:id="@+id/articleFragment"
@@ -87,7 +95,13 @@
         android:name="com.mrwhoknows.csgeeks.ui.login.LoginFragment"
         android:label="Login" >
         <action
-            android:id="@+id/action_loginFragment_to_createArticleFragment"
-            app:destination="@id/createArticleFragment" />
+            android:id="@+id/action_loginFragment_to_articlesListFragment"
+            app:destination="@id/articlesListFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim"
+            app:popUpTo="@id/articlesListFragment"
+            app:popUpToInclusive="true" />
     </fragment>
 </navigation>

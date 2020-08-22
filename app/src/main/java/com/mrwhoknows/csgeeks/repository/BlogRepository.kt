@@ -25,4 +25,7 @@ class BlogRepository {
 
     suspend fun login(username: String, passwd: String) =
         RetrofitInstance.api.login(username, passwd)
+
+    suspend fun isLoggedIn(token: String) =
+        RetrofitInstance.api.isLoggedIn(token)
 }

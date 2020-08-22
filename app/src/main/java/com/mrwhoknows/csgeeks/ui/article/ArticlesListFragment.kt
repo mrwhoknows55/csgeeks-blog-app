@@ -29,6 +29,28 @@ class ArticlesListFragment : Fragment(R.layout.fragment_articles_list) {
 
         viewModel = (activity as MainActivity).viewModel
 
+        val sharedPreferences = requireActivity().getSharedPreferences("TOKEN", 0)
+        if (sharedPreferences.getBoolean("IS_LOGGED_IN", false)) {
+            //author or admin user
+            val token = sharedPreferences.getString("LOGIN_TOKEN", "empty")
+            viewModel.isLoggedUserLoggedIn(token!!)
+            viewModel.isLoggedIn.observe(viewLifecycleOwner, Observer {
+                if (it is Resource.Success) {
+                    if (it.data!!.success) {
+                        fabCreateArticle.visibility = View.VISIBLE
+                        fabCreateArticle.setOnClickListener {
+                            findNavController().navigate(R.id.action_articlesListFragment_to_createArticleFragment)
+                        }
+                    }
+                }
+                if (it is Resource.Error)
+                    return@Observer
+            })
+        } else {
+            //regular user
+            fabCreateArticle.visibility = View.GONE
+        }
+
         viewModel.getAllArticles()
         viewModel.articles.observe(viewLifecycleOwner, Observer { response ->
             when (response) {

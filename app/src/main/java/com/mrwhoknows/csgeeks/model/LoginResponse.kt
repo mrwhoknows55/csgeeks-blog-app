@@ -1,6 +1,5 @@
 package com.mrwhoknows.csgeeks.model
 
-
 import com.google.gson.annotations.SerializedName
 
 data class LoginResponse(
@@ -13,5 +12,7 @@ data class LoginResponse(
     @SerializedName("success")
     val success: Boolean,
     @SerializedName("token")
-    val token: String
+    val token: String,
+    @SerializedName("admin")
+    val admin: Boolean
 )

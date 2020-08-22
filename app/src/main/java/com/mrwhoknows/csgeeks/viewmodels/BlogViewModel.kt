@@ -214,4 +214,31 @@ class BlogViewModel(
         }
         return Resource.Error(response.message())
     }
+
+    private val _isLoggedIn: MutableLiveData<Resource<LoginResponse>> = MutableLiveData()
+    val isLoggedIn: LiveData<Resource<LoginResponse>> = _loginUser
+    private var isLoggedInResponse: LoginResponse? = null
+
+    fun isLoggedUserLoggedIn(token: String) {
+        viewModelScope.launch {
+            _isLoggedIn.postValue(Resource.Loading())
+            try {
+                val response = repository.isLoggedIn(token)
+                _isLoggedIn.postValue(handleIsLoggedIn(response))
+            } catch (t: Throwable) {
+                when (t) {
+                    is IOException -> _isLoggedIn.postValue(Resource.Error("Network Failure"))
+                    else -> _isLoggedIn.postValue(Resource.Error("Conversion Error"))
+                }
+            }
+        }
+    }
+
+    private fun handleIsLoggedIn(response: Response<LoginResponse>): Resource<LoginResponse> {
+        response.body()?.let {
+            isLoggedInResponse = it
+            return Resource.Success(isLoggedInResponse ?: it)
+        }
+        return Resource.Error(response.message())
+    }
 }
