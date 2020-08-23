@@ -33,8 +33,12 @@ class ArticlesListFragment : Fragment(R.layout.fragment_articles_list) {
 
         viewModel = (activity as MainActivity).viewModel
         initCategories()
+    }
 
+    override fun onStart() {
+        super.onStart()
         val sharedPreferences = requireActivity().getSharedPreferences("TOKEN", 0)
+        Log.d(TAG, "isLoggedIn: " + sharedPreferences.getBoolean("IS_LOGGED_IN", false))
         if (sharedPreferences.getBoolean("IS_LOGGED_IN", false)) {
             //author or admin user
             val token = sharedPreferences.getString("LOGIN_TOKEN", "empty")
@@ -42,51 +46,20 @@ class ArticlesListFragment : Fragment(R.layout.fragment_articles_list) {
             viewModel.isLoggedIn.observe(viewLifecycleOwner, Observer {
                 if (it is Resource.Success) {
                     if (it.data!!.success) {
-                        fabCreateArticle.visibility = View.VISIBLE
-                        fabCreateArticle.setOnClickListener {
-                            findNavController().navigate(R.id.action_articlesListFragment_to_createArticleFragment)
-                        }
+                        findNavController().navigate(R.id.action_articlesListFragment_to_adminActivity)
+                        requireActivity().finish()
+                    } else {
+                        showAllArticles()
                     }
                 }
-                if (it is Resource.Error)
-                    return@Observer
+                if (it is Resource.Error) {
+                    showAllArticles()
+                }
             })
         } else {
             //regular user
-            fabCreateArticle.visibility = View.GONE
+            showAllArticles()
         }
-
-        viewModel.getAllArticles()
-        viewModel.articles.observe(viewLifecycleOwner, Observer { response ->
-            when (response) {
-                is Resource.Success -> {
-                    Util.isLoading(bounceLoader, false)
-                    Util.isLoading(bounceLoaderBG, false)
-                    response.data?.let { articleList ->
-                        initRecyclerView(articleList)
-                        articleAdapter.setOnItemClickListener {
-                            findNavController().navigate(
-                                ArticlesListFragmentDirections.actionArticlesListFragmentToArticleFragment(
-                                    it.id.toString()
-                                )
-                            )
-                        }
-                    }
-                }
-                is Resource.Error -> {
-                    Util.isLoading(bounceLoader, false)
-                    Util.isLoading(bounceLoaderBG, false)
-                    response.message?.let {
-                        Log.e(TAG, "Error: $it")
-                        Snackbar.make(view, "Error: $it", Snackbar.LENGTH_SHORT).show()
-                    }
-                }
-                is Resource.Loading -> {
-                    Util.isLoading(bounceLoader, true)
-                    Util.isLoading(bounceLoaderBG, true)
-                }
-            }
-        })
     }
 
     private fun initRecyclerView(data: ArticleList) {
@@ -131,6 +104,40 @@ class ArticlesListFragment : Fragment(R.layout.fragment_articles_list) {
                             viewModel.getAllArticles()
                         }
                     }
+                }
+            }
+        })
+    }
+
+    private fun showAllArticles() {
+        viewModel.getAllArticles()
+        viewModel.articles.observe(viewLifecycleOwner, Observer { response ->
+            when (response) {
+                is Resource.Success -> {
+                    Util.isLoading(bounceLoader, false)
+                    Util.isLoading(bounceLoaderBG, false)
+                    response.data?.let { articleList ->
+                        initRecyclerView(articleList)
+                        articleAdapter.setOnItemClickListener {
+                            findNavController().navigate(
+                                ArticlesListFragmentDirections.actionArticlesListFragmentToArticleFragment(
+                                    it.id.toString()
+                                )
+                            )
+                        }
+                    }
+                }
+                is Resource.Error -> {
+                    Util.isLoading(bounceLoader, false)
+                    Util.isLoading(bounceLoaderBG, false)
+                    response.message?.let {
+                        Log.e(TAG, "Error: $it")
+                        Snackbar.make(requireView(), "Error: $it", Snackbar.LENGTH_SHORT).show()
+                    }
+                }
+                is Resource.Loading -> {
+                    Util.isLoading(bounceLoader, true)
+                    Util.isLoading(bounceLoaderBG, true)
                 }
             }
         })

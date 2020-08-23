@@ -1,8 +1,10 @@
 package com.mrwhoknows.csgeeks.main_ui.login
 
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.view.inputmethod.InputMethodManager
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
@@ -24,44 +26,62 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
         viewModel = (activity as MainActivity).viewModel
 
         btLogin.setOnClickListener {
-            //TODO add checks
             val username = tvUsername.editText!!.text.toString()
             val passwd = tvPassword.editText!!.text.toString()
 
-            viewModel.loginUserToServer(username, passwd)
+            if (username.isBlank() or passwd.isBlank()) {
 
-            //TODO add other stuff
-            viewModel.loginUser.observe(viewLifecycleOwner, Observer { loginResource ->
-                when (loginResource) {
+                if (username.isBlank()) tvUsername.error = "Please Enter Username"
+                else tvUsername.error = null
 
-                    is Resource.Success -> {
-                        Log.d(TAG, "token: ${loginResource.data!!.token}")
-                        val token = loginResource.data?.token.toString()
-                        if (loginResource.data!!.success) {
-                            saveLoginToken(true, token)
-                            findNavController().navigate(R.id.action_loginFragment_to_articlesListFragment)
-                        } else {
-                            Snackbar.make(
-                                requireView(),
-                                loginResource.data!!.response,
-                                Snackbar.LENGTH_SHORT
-                            ).show()
-                        }
-                    }
+                if (passwd.isBlank()) tvPassword.error = "Please Enter Password"
+                else tvPassword.error = null
+            } else {
+                tvUsername.error = null
+                tvPassword.error = null
 
-                    is Resource.Error -> {
+                //Hide kyb when clicked on submit
+                val kbd =
+                    requireActivity().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+                kbd.hideSoftInputFromWindow(requireActivity().currentFocus?.windowToken, 0)
+
+                viewModel.loginUserToServer(username, passwd)
+                observeLogin()
+            }
+        }
+    }
+
+    private fun observeLogin() {
+        viewModel.loginUser.observe(viewLifecycleOwner, Observer { loginResource ->
+            when (loginResource) {
+
+                is Resource.Success -> {
+                    Log.d(TAG, "token: ${loginResource.data!!.token}")
+                    val token = loginResource.data?.token.toString()
+                    if (loginResource.data!!.success) {
+                        saveLoginToken(true, token)
+                        findNavController().navigate(R.id.action_loginFragment_to_adminActivity)
+                    } else {
                         Snackbar.make(
                             requireView(),
-                            "Login Failed",
+                            loginResource.data!!.response,
                             Snackbar.LENGTH_SHORT
                         ).show()
-                        Log.d(TAG, "error: ${loginResource.message!!}")
-                        saveLoginToken(false, null)
                     }
-
                 }
-            })
-        }
+
+                is Resource.Error -> {
+                    Snackbar.make(
+                        requireView(),
+                        "Login Failed",
+                        Snackbar.LENGTH_SHORT
+                    ).show()
+                    Log.d(TAG, "error: ${loginResource.message!!}")
+                    saveLoginToken(false, null)
+                }
+
+            }
+        })
     }
 
     private fun saveLoginToken(isLoginSuccess: Boolean, loginToken: String?) {
@@ -69,6 +89,7 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
         val editor = sharedPreferences.edit()
 
         if (isLoginSuccess) {
+            editor.clear().remove("LOGIN_TOKEN")
             editor.putString("LOGIN_TOKEN", loginToken)
             editor.putBoolean("IS_LOGGED_IN", isLoginSuccess)
         } else

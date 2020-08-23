@@ -4,14 +4,17 @@ import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.snackbar.Snackbar
 import com.mrwhoknows.csgeeks.main_ui.MainActivity
 import com.mrwhoknows.csgeeks.R
 import com.mrwhoknows.csgeeks.model.SendArticle
+import com.mrwhoknows.csgeeks.repository.BlogRepository
 import com.mrwhoknows.csgeeks.util.Resource
 import com.mrwhoknows.csgeeks.util.Util
 import com.mrwhoknows.csgeeks.viewmodels.BlogViewModel
+import com.mrwhoknows.csgeeks.viewmodels.BlogViewModelFactory
 import io.noties.markwon.Markwon
 import io.noties.markwon.editor.MarkwonEditor
 import io.noties.markwon.editor.MarkwonEditorTextWatcher
@@ -26,7 +29,14 @@ class CreateArticleFragment : Fragment(R.layout.fragment_create_article) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel = (activity as MainActivity).viewModel
+        // viewModel = (activity as MainActivity).viewModel
+
+        val blogRepository = BlogRepository()
+        val viewModelFactory =
+            BlogViewModelFactory(
+                blogRepository
+            )
+        viewModel = ViewModelProvider(this, viewModelFactory).get(BlogViewModel::class.java)
 
         val markwon: Markwon = Markwon.create(requireContext())
         val editor: MarkwonEditor = MarkwonEditor.create(markwon)

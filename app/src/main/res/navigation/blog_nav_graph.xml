@@ -26,6 +26,15 @@
             app:popEnterAnim="@anim/nav_default_pop_enter_anim"
             app:popExitAnim="@anim/nav_default_pop_exit_anim"
             app:popUpTo="@id/articlesListFragment" />
+        <action
+            android:id="@+id/action_articlesListFragment_to_adminActivity"
+            app:destination="@id/adminActivity"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim"
+            app:popUpTo="@id/articlesListFragment"
+            app:popUpToInclusive="true" />
     </fragment>
     <fragment
         android:id="@+id/articleFragment"
@@ -64,7 +73,7 @@
     <fragment
         android:id="@+id/articlesCategoriesFragment"
         android:name="com.mrwhoknows.csgeeks.main_ui.category.ArticlesCategoriesFragment"
-        android:label="Categories" >
+        android:label="Categories">
         <action
             android:id="@+id/action_articlesCategoriesFragment_to_articlesByCategoryFragment"
             app:destination="@id/articlesByCategoryFragment"
@@ -93,10 +102,10 @@
     <fragment
         android:id="@+id/loginFragment"
         android:name="com.mrwhoknows.csgeeks.main_ui.login.LoginFragment"
-        android:label="Login" >
+        android:label="Login">
         <action
-            android:id="@+id/action_loginFragment_to_articlesListFragment"
-            app:destination="@id/articlesListFragment"
+            android:id="@+id/action_loginFragment_to_adminActivity"
+            app:destination="@id/adminActivity"
             app:enterAnim="@anim/nav_default_enter_anim"
             app:exitAnim="@anim/nav_default_exit_anim"
             app:popEnterAnim="@anim/nav_default_pop_enter_anim"
@@ -104,4 +113,9 @@
             app:popUpTo="@id/articlesListFragment"
             app:popUpToInclusive="true" />
     </fragment>
+    <activity
+        android:id="@+id/adminActivity"
+        android:name="com.mrwhoknows.csgeeks.admin_ui.AdminActivity"
+        android:label="Admin"
+        tools:layout="@layout/activity_admin" />
 </navigation>

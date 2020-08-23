@@ -62,9 +62,9 @@ interface BlogApi {
         passwd: String
     ): Response<LoginResponse>
 
-    @GET("/blog/login/")
+    @GET("/blog/login/check")
     suspend fun isLoggedIn(
-        @Query("check")
+        @Query("token")
         token: String
     ): Response<LoginResponse>
 }

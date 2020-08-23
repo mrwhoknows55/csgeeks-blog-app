@@ -216,7 +216,7 @@ class BlogViewModel(
     }
 
     private val _isLoggedIn: MutableLiveData<Resource<LoginResponse>> = MutableLiveData()
-    val isLoggedIn: LiveData<Resource<LoginResponse>> = _loginUser
+    val isLoggedIn: LiveData<Resource<LoginResponse>> = _isLoggedIn
     private var isLoggedInResponse: LoginResponse? = null
 
     fun isLoggedUserLoggedIn(token: String) {
