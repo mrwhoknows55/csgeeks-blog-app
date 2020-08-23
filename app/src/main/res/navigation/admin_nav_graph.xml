@@ -1,10 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto" android:id="@+id/admin_nav_graph.xml"
-    app:startDestination="@id/createArticleFragment2">
+    app:startDestination="@id/allArticlesFragment">
 
     <fragment
         android:id="@+id/createArticleFragment2"
         android:name="com.mrwhoknows.csgeeks.main_ui.create.CreateArticleFragment"
         android:label="Create Article" />
+    <fragment
+        android:id="@+id/allArticlesFragment"
+        android:name="com.mrwhoknows.csgeeks.admin_ui.AllArticlesFragment"
+        android:label="All Articles" >
+        <action
+            android:id="@+id/action_allArticlesFragment_to_articleFragment2"
+            app:destination="@id/articleFragment2"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+    </fragment>
+    <fragment
+        android:id="@+id/articleFragment2"
+        android:name="com.mrwhoknows.csgeeks.main_ui.article.ArticleFragment"
+        android:label="ArticleFragment" >
+        <argument
+            android:name="articleID"
+            app:argType="string" />
+    </fragment>
 </navigation>
