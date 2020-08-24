@@ -32,12 +32,12 @@
             app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
             <fragment
-                app:layout_behavior="@string/appbar_scrolling_view_behavior"
                 android:id="@+id/navHostFragment"
                 android:name="androidx.navigation.fragment.NavHostFragment"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 app:defaultNavHost="true"
+                app:layout_behavior="@string/appbar_scrolling_view_behavior"
                 app:navGraph="@navigation/blog_nav_graph" />
         </FrameLayout>
     </androidx.coordinatorlayout.widget.CoordinatorLayout>

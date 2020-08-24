@@ -33,33 +33,7 @@ class ArticlesListFragment : Fragment(R.layout.fragment_articles_list) {
 
         viewModel = (activity as MainActivity).viewModel
         initCategories()
-    }
-
-    override fun onStart() {
-        super.onStart()
-        val sharedPreferences = requireActivity().getSharedPreferences("TOKEN", 0)
-        Log.d(TAG, "isLoggedIn: " + sharedPreferences.getBoolean("IS_LOGGED_IN", false))
-        if (sharedPreferences.getBoolean("IS_LOGGED_IN", false)) {
-            //author or admin user
-            val token = sharedPreferences.getString("LOGIN_TOKEN", "empty")
-            viewModel.isLoggedUserLoggedIn(token!!)
-            viewModel.isLoggedIn.observe(viewLifecycleOwner, Observer {
-                if (it is Resource.Success) {
-                    if (it.data!!.success) {
-                        findNavController().navigate(R.id.action_articlesListFragment_to_adminActivity)
-                        requireActivity().finish()
-                    } else {
-                        showAllArticles()
-                    }
-                }
-                if (it is Resource.Error) {
-                    showAllArticles()
-                }
-            })
-        } else {
-            //regular user
-            showAllArticles()
-        }
+        showAllArticles()
     }
 
     private fun initRecyclerView(data: ArticleList) {
