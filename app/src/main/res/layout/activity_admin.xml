@@ -36,6 +36,7 @@
                 android:name="androidx.navigation.fragment.NavHostFragment"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_marginBottom="?attr/actionBarSize"
                 app:layout_behavior="@string/appbar_scrolling_view_behavior"
                 app:navGraph="@navigation/admin_nav_graph" />
         </FrameLayout>
@@ -53,7 +54,7 @@
             app:menu="@menu/admin_bottom_nav_menu" />
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
-<!--    TODO FIX MENU -->
+    <!--    TODO FIX MENU -->
     <com.google.android.material.navigation.NavigationView
         android:id="@+id/adminNavView"
         android:layout_width="wrap_content"

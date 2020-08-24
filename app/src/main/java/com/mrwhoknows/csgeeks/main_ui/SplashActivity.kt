@@ -33,7 +33,6 @@ class SplashActivity : AppCompatActivity() {
                 blogRepository
             )
         viewModel = ViewModelProvider(this, viewModelFactory).get(BlogViewModel::class.java)
-        viewModel.getAllArticles()
 
         val sharedPreferences = this.getSharedPreferences("TOKEN", 0)
         Log.d(TAG, "isLoggedIn: " + sharedPreferences.getBoolean("IS_LOGGED_IN", false))

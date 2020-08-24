@@ -6,7 +6,15 @@
     <fragment
         android:id="@+id/createArticleFragment2"
         android:name="com.mrwhoknows.csgeeks.main_ui.create.CreateArticleFragment"
-        android:label="Create Article" />
+        android:label="Create Article" >
+        <action
+            android:id="@+id/action_createArticleFragment2_to_createArticleBodyFragment"
+            app:destination="@id/createArticleBodyFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_exit_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+    </fragment>
     <fragment
         android:id="@+id/allArticlesFragment"
         android:name="com.mrwhoknows.csgeeks.admin_ui.AllArticlesFragment"
@@ -26,5 +34,34 @@
         <argument
             android:name="articleID"
             app:argType="string" />
+    </fragment>
+    <fragment
+        android:id="@+id/createArticleBodyFragment"
+        android:name="com.mrwhoknows.csgeeks.main_ui.create.CreateArticleBodyFragment"
+        android:label="Create Article" >
+        <argument
+            android:name="title"
+            app:argType="string" />
+        <argument
+            android:name="description"
+            app:argType="string" />
+        <argument
+            android:name="authorName"
+            app:argType="string" />
+        <argument
+            android:name="thumbImgLink"
+            app:argType="string" />
+        <argument
+            android:name="tags"
+            app:argType="string" />
+        <action
+            android:id="@+id/action_createArticleBodyFragment_to_allArticlesFragment"
+            app:destination="@id/allArticlesFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim"
+            app:popUpTo="@id/allArticlesFragment"
+            app:popUpToInclusive="true" />
     </fragment>
 </navigation>
