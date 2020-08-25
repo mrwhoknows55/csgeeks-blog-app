@@ -1,4 +1,4 @@
-package com.mrwhoknows.csgeeks.main_ui.create
+package com.mrwhoknows.csgeeks.admin_ui.edit
 
 import android.os.Bundle
 import android.view.View
@@ -21,11 +21,11 @@ import io.noties.markwon.editor.MarkwonEditorTextWatcher
 import kotlinx.android.synthetic.main.fragment_create_article_body.*
 import java.util.concurrent.Executors
 
-class CreateArticleBodyFragment : Fragment(R.layout.fragment_create_article_body) {
+class EditArticleBodyFragment : Fragment(R.layout.fragment_create_article_body) {
 
     lateinit var article: SendArticle
     lateinit var viewModel: BlogViewModel
-    lateinit var args: CreateArticleBodyFragmentArgs
+    private lateinit var args: EditArticleBodyFragmentArgs
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -35,6 +35,7 @@ class CreateArticleBodyFragment : Fragment(R.layout.fragment_create_article_body
         //TODO MAKE this better
 
         // viewModel = (activity as MainActivity).viewModel
+        args = EditArticleBodyFragmentArgs.fromBundle(requireArguments())
 
         val blogRepository = BlogRepository()
         val viewModelFactory =
@@ -46,6 +47,7 @@ class CreateArticleBodyFragment : Fragment(R.layout.fragment_create_article_body
         val markwon: Markwon = Markwon.create(requireContext())
         val editor: MarkwonEditor = MarkwonEditor.create(markwon)
 
+
         etArticleContent.addTextChangedListener(
             MarkwonEditorTextWatcher.withPreRender(
                 editor,
@@ -53,6 +55,8 @@ class CreateArticleBodyFragment : Fragment(R.layout.fragment_create_article_body
                 etArticleContent
             )
         )
+
+        etArticleContent.setText(args.body)
 
         btCreateArticle.setOnClickListener {
             getInput()
@@ -65,7 +69,6 @@ class CreateArticleBodyFragment : Fragment(R.layout.fragment_create_article_body
         if (content.isBlank()) {
             etArticleContent.error = "Please enter the content"
         } else {
-            args = CreateArticleBodyFragmentArgs.fromBundle(requireArguments())
 
             article = SendArticle(
                 args.authorName,
@@ -75,17 +78,20 @@ class CreateArticleBodyFragment : Fragment(R.layout.fragment_create_article_body
                 args.thumbImgLink,
                 args.title
             )
-            sendArticle()
+
+            updateArticle()
         }
     }
 
-    private fun sendArticle() {
-        viewModel.sendArticleToServer(article)
+    // TODO make it editable
+    private fun updateArticle() {
+        viewModel.updateArticleToServer(args.id, article)
 
-        viewModel.createArticleResponseLiveData.observe(viewLifecycleOwner, Observer {
+        viewModel.updateArticleResponse.observe(viewLifecycleOwner, Observer {
             when (it) {
                 is Resource.Loading -> {
                     Util.isLoading(bounceLoader, true)
+                    Util.isLoading(bounceLoaderBG, true)
                 }
                 is Resource.Success -> {
                     Util.isLoading(bounceLoader, false)
@@ -94,11 +100,11 @@ class CreateArticleBodyFragment : Fragment(R.layout.fragment_create_article_body
                     if (it.data!!.success) {
                         Snackbar.make(
                             requireView(),
-                            "Article Created Successfully",
+                            "Article Updated Successfully",
                             Snackbar.LENGTH_SHORT
                         ).show()
                         viewModel.getAllArticles()
-                        findNavController().navigate(R.id.action_createArticleBodyFragment_to_allArticlesFragment)
+                        findNavController().navigate(R.id.action_editArticleBodyFragment_to_yourArticles)
                     } else {
                         Snackbar.make(
                             requireView(),

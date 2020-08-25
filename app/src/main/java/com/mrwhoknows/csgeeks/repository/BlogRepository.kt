@@ -17,6 +17,9 @@ class BlogRepository {
     suspend fun createArticle(article: SendArticle) =
         RetrofitInstance.api.createArticle(article)
 
+    suspend fun updateArticle(id: String, article: SendArticle) =
+        RetrofitInstance.api.updateArticle(id, article)
+
     suspend fun getArticleTags() =
         RetrofitInstance.api.getTags()
 

@@ -6,8 +6,11 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.mrwhoknows.csgeeks.R
 import com.mrwhoknows.csgeeks.model.SendArticle
+import com.mrwhoknows.csgeeks.util.Util
 import com.mrwhoknows.csgeeks.viewmodels.BlogViewModel
 import kotlinx.android.synthetic.main.fragment_create_article.*
+import kotlinx.android.synthetic.main.fragment_create_article.bounceLoader
+import kotlinx.android.synthetic.main.fragment_create_article.bounceLoaderBG
 
 private const val TAG = "CreateArticleFragment"
 
@@ -18,6 +21,8 @@ class CreateArticleFragment : Fragment(R.layout.fragment_create_article) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        Util.isLoading(bounceLoader, false)
+        Util.isLoading(bounceLoaderBG, false)
 
         btEnterBody.setOnClickListener {
             getInput()

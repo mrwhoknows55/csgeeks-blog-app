@@ -9,4 +9,8 @@
         android:id="@+id/createArticleFragment2"
         android:title="Create Article" />
 
+    <item
+        android:id="@+id/yourArticles"
+        android:title="Manage Your Articles" />
+
 </menu>

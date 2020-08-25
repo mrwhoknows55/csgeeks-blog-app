@@ -241,4 +241,38 @@ class BlogViewModel(
         }
         return Resource.Error(response.message())
     }
+
+    private val _updateArticle: MutableLiveData<Resource<ResultResponse>> =
+        MutableLiveData()
+    val updateArticleResponse: LiveData<Resource<ResultResponse>> = _updateArticle
+    private var updateArticle: ResultResponse? = null
+
+    fun updateArticleToServer(id: String, article: SendArticle) {
+        viewModelScope.launch {
+            updateArticle(id, article)
+        }
+    }
+
+    private suspend fun updateArticle(id: String, article: SendArticle) {
+        _updateArticle.postValue(Resource.Loading())
+        try {
+            val response = repository.updateArticle(id, article)
+            if (response.isSuccessful) {
+                if (response.body()!!.success) {
+                    _updateArticle.postValue(handleUpdateArticleResponse(response))
+                }
+            }
+        } catch (t: Throwable) {
+            if (t is IOException) _updateArticle.postValue(Resource.Error("Network Failure"))
+            else _updateArticle.postValue(Resource.Error("Conversion Error"))
+        }
+    }
+
+    private fun handleUpdateArticleResponse(response: Response<ResultResponse>): Resource<ResultResponse> {
+        response.body()?.let {
+            updateArticle = it
+            return Resource.Success(updateArticle ?: it)
+        }
+        return Resource.Error(response.message())
+    }
 }

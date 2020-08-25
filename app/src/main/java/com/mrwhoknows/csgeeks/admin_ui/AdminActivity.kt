@@ -33,7 +33,6 @@ class AdminActivity : AppCompatActivity() {
         NavigationUI.setupActionBarWithNavController(this, navController)
         NavigationUI.setupWithNavController(adminNavView, navController)
         NavigationUI.setupActionBarWithNavController(this, navController, adminDrawerLayout)
-        btmNavViewAdmin.setupWithNavController(navController)
     }
 
     override fun onSupportNavigateUp(): Boolean {
