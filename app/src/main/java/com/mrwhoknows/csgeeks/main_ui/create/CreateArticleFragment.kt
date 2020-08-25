@@ -55,7 +55,7 @@ class CreateArticleFragment : Fragment(R.layout.fragment_create_article) {
 
         // TODO CHANGE this safe args to serializable  or parcelable
         findNavController().navigate(
-            CreateArticleFragmentDirections.actionCreateArticleFragment2ToCreateArticleBodyFragment(
+            CreateArticleFragmentDirections.actionCreateArticleFragmentToCreateArticleBodyFragment(
                 title,
                 desc,
                 authorName,

@@ -9,7 +9,7 @@
         android:name="com.mrwhoknows.csgeeks.main_ui.create.CreateArticleFragment"
         android:label="Create Article">
         <action
-            android:id="@+id/action_createArticleFragment2_to_createArticleBodyFragment"
+            android:id="@+id/action_createArticleFragment_to_createArticleBodyFragment"
             app:destination="@id/createArticleBodyFragment"
             app:enterAnim="@anim/nav_default_enter_anim"
             app:exitAnim="@anim/nav_default_exit_anim"
