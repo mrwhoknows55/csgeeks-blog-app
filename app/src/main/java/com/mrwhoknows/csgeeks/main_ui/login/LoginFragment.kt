@@ -58,8 +58,9 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
                 is Resource.Success -> {
                     Log.d(TAG, "token: ${loginResource.data!!.token}")
                     val token = loginResource.data?.token.toString()
+                    val authorName = loginResource.data?.author.toString()
                     if (loginResource.data!!.success) {
-                        saveLoginToken(true, token)
+                        saveLoginToken(true, token, authorName)
                         findNavController().navigate(R.id.action_loginFragment_to_adminActivity)
                     } else {
                         Snackbar.make(
@@ -77,20 +78,22 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
                         Snackbar.LENGTH_SHORT
                     ).show()
                     Log.d(TAG, "error: ${loginResource.message!!}")
-                    saveLoginToken(false, null)
+                    saveLoginToken(false, null, "")
                 }
 
             }
         })
     }
 
-    private fun saveLoginToken(isLoginSuccess: Boolean, loginToken: String?) {
+    private fun saveLoginToken(isLoginSuccess: Boolean, loginToken: String?, authorName: String?) {
         val sharedPreferences = requireActivity().getSharedPreferences("TOKEN", 0)
         val editor = sharedPreferences.edit()
 
+        //TODO use constants
         if (isLoginSuccess) {
             editor.clear().remove("LOGIN_TOKEN")
             editor.putString("LOGIN_TOKEN", loginToken)
+            editor.putString("AUTHOR_NAME", authorName)
             editor.putBoolean("IS_LOGGED_IN", isLoginSuccess)
         } else
             editor.putBoolean("IS_LOGGED_IN", isLoginSuccess)

@@ -11,7 +11,7 @@ import com.mrwhoknows.csgeeks.R
 import com.mrwhoknows.csgeeks.model.ArticleList
 import com.mrwhoknows.csgeeks.util.Util
 
-class ArticleListAdapter(private val articleMetaList: ArticleList) :
+class ArticleListAdapter(val articleMetaList: ArticleList) :
     RecyclerView.Adapter<ArticleListAdapter.ArticleListViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ArticleListViewHolder {
@@ -29,7 +29,10 @@ class ArticleListAdapter(private val articleMetaList: ArticleList) :
         holder.bind(articleMetaList.articles[position])
     }
 
-    override fun getItemCount() = articleMetaList.articles.size
+    override fun getItemCount(): Int {
+        if (!articleMetaList.articles.isNullOrEmpty()) return articleMetaList.articles.size
+        return 0
+    }
 
     inner class ArticleListViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 

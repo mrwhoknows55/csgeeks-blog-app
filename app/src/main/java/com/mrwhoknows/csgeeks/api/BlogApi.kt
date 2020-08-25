@@ -24,10 +24,16 @@ interface BlogApi {
     suspend fun getAllArticles(): Response<ArticleList>
 
     @GET("blog/post")
-    suspend fun getArticle(
+    suspend fun getArticleById(
         @Query("id")
         articleID: String
     ): Response<Article>
+
+    @GET("blog/posts")
+    suspend fun getArticlesByAuthor(
+        @Query("author")
+        author: String
+    ): Response<ArticleList>
 
     @GET("blog/author")
     suspend fun getAuthor(
@@ -35,11 +41,19 @@ interface BlogApi {
         authorName: String
     ): Response<Author>
 
+    //TODO C_AUTH to token
     @POST("blog/create")
     @Headers("C_AUTH: $C_AUTH")
     suspend fun createArticle(
         @Body
         article: SendArticle
+    ): Response<ResultResponse>
+
+    @POST("blog/post/delete")
+    @Headers("C_AUTH: $C_AUTH")
+    suspend fun deleteArticle(
+        @Query("id")
+        id: String
     ): Response<ResultResponse>
 
     @PUT("blog/update")

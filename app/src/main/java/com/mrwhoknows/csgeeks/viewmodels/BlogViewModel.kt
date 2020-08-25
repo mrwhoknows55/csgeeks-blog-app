@@ -64,7 +64,7 @@ class BlogViewModel(
     suspend fun getArticle(id: String) {
         _article.postValue(Resource.Loading())
         try {
-            val response = repository.getArticle(id)
+            val response = repository.getArticleById(id)
             _article.postValue(handleArticle(response))
         } catch (t: Throwable) {
             if (t is IOException) {
@@ -175,6 +175,25 @@ class BlogViewModel(
         }
     }
 
+    fun getArticleListByAuthor(authorName: String) {
+        viewModelScope.launch {
+            getArticlesByAuthor(authorName)
+        }
+    }
+
+    private suspend fun getArticlesByAuthor(authorName: String) {
+        _articles.postValue(Resource.Loading())
+        try {
+            val response = repository.getArticlesByAuthor(authorName)
+            _articles.postValue(handleArticles(response))
+        } catch (t: Throwable) {
+            when (t) {
+                is IOException -> _articles.postValue(Resource.Error("Network Failure"))
+                else -> _articles.postValue(Resource.Error("Conversion Error"))
+            }
+        }
+    }
+
     private suspend fun getArticles(tag: String) {
         _articles.postValue(Resource.Loading())
         try {
@@ -272,6 +291,39 @@ class BlogViewModel(
         response.body()?.let {
             updateArticle = it
             return Resource.Success(updateArticle ?: it)
+        }
+        return Resource.Error(response.message())
+    }
+
+    private val _deleteArticle: MutableLiveData<Resource<ResultResponse>> = MutableLiveData()
+    val deleteArticleResponse: LiveData<Resource<ResultResponse>> = _deleteArticle
+    private var deleteArticle: ResultResponse? = null
+
+    fun deleteArticleToServer(id: String) {
+        viewModelScope.launch {
+            deleteArticle(id)
+        }
+    }
+
+    private suspend fun deleteArticle(id: String) {
+        _deleteArticle.postValue(Resource.Loading())
+        try {
+            val response = repository.deleteArticle(id)
+            if (response.isSuccessful) {
+                if (response.body()!!.success) {
+                    _deleteArticle.postValue(handleDeleteArticleResponse(response))
+                }
+            }
+        } catch (t: Throwable) {
+            if (t is IOException) _deleteArticle.postValue(Resource.Error("Network Failure"))
+            else _deleteArticle.postValue(Resource.Error("Conversion Error"))
+        }
+    }
+
+    private fun handleDeleteArticleResponse(response: Response<ResultResponse>): Resource<ResultResponse> {
+        response.body()?.let {
+            deleteArticle = it
+            return Resource.Success(deleteArticle ?: it)
         }
         return Resource.Error(response.message())
     }

@@ -91,14 +91,18 @@ class ArticlesListFragment : Fragment(R.layout.fragment_articles_list) {
                     Util.isLoading(bounceLoader, false)
                     Util.isLoading(bounceLoaderBG, false)
                     response.data?.let { articleList ->
-                        initRecyclerView(articleList)
-                        articleAdapter.setOnItemClickListener {
-                            findNavController().navigate(
-                                ArticlesListFragmentDirections.actionArticlesListFragmentToArticleFragment(
-                                    it.id.toString()
+                        if (!articleList.articles.isNullOrEmpty()) {
+                            initRecyclerView(articleList)
+                            articleAdapter.setOnItemClickListener {
+                                findNavController().navigate(
+                                    ArticlesListFragmentDirections.actionArticlesListFragmentToArticleFragment(
+                                        it.id.toString()
+                                    )
                                 )
-                            )
-                        }
+                            }
+                        } else
+                            Snackbar.make(requireView(), "No Articles Found", Snackbar.LENGTH_SHORT)
+                                .show()
                     }
                 }
                 is Resource.Error -> {

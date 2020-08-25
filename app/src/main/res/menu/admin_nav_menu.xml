@@ -12,5 +12,5 @@
     <item
         android:id="@+id/yourArticles"
         android:title="Manage Your Articles" />
-
+    <!--TODO: add log out btn-->
 </menu>

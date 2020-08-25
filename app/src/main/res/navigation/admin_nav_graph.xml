@@ -128,5 +128,14 @@
             app:popEnterAnim="@anim/nav_default_pop_enter_anim"
             app:popExitAnim="@anim/nav_default_pop_exit_anim"
             app:popUpTo="@id/yourArticles" />
+        <action
+            android:id="@+id/action_yourArticles_to_allArticlesFragment"
+            app:destination="@id/allArticlesFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_enter_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim"
+            app:popUpTo="@id/allArticlesFragment"
+            app:popUpToInclusive="true" />
     </fragment>
 </navigation>

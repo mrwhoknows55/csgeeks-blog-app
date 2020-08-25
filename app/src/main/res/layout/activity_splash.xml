@@ -7,18 +7,31 @@
     android:background="@color/colorBackgroundDark3"
     tools:context=".main_ui.SplashActivity">
 
+    <com.agrawalsuneet.dotsloader.loaders.BounceLoader
+        android:id="@+id/bounceLoader"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:elevation="12dp"
+        android:gravity="center"
+        app:bounce_animDuration="400"
+        app:bounce_ballColor="@color/colorAccent"
+        app:bounce_ballRadius="22dp"
+        app:bounce_showShadow="true"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView" />
 
     <TextView
         android:id="@+id/textView"
         style="@style/TextAppearance.MaterialComponents.Headline2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="169dp"
         android:lines="2"
         android:text="CS\nGEEKS"
         android:textAlignment="center"
         android:textColor="@color/colorNordBlue"
         android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
