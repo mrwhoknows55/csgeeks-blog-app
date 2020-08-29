@@ -1,18 +1,17 @@
 package com.mrwhoknows.csgeeks.admin_ui
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
 import androidx.navigation.ui.NavigationUI
-import androidx.navigation.ui.setupWithNavController
 import com.mrwhoknows.csgeeks.R
+import com.mrwhoknows.csgeeks.main_ui.MainActivity
 import com.mrwhoknows.csgeeks.repository.BlogRepository
 import com.mrwhoknows.csgeeks.viewmodels.BlogViewModel
 import com.mrwhoknows.csgeeks.viewmodels.BlogViewModelFactory
 import kotlinx.android.synthetic.main.activity_admin.*
-import kotlinx.android.synthetic.main.activity_main.*
 
 class AdminActivity : AppCompatActivity() {
 
@@ -30,14 +29,25 @@ class AdminActivity : AppCompatActivity() {
             )
         viewModel = ViewModelProvider(this, viewModelFactory).get(BlogViewModel::class.java)
 
+        initLogoutInMenu()
         val navController = findNavController(R.id.adminNavHostFragment)
         NavigationUI.setupWithNavController(adminNavView, navController)
         NavigationUI.setupActionBarWithNavController(this, navController, adminDrawerLayout)
+    }
 
-
-        // TODO add logout
+    private fun initLogoutInMenu() {
         adminNavView.menu.getItem(3).setOnMenuItemClickListener {
-            Toast.makeText(this, "Clicked", Toast.LENGTH_SHORT).show()
+
+            val sharedPreferences = this.getSharedPreferences("TOKEN", 0)
+            val editor = sharedPreferences.edit()
+
+            editor.remove("LOGIN_TOKEN")
+            editor.apply()
+
+            val intent = Intent(this, MainActivity::class.java)
+            startActivity(intent)
+            finish()
+
             true
         }
     }
