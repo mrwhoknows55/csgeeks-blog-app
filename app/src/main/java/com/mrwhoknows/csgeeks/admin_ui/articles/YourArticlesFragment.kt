@@ -48,7 +48,7 @@ class YourArticlesFragment : Fragment(R.layout.fragment_articles_list) {
     }
 
     private fun showYourArticles() {
-        viewModel.getArticleListByAuthor(authorName!!)
+        viewModel.getArticlesByAuthor(authorName!!)
         Log.d(TAG, "showYourArticles: $authorName")
         viewModel.articles.observe(viewLifecycleOwner, Observer { response ->
             when (response) {
@@ -93,8 +93,8 @@ class YourArticlesFragment : Fragment(R.layout.fragment_articles_list) {
 
     private fun swipeToDeleteArticle() {
         val itemTouchHelperCallback = object : ItemTouchHelper.SimpleCallback(
-            ItemTouchHelper.UP or ItemTouchHelper.DOWN,
-            ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT
+            0,
+            ItemTouchHelper.RIGHT
         ) {
             override fun onMove(
                 recyclerView: RecyclerView,

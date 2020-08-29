@@ -2,6 +2,7 @@ package com.mrwhoknows.csgeeks.admin_ui
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
 import androidx.navigation.ui.NavigationUI
@@ -30,9 +31,15 @@ class AdminActivity : AppCompatActivity() {
         viewModel = ViewModelProvider(this, viewModelFactory).get(BlogViewModel::class.java)
 
         val navController = findNavController(R.id.adminNavHostFragment)
-        NavigationUI.setupActionBarWithNavController(this, navController)
         NavigationUI.setupWithNavController(adminNavView, navController)
         NavigationUI.setupActionBarWithNavController(this, navController, adminDrawerLayout)
+
+
+        // TODO add logout
+        adminNavView.menu.getItem(3).setOnMenuItemClickListener {
+            Toast.makeText(this, "Clicked", Toast.LENGTH_SHORT).show()
+            true
+        }
     }
 
     override fun onSupportNavigateUp(): Boolean {

@@ -175,21 +175,32 @@ class BlogViewModel(
         }
     }
 
-    fun getArticleListByAuthor(authorName: String) {
+    fun getArticlesByAuthor(authorName: String) {
         viewModelScope.launch {
-            getArticlesByAuthor(authorName)
+            _articles.postValue(Resource.Loading())
+            try {
+                val response = repository.getArticlesByAuthor(authorName)
+                _articles.postValue(handleArticles(response))
+            } catch (t: Throwable) {
+                when (t) {
+                    is IOException -> _articles.postValue(Resource.Error("Network Failure"))
+                    else -> _articles.postValue(Resource.Error("Conversion Error"))
+                }
+            }
         }
     }
 
-    private suspend fun getArticlesByAuthor(authorName: String) {
-        _articles.postValue(Resource.Loading())
-        try {
-            val response = repository.getArticlesByAuthor(authorName)
-            _articles.postValue(handleArticles(response))
-        } catch (t: Throwable) {
-            when (t) {
-                is IOException -> _articles.postValue(Resource.Error("Network Failure"))
-                else -> _articles.postValue(Resource.Error("Conversion Error"))
+    fun orderArticlesBy(orderBy: String, order: String) {
+        viewModelScope.launch {
+            _articles.postValue(Resource.Loading())
+            try {
+                val response = repository.orderArticlesBy(orderBy, order)
+                _articles.postValue(handleArticles(response))
+            } catch (t: Throwable) {
+                when (t) {
+                    is IOException -> _articles.postValue(Resource.Error("Network Failure"))
+                    else -> _articles.postValue(Resource.Error("Conversion Error"))
+                }
             }
         }
     }

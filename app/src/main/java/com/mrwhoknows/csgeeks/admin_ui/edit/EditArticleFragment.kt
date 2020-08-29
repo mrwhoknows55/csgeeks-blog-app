@@ -55,8 +55,6 @@ class EditArticleFragment : Fragment(R.layout.fragment_create_article) {
                 }
 
                 is Resource.Success -> {
-                    Util.isLoading(bounceLoader, false)
-                    Util.isLoading(bounceLoaderBG, false)
 
                     articleResource.data?.let {
                         val article = it.article
@@ -73,11 +71,11 @@ class EditArticleFragment : Fragment(R.layout.fragment_create_article) {
                             getInput()
                         }
                     }
+                    Util.isLoading(bounceLoader, false)
+                    Util.isLoading(bounceLoaderBG, false)
                 }
 
                 is Resource.Error -> {
-                    Util.isLoading(bounceLoaderBG, false)
-                    Util.isLoading(bounceLoader, false)
 
                     Log.d(TAG, "onViewCreated: error")
                     articleResource.message?.let {
@@ -87,6 +85,9 @@ class EditArticleFragment : Fragment(R.layout.fragment_create_article) {
                             Snackbar.LENGTH_SHORT
                         ).show()
                     }
+
+                    Util.isLoading(bounceLoaderBG, false)
+                    Util.isLoading(bounceLoader, false)
                 }
             }
         })

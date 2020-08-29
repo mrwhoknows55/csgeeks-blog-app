@@ -11,6 +11,12 @@ class BlogRepository {
     suspend fun getArticleById(id: String) =
         RetrofitInstance.api.getArticleById(id)
 
+    suspend fun getArticlesByAuthor(authorName: String) =
+        RetrofitInstance.api.getArticlesByAuthor(authorName)
+
+    suspend fun orderArticlesBy(orderBy: String, order: String) =
+        RetrofitInstance.api.orderArticlesBy(orderBy, order)
+
     suspend fun getAuthor(authorName: String) =
         RetrofitInstance.api.getAuthor(authorName)
 
@@ -34,7 +40,4 @@ class BlogRepository {
 
     suspend fun isLoggedIn(token: String) =
         RetrofitInstance.api.isLoggedIn(token)
-
-    suspend fun getArticlesByAuthor(authorName: String)=
-        RetrofitInstance.api.getArticlesByAuthor(authorName)
 }

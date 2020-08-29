@@ -89,8 +89,6 @@ class AllArticlesFragment : Fragment(R.layout.fragment_all_articles) {
         viewModel.articles.observe(viewLifecycleOwner, Observer { response ->
             when (response) {
                 is Resource.Success -> {
-                    Util.isLoading(bounceLoader, false)
-                    Util.isLoading(bounceLoaderBG, false)
                     response.data?.let { articleList ->
                         initRecyclerView(articleList)
                         articleAdapter.setOnItemClickListener {
@@ -101,14 +99,16 @@ class AllArticlesFragment : Fragment(R.layout.fragment_all_articles) {
                             )
                         }
                     }
-                }
-                is Resource.Error -> {
                     Util.isLoading(bounceLoader, false)
                     Util.isLoading(bounceLoaderBG, false)
+                }
+                is Resource.Error -> {
                     response.message?.let {
                         Log.e(TAG, "Error: $it")
                         Snackbar.make(requireView(), "Error: $it", Snackbar.LENGTH_SHORT).show()
                     }
+                    Util.isLoading(bounceLoader, false)
+                    Util.isLoading(bounceLoaderBG, false)
                 }
                 is Resource.Loading -> {
                     Util.isLoading(bounceLoader, true)

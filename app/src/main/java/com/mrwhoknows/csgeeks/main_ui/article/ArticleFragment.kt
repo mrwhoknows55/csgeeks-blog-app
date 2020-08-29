@@ -58,9 +58,6 @@ class ArticleFragment : Fragment(R.layout.fragment_article) {
                     Util.isLoading(bounceLoaderBG, true)
                 }
                 is Resource.Success -> {
-                    Util.isLoading(bounceLoader, false)
-                    Util.isLoading(bounceLoaderBG, false)
-
                     articleResource.data?.let {
                         val data = it.article
                         authorName = data.author
@@ -78,13 +75,13 @@ class ArticleFragment : Fragment(R.layout.fragment_article) {
                             .usePlugin(GlideImagesPlugin.create(requireContext()))
                             .build()
                         markwon.setMarkdown(tvArticleBody, articleHeader + data.content)
-
                     }
+
+                    Util.isLoading(bounceLoader, false)
+                    Util.isLoading(bounceLoaderBG, false)
                 }
                 is Resource.Error -> {
                     Log.d(TAG, "onViewCreated: error")
-                    Util.isLoading(bounceLoader, false)
-                    Util.isLoading(bounceLoaderBG, false)
                     articleResource.message?.let {
                         Snackbar.make(
                             view,
@@ -92,6 +89,8 @@ class ArticleFragment : Fragment(R.layout.fragment_article) {
                             Snackbar.LENGTH_SHORT
                         ).show()
                     }
+                    Util.isLoading(bounceLoader, false)
+                    Util.isLoading(bounceLoaderBG, false)
                 }
             }
 

@@ -30,9 +30,23 @@ interface BlogApi {
     ): Response<Article>
 
     @GET("blog/posts")
+    suspend fun getArticleByTag(
+        @Query("tag")
+        tag: String
+    ): Response<ArticleList>
+
+    @GET("blog/posts")
     suspend fun getArticlesByAuthor(
         @Query("author")
         author: String
+    ): Response<ArticleList>
+
+    @GET("blog/posts")
+    suspend fun orderArticlesBy(
+        @Query("orderby")
+        orderBy: String,
+        @Query("order")
+        order: String
     ): Response<ArticleList>
 
     @GET("blog/author")
@@ -70,12 +84,6 @@ interface BlogApi {
         @Query("get")
         tags: String = "tags"
     ): Response<ArticleTags>
-
-    @GET("blog/posts")
-    suspend fun getArticleByTag(
-        @Query("tag")
-        tag: String
-    ): Response<ArticleList>
 
     @Multipart
     @POST("blog/login")

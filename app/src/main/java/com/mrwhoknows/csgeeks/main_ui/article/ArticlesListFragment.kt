@@ -3,6 +3,8 @@ package com.mrwhoknows.csgeeks.main_ui.article
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -23,7 +25,8 @@ import kotlinx.android.synthetic.main.fragment_articles_list.bounceLoaderBG
 
 private const val TAG = "ListFragment"
 
-class ArticlesListFragment : Fragment(R.layout.fragment_articles_list) {
+class ArticlesListFragment : Fragment(R.layout.fragment_articles_list),
+    AdapterView.OnItemSelectedListener {
 
     private lateinit var articleAdapter: ArticleListAdapter
     private lateinit var viewModel: BlogViewModel
@@ -34,6 +37,39 @@ class ArticlesListFragment : Fragment(R.layout.fragment_articles_list) {
         viewModel = (activity as MainActivity).viewModel
         initCategories()
         showAllArticles()
+        initFilterSpinner()
+    }
+
+    private fun initFilterSpinner() {
+
+        val filterList = mutableListOf<String>()
+        filterList.add("Latest article first")
+        filterList.add("Oldest article first")
+        filterList.add("By title (A-Z)")
+        filterList.add("By title (Z-A)")
+        filterList.add("By description (A-Z)")
+        filterList.add("By description (Z-A)")
+        filterList.add("By author (A-Z)")
+        filterList.add("By author (Z-A)")
+        filterList.add("By content (A-Z)")
+        filterList.add("By content (Z-A)")
+
+        val spinnerAdapter =
+            ArrayAdapter(
+                requireContext(),
+                R.layout.support_simple_spinner_dropdown_item,
+                filterList
+            )
+        spinnerAdapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item)
+
+        with(spFilterBy)
+        {
+            adapter = spinnerAdapter
+            setSelection(0, false)
+            onItemSelectedListener = this@ArticlesListFragment
+            prompt = "Sort By"
+            setPopupBackgroundResource(R.color.colorBackgroundDark2)
+        }
     }
 
     private fun initRecyclerView(data: ArticleList) {
@@ -72,6 +108,7 @@ class ArticlesListFragment : Fragment(R.layout.fragment_articles_list) {
                         val chip = chipsCategories.findViewById<Chip>(id)
                         if (chip != null) {
                             Log.d(TAG, "chip sel: ${chip.text}")
+                            spFilterBy.setSelection(0)
                             viewModel.getArticlesByTag(chip.text.toString())
                         } else {
                             Log.d(TAG, "chip not selected")
@@ -119,5 +156,45 @@ class ArticlesListFragment : Fragment(R.layout.fragment_articles_list) {
                 }
             }
         })
+    }
+
+    // Article Sorting Filters
+
+    override fun onNothingSelected(parent: AdapterView<*>?) {
+        chipsCategories.isSingleSelection = true
+        viewModel.getAllArticles()
+    }
+
+    override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+        chipsCategories.isSelected = false
+        chipsCategories.clearCheck()
+        callFilterRequests(position)
+    }
+
+    private fun callFilterRequests(position: Int) {
+        when (position) {
+
+            0 -> viewModel.getAllArticles()
+
+            1 -> viewModel.orderArticlesBy("created", "asc")
+
+            2 -> viewModel.orderArticlesBy("title", "asc")
+
+            3 -> viewModel.orderArticlesBy("title", "desc")
+
+            4 -> viewModel.orderArticlesBy("description", "asc")
+
+            5 -> viewModel.orderArticlesBy("description", "desc")
+
+            6 -> viewModel.orderArticlesBy("author", "asc")
+
+            7 -> viewModel.orderArticlesBy("author", "desc")
+
+            8 -> viewModel.orderArticlesBy("content", "asc")
+
+            9 -> viewModel.orderArticlesBy("content", "desc")
+
+            else -> viewModel.getAllArticles()
+        }
     }
 }

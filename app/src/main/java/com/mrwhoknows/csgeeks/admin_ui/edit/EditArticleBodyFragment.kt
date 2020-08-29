@@ -94,8 +94,6 @@ class EditArticleBodyFragment : Fragment(R.layout.fragment_create_article_body) 
                     Util.isLoading(bounceLoaderBG, true)
                 }
                 is Resource.Success -> {
-                    Util.isLoading(bounceLoader, false)
-                    Util.isLoading(bounceLoaderBG, false)
 
                     if (it.data!!.success) {
                         Snackbar.make(
@@ -112,15 +110,20 @@ class EditArticleBodyFragment : Fragment(R.layout.fragment_create_article_body) 
                             Snackbar.LENGTH_SHORT
                         ).show()
                     }
+
+                    Util.isLoading(bounceLoader, false)
+                    Util.isLoading(bounceLoaderBG, false)
                 }
                 is Resource.Error -> {
-                    Util.isLoading(bounceLoaderBG, false)
-                    Util.isLoading(bounceLoaderBG, false)
+
                     Snackbar.make(
                         requireView(),
                         "Server Error: ${it.message}",
                         Snackbar.LENGTH_SHORT
                     ).show()
+
+                    Util.isLoading(bounceLoaderBG, false)
+                    Util.isLoading(bounceLoaderBG, false)
                 }
             }
         })
