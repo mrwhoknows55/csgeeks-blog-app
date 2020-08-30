@@ -36,6 +36,7 @@ class ArticlesByCategoryFragment : Fragment(R.layout.fragment_articles_by_catego
 
         viewModel.getArticlesByTag(args.tag)
 
+        viewModel.getAllArticles()
         viewModel.articles.observe(viewLifecycleOwner, Observer { response ->
             when (response) {
                 is Resource.Loading -> {
