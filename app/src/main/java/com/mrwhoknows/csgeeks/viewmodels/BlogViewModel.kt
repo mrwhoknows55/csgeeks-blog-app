@@ -47,6 +47,19 @@ class BlogViewModel(
         }
     }
 
+    suspend fun searchArticles(query: String) {
+        _articles.postValue(Resource.Loading())
+        try {
+            val response = repository.searchArticles(query)
+            _articles.postValue(handleArticles(response))
+        } catch (t: Throwable) {
+            when (t) {
+                is IOException -> _articles.postValue(Resource.Error("Network Failure"))
+                else -> _articles.postValue(Resource.Error("Conversion Error"))
+            }
+        }
+    }
+
     private fun handleArticles(response: Response<ArticleList>): Resource<ArticleList> {
         if (response.isSuccessful) {
             response.body()?.let {
@@ -335,6 +348,33 @@ class BlogViewModel(
         response.body()?.let {
             deleteArticle = it
             return Resource.Success(deleteArticle ?: it)
+        }
+        return Resource.Error(response.message())
+    }
+
+    private val _logoutUser: MutableLiveData<Resource<LoginResponse>> = MutableLiveData()
+    val logoutUserFromLiveData: LiveData<Resource<LoginResponse>> = _logoutUser
+    private var logoutResponse: LoginResponse? = null
+
+    fun logoutUserFromServer(token: String) {
+        viewModelScope.launch {
+            _logoutUser.postValue(Resource.Loading())
+            try {
+                val response = repository.logoutUser(token)
+                _logoutUser.postValue(handleLogout(response))
+            } catch (t: Throwable) {
+                when (t) {
+                    is IOException -> _logoutUser.postValue(Resource.Error("Network Failure"))
+                    else -> _logoutUser.postValue(Resource.Error("Conversion Error"))
+                }
+            }
+        }
+    }
+
+    private fun handleLogout(response: Response<LoginResponse>): Resource<LoginResponse> {
+        response.body()?.let {
+            logoutResponse = it
+            return Resource.Success(logoutResponse ?: it)
         }
         return Resource.Error(response.message())
     }

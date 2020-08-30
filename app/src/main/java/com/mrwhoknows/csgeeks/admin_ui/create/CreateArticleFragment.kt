@@ -1,4 +1,4 @@
-package com.mrwhoknows.csgeeks.main_ui.create
+package com.mrwhoknows.csgeeks.admin_ui.create
 
 import android.os.Bundle
 import android.view.View
@@ -55,7 +55,7 @@ class CreateArticleFragment : Fragment(R.layout.fragment_create_article) {
 
         // TODO CHANGE this safe args to serializable  or parcelable
         findNavController().navigate(
-            CreateArticleFragmentDirections.actionCreateArticleFragmentToCreateArticleBodyFragment(
+            CreateArticleFragmentDirections.actionCreateArticleFragment2ToCreateArticleBodyFragment(
                 title,
                 desc,
                 authorName,

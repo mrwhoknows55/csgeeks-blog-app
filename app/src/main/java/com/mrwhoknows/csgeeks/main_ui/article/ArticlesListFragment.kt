@@ -6,6 +6,7 @@ import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import androidx.core.content.ContextCompat
+import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
@@ -22,6 +23,10 @@ import com.mrwhoknows.csgeeks.viewmodels.BlogViewModel
 import kotlinx.android.synthetic.main.fragment_articles_list.*
 import kotlinx.android.synthetic.main.fragment_articles_list.bounceLoader
 import kotlinx.android.synthetic.main.fragment_articles_list.bounceLoaderBG
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.MainScope
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 private const val TAG = "ListFragment"
 
@@ -38,37 +43,16 @@ class ArticlesListFragment : Fragment(R.layout.fragment_articles_list),
         initCategories()
         showAllArticles()
         initFilterSpinner()
-    }
 
-    private fun initFilterSpinner() {
-
-        val filterList = mutableListOf<String>()
-        filterList.add("Latest article first")
-        filterList.add("Oldest article first")
-        filterList.add("By title (A-Z)")
-        filterList.add("By title (Z-A)")
-        filterList.add("By description (A-Z)")
-        filterList.add("By description (Z-A)")
-        filterList.add("By author (A-Z)")
-        filterList.add("By author (Z-A)")
-        filterList.add("By content (A-Z)")
-        filterList.add("By content (Z-A)")
-
-        val spinnerAdapter =
-            ArrayAdapter(
-                requireContext(),
-                R.layout.support_simple_spinner_dropdown_item,
-                filterList
-            )
-        spinnerAdapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item)
-
-        with(spFilterBy)
-        {
-            adapter = spinnerAdapter
-            setSelection(0, false)
-            onItemSelectedListener = this@ArticlesListFragment
-            prompt = "Sort By"
-            setPopupBackgroundResource(R.color.colorBackgroundDark2)
+        var job: Job? = null
+        etSearchArticles.addTextChangedListener {
+            job?.cancel()
+            job = MainScope().launch {
+                delay(500L)
+                it?.let {
+                    if (it.toString().isNotEmpty()) viewModel.searchArticles(it.toString())
+                }
+            }
         }
     }
 
@@ -159,6 +143,38 @@ class ArticlesListFragment : Fragment(R.layout.fragment_articles_list),
     }
 
     // Article Sorting Filters
+
+    private fun initFilterSpinner() {
+
+        val filterList = mutableListOf<String>()
+        filterList.add("Latest article first")
+        filterList.add("Oldest article first")
+        filterList.add("By title (A-Z)")
+        filterList.add("By title (Z-A)")
+        filterList.add("By description (A-Z)")
+        filterList.add("By description (Z-A)")
+        filterList.add("By author (A-Z)")
+        filterList.add("By author (Z-A)")
+        filterList.add("By content (A-Z)")
+        filterList.add("By content (Z-A)")
+
+        val spinnerAdapter =
+            ArrayAdapter(
+                requireContext(),
+                R.layout.support_simple_spinner_dropdown_item,
+                filterList
+            )
+        spinnerAdapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item)
+
+        with(spFilterBy)
+        {
+            adapter = spinnerAdapter
+            setSelection(0, false)
+            onItemSelectedListener = this@ArticlesListFragment
+            prompt = "Sort By"
+            setPopupBackgroundResource(R.color.colorBackgroundDark2)
+        }
+    }
 
     override fun onNothingSelected(parent: AdapterView<*>?) {
         chipsCategories.isSingleSelection = true

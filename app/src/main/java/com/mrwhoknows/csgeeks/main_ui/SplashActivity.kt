@@ -42,8 +42,10 @@ class SplashActivity : AppCompatActivity() {
             viewModel.isLoggedUserLoggedIn(token!!)
             viewModel.isLoggedIn.observe(this, Observer {
                 if (it is Resource.Success) {
-                    navigateToActivity(admin)
-                    Log.d(TAG, "called admin")
+                    if (it.data!!.success)
+                        navigateToActivity(admin)
+                    else
+                        navigateToActivity(main)
                 }
                 if (it is Resource.Error) {
                     navigateToActivity(main)

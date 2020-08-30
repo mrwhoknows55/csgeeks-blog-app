@@ -49,6 +49,12 @@ interface BlogApi {
         order: String
     ): Response<ArticleList>
 
+    @GET("blog/posts")
+    suspend fun searchArticles(
+        @Query("search")
+        query: String
+    ): Response<ArticleList>
+
     @GET("blog/author")
     suspend fun getAuthor(
         @Query("name")
@@ -92,6 +98,12 @@ interface BlogApi {
         username: String,
         @Part("password")
         passwd: String
+    ): Response<LoginResponse>
+
+    @POST("/blog/logout")
+    suspend fun logoutUser(
+        @Query("token")
+        token: String
     ): Response<LoginResponse>
 
     @GET("/blog/login/check")

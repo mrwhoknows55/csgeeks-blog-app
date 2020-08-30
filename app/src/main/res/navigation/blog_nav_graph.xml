@@ -58,7 +58,7 @@
         android:label="Author" />
     <fragment
         android:id="@+id/createArticleFragment"
-        android:name="com.mrwhoknows.csgeeks.main_ui.create.CreateArticleFragment"
+        android:name="com.mrwhoknows.csgeeks.admin_ui.create.CreateArticleFragment"
         android:label="Create Article">
         <action
             android:id="@+id/action_createArticleFragment_to_articlesListFragment"

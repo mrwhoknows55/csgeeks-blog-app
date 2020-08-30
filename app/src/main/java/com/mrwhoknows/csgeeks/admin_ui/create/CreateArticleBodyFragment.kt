@@ -1,4 +1,4 @@
-package com.mrwhoknows.csgeeks.main_ui.create
+package com.mrwhoknows.csgeeks.admin_ui.create
 
 import android.os.Bundle
 import android.view.View
@@ -11,7 +11,6 @@ import com.mrwhoknows.csgeeks.R
 import com.mrwhoknows.csgeeks.model.SendArticle
 import com.mrwhoknows.csgeeks.repository.BlogRepository
 import com.mrwhoknows.csgeeks.util.Resource
-
 import com.mrwhoknows.csgeeks.util.Util
 import com.mrwhoknows.csgeeks.viewmodels.BlogViewModel
 import com.mrwhoknows.csgeeks.viewmodels.BlogViewModelFactory

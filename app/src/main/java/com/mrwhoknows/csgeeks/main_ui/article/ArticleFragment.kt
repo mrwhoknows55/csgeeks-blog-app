@@ -19,6 +19,7 @@ import io.noties.markwon.image.glide.GlideImagesPlugin
 import kotlinx.android.synthetic.main.fragment_article.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 
 private const val TAG = "ArticleFragment"
