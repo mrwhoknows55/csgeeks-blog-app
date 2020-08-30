@@ -59,11 +59,15 @@ class YourArticlesFragment : Fragment(R.layout.fragment_articles_list) {
                         if (!articleList.articles.isNullOrEmpty()) {
                             initRecyclerView(articleList)
                             articleAdapter.setOnItemClickListener {
-                                findNavController().navigate(
-                                    YourArticlesFragmentDirections.actionYourArticlesToEditArticleFragment(
-                                        it.id.toString()
+                                try {
+                                    findNavController().navigate(
+                                        YourArticlesFragmentDirections.actionYourArticlesToEditArticleFragment(
+                                            it.id.toString()
+                                        )
                                     )
-                                )
+                                } catch (e: Exception) {
+                                    e.printStackTrace()
+                                }
                             }
                         } else {
                             findNavController().navigate(R.id.action_yourArticles_to_allArticlesFragment)

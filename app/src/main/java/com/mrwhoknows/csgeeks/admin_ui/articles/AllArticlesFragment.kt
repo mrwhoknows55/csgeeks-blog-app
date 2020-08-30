@@ -13,6 +13,7 @@ import com.google.android.material.snackbar.Snackbar
 import com.mrwhoknows.csgeeks.R
 import com.mrwhoknows.csgeeks.adapter.ArticleListAdapter
 import com.mrwhoknows.csgeeks.admin_ui.AdminActivity
+import com.mrwhoknows.csgeeks.main_ui.article.ArticlesListFragmentDirections
 import com.mrwhoknows.csgeeks.model.ArticleList
 import com.mrwhoknows.csgeeks.util.Resource
 import com.mrwhoknows.csgeeks.util.Util
@@ -92,11 +93,15 @@ class AllArticlesFragment : Fragment(R.layout.fragment_all_articles) {
                     response.data?.let { articleList ->
                         initRecyclerView(articleList)
                         articleAdapter.setOnItemClickListener {
-                            findNavController().navigate(
-                                AllArticlesFragmentDirections.actionAllArticlesFragmentToArticleFragment2(
-                                    it.id.toString()
+                            try {
+                                findNavController().navigate(
+                                    AllArticlesFragmentDirections.actionAllArticlesFragmentToArticleFragment2(
+                                        it.id.toString()
+                                    )
                                 )
-                            )
+                            } catch (e: Exception) {
+                                e.printStackTrace()
+                            }
                         }
                     }
                     Util.isLoading(bounceLoader, false)

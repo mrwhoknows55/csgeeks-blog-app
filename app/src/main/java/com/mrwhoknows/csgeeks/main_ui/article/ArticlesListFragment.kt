@@ -16,6 +16,7 @@ import com.google.android.material.snackbar.Snackbar
 import com.mrwhoknows.csgeeks.main_ui.MainActivity
 import com.mrwhoknows.csgeeks.R
 import com.mrwhoknows.csgeeks.adapter.ArticleListAdapter
+import com.mrwhoknows.csgeeks.admin_ui.articles.AllArticlesFragmentDirections
 import com.mrwhoknows.csgeeks.model.ArticleList
 import com.mrwhoknows.csgeeks.util.Resource
 import com.mrwhoknows.csgeeks.util.Util
@@ -115,11 +116,15 @@ class ArticlesListFragment : Fragment(R.layout.fragment_articles_list),
                         if (!articleList.articles.isNullOrEmpty()) {
                             initRecyclerView(articleList)
                             articleAdapter.setOnItemClickListener {
-                                findNavController().navigate(
-                                    ArticlesListFragmentDirections.actionArticlesListFragmentToArticleFragment(
-                                        it.id.toString()
+                                try {
+                                    findNavController().navigate(
+                                        ArticlesListFragmentDirections.actionArticlesListFragmentToArticleFragment(
+                                            it.id.toString()
+                                        )
                                     )
-                                )
+                                } catch (e: Exception) {
+                                    e.printStackTrace()
+                                }
                             }
                         } else
                             Snackbar.make(requireView(), "No Articles Found", Snackbar.LENGTH_SHORT)

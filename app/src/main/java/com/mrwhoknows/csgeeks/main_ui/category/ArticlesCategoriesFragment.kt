@@ -72,10 +72,14 @@ class ArticlesCategoriesFragment : Fragment(R.layout.fragment_categories), OnIte
 
     override fun onItemClicked(tag: String) {
         Log.d(TAG, "onItemClicked: $tag")
-        findNavController().navigate(
-            ArticlesCategoriesFragmentDirections.actionArticlesCategoriesFragmentToArticlesByCategoryFragment(
-                tag
+        try {
+            findNavController().navigate(
+                ArticlesCategoriesFragmentDirections.actionArticlesCategoriesFragmentToArticlesByCategoryFragment(
+                    tag
+                )
             )
-        )
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
     }
 }
