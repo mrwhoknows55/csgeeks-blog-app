@@ -8,6 +8,7 @@ import com.mrwhoknows.csgeeks.model.Article
 import com.mrwhoknows.csgeeks.model.ArticleList
 import com.mrwhoknows.csgeeks.model.ArticleTags
 import com.mrwhoknows.csgeeks.model.Author
+import com.mrwhoknows.csgeeks.model.LoginResponse
 import com.mrwhoknows.csgeeks.model.ResultResponse
 import com.mrwhoknows.csgeeks.model.SendArticle
 import com.mrwhoknows.csgeeks.repository.BlogRepository
@@ -46,6 +47,19 @@ class BlogViewModel(
         }
     }
 
+    suspend fun searchArticles(query: String) {
+        _articles.postValue(Resource.Loading())
+        try {
+            val response = repository.searchArticles(query)
+            _articles.postValue(handleArticles(response))
+        } catch (t: Throwable) {
+            when (t) {
+                is IOException -> _articles.postValue(Resource.Error("Network Failure"))
+                else -> _articles.postValue(Resource.Error("Conversion Error"))
+            }
+        }
+    }
+
     private fun handleArticles(response: Response<ArticleList>): Resource<ArticleList> {
         if (response.isSuccessful) {
             response.body()?.let {
@@ -63,7 +77,7 @@ class BlogViewModel(
     suspend fun getArticle(id: String) {
         _article.postValue(Resource.Loading())
         try {
-            val response = repository.getArticle(id)
+            val response = repository.getArticleById(id)
             _article.postValue(handleArticle(response))
         } catch (t: Throwable) {
             if (t is IOException) {
@@ -174,6 +188,36 @@ class BlogViewModel(
         }
     }
 
+    fun getArticlesByAuthor(authorName: String) {
+        viewModelScope.launch {
+            _articles.postValue(Resource.Loading())
+            try {
+                val response = repository.getArticlesByAuthor(authorName)
+                _articles.postValue(handleArticles(response))
+            } catch (t: Throwable) {
+                when (t) {
+                    is IOException -> _articles.postValue(Resource.Error("Network Failure"))
+                    else -> _articles.postValue(Resource.Error("Conversion Error"))
+                }
+            }
+        }
+    }
+
+    fun orderArticlesBy(orderBy: String, order: String) {
+        viewModelScope.launch {
+            _articles.postValue(Resource.Loading())
+            try {
+                val response = repository.orderArticlesBy(orderBy, order)
+                _articles.postValue(handleArticles(response))
+            } catch (t: Throwable) {
+                when (t) {
+                    is IOException -> _articles.postValue(Resource.Error("Network Failure"))
+                    else -> _articles.postValue(Resource.Error("Conversion Error"))
+                }
+            }
+        }
+    }
+
     private suspend fun getArticles(tag: String) {
         _articles.postValue(Resource.Loading())
         try {
@@ -185,5 +229,153 @@ class BlogViewModel(
                 else -> _articles.postValue(Resource.Error("Conversion Error"))
             }
         }
+    }
+
+    private val _loginUser: MutableLiveData<Resource<LoginResponse>> = MutableLiveData()
+    val loginUser: LiveData<Resource<LoginResponse>> = _loginUser
+    private var loginResponse: LoginResponse? = null
+
+    fun loginUserToServer(username: String, passwd: String) {
+        viewModelScope.launch {
+            _loginUser.postValue(Resource.Loading())
+            try {
+                val response = repository.login(username, passwd)
+                _loginUser.postValue(handleLogin(response))
+            } catch (t: Throwable) {
+                when (t) {
+                    is IOException -> _loginUser.postValue(Resource.Error("Network Failure"))
+                    else -> _loginUser.postValue(Resource.Error("Conversion Error"))
+                }
+            }
+        }
+    }
+
+    private fun handleLogin(response: Response<LoginResponse>): Resource<LoginResponse> {
+        response.body()?.let {
+            loginResponse = it
+            return Resource.Success(loginResponse ?: it)
+        }
+        return Resource.Error(response.message())
+    }
+
+    private val _isLoggedIn: MutableLiveData<Resource<LoginResponse>> = MutableLiveData()
+    val isLoggedIn: LiveData<Resource<LoginResponse>> = _isLoggedIn
+    private var isLoggedInResponse: LoginResponse? = null
+
+    fun isLoggedUserLoggedIn(token: String) {
+        viewModelScope.launch {
+            _isLoggedIn.postValue(Resource.Loading())
+            try {
+                val response = repository.isLoggedIn(token)
+                _isLoggedIn.postValue(handleIsLoggedIn(response))
+            } catch (t: Throwable) {
+                when (t) {
+                    is IOException -> _isLoggedIn.postValue(Resource.Error("Network Failure"))
+                    else -> _isLoggedIn.postValue(Resource.Error("Conversion Error"))
+                }
+            }
+        }
+    }
+
+    private fun handleIsLoggedIn(response: Response<LoginResponse>): Resource<LoginResponse> {
+        response.body()?.let {
+            isLoggedInResponse = it
+            return Resource.Success(isLoggedInResponse ?: it)
+        }
+        return Resource.Error(response.message())
+    }
+
+    private val _updateArticle: MutableLiveData<Resource<ResultResponse>> =
+        MutableLiveData()
+    val updateArticleResponse: LiveData<Resource<ResultResponse>> = _updateArticle
+    private var updateArticle: ResultResponse? = null
+
+    fun updateArticleToServer(id: String, article: SendArticle) {
+        viewModelScope.launch {
+            updateArticle(id, article)
+        }
+    }
+
+    private suspend fun updateArticle(id: String, article: SendArticle) {
+        _updateArticle.postValue(Resource.Loading())
+        try {
+            val response = repository.updateArticle(id, article)
+            if (response.isSuccessful) {
+                if (response.body()!!.success) {
+                    _updateArticle.postValue(handleUpdateArticleResponse(response))
+                }
+            }
+        } catch (t: Throwable) {
+            if (t is IOException) _updateArticle.postValue(Resource.Error("Network Failure"))
+            else _updateArticle.postValue(Resource.Error("Conversion Error"))
+        }
+    }
+
+    private fun handleUpdateArticleResponse(response: Response<ResultResponse>): Resource<ResultResponse> {
+        response.body()?.let {
+            updateArticle = it
+            return Resource.Success(updateArticle ?: it)
+        }
+        return Resource.Error(response.message())
+    }
+
+    private val _deleteArticle: MutableLiveData<Resource<ResultResponse>> = MutableLiveData()
+    val deleteArticleResponse: LiveData<Resource<ResultResponse>> = _deleteArticle
+    private var deleteArticle: ResultResponse? = null
+
+    fun deleteArticleToServer(id: String) {
+        viewModelScope.launch {
+            deleteArticle(id)
+        }
+    }
+
+    private suspend fun deleteArticle(id: String) {
+        _deleteArticle.postValue(Resource.Loading())
+        try {
+            val response = repository.deleteArticle(id)
+            if (response.isSuccessful) {
+                if (response.body()!!.success) {
+                    _deleteArticle.postValue(handleDeleteArticleResponse(response))
+                }
+            }
+        } catch (t: Throwable) {
+            if (t is IOException) _deleteArticle.postValue(Resource.Error("Network Failure"))
+            else _deleteArticle.postValue(Resource.Error("Conversion Error"))
+        }
+    }
+
+    private fun handleDeleteArticleResponse(response: Response<ResultResponse>): Resource<ResultResponse> {
+        response.body()?.let {
+            deleteArticle = it
+            return Resource.Success(deleteArticle ?: it)
+        }
+        return Resource.Error(response.message())
+    }
+
+    private val _logoutUser: MutableLiveData<Resource<LoginResponse>> = MutableLiveData()
+    val logoutUserFromLiveData: LiveData<Resource<LoginResponse>> = _logoutUser
+    private var logoutResponse: LoginResponse? = null
+
+    fun logoutUserFromServer(token: String) {
+        viewModelScope.launch {
+            _logoutUser.postValue(Resource.Loading())
+            try {
+                val response = repository.logoutUser(token)
+                _logoutUser.postValue(handleLogout(response))
+            } catch (t: Throwable) {
+                when (t) {
+                    is IOException -> _logoutUser.postValue(Resource.Error("Network Failure"))
+                    else -> _logoutUser.postValue(Resource.Error("Conversion Error"))
+                }
+            }
+        }
+    }
+
+    private fun handleLogout(response: Response<LoginResponse>): Resource<LoginResponse> {
+        response.body()?.let {
+            logoutResponse = it
+            return Resource.Success(logoutResponse ?: it)
+        }
+        return Resource.Error(response.message())
     }
 }

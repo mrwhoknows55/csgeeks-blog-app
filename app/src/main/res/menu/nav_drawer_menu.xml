@@ -10,10 +10,6 @@
         android:title="Categories" />
 
     <item
-        android:id="@+id/createArticleFragment"
-        android:title="Create new article" />
-
-    <item
         android:id="@+id/loginFragment"
         android:title="Login" />
 </menu>

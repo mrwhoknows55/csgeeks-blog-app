@@ -1,21 +1,25 @@
-package com.mrwhoknows.csgeeks.ui.article
+package com.mrwhoknows.csgeeks.main_ui.article
 
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.snackbar.Snackbar
-import com.mrwhoknows.csgeeks.MainActivity
+import com.mrwhoknows.csgeeks.main_ui.MainActivity
 import com.mrwhoknows.csgeeks.R
+import com.mrwhoknows.csgeeks.repository.BlogRepository
 import com.mrwhoknows.csgeeks.util.Resource
 import com.mrwhoknows.csgeeks.util.Util
 import com.mrwhoknows.csgeeks.viewmodels.BlogViewModel
+import com.mrwhoknows.csgeeks.viewmodels.BlogViewModelFactory
 import io.noties.markwon.Markwon
 import io.noties.markwon.image.glide.GlideImagesPlugin
 import kotlinx.android.synthetic.main.fragment_article.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 
 private const val TAG = "ArticleFragment"
@@ -29,7 +33,14 @@ class ArticleFragment : Fragment(R.layout.fragment_article) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel = (activity as MainActivity).viewModel
+        // viewModel = (activity as MainActivity).viewModel
+        val blogRepository = BlogRepository()
+        val viewModelFactory =
+            BlogViewModelFactory(
+                blogRepository
+            )
+        viewModel =
+            ViewModelProvider(requireActivity(), viewModelFactory).get(BlogViewModel::class.java)
         args =
             ArticleFragmentArgs.fromBundle(
                 requireArguments()
@@ -48,9 +59,6 @@ class ArticleFragment : Fragment(R.layout.fragment_article) {
                     Util.isLoading(bounceLoaderBG, true)
                 }
                 is Resource.Success -> {
-                    Util.isLoading(bounceLoader, false)
-                    Util.isLoading(bounceLoaderBG, false)
-
                     articleResource.data?.let {
                         val data = it.article
                         authorName = data.author
@@ -68,13 +76,13 @@ class ArticleFragment : Fragment(R.layout.fragment_article) {
                             .usePlugin(GlideImagesPlugin.create(requireContext()))
                             .build()
                         markwon.setMarkdown(tvArticleBody, articleHeader + data.content)
-
                     }
+
+                    Util.isLoading(bounceLoader, false)
+                    Util.isLoading(bounceLoaderBG, false)
                 }
                 is Resource.Error -> {
                     Log.d(TAG, "onViewCreated: error")
-                    Util.isLoading(bounceLoader, false)
-                    Util.isLoading(bounceLoaderBG, false)
                     articleResource.message?.let {
                         Snackbar.make(
                             view,
@@ -82,6 +90,8 @@ class ArticleFragment : Fragment(R.layout.fragment_article) {
                             Snackbar.LENGTH_SHORT
                         ).show()
                     }
+                    Util.isLoading(bounceLoader, false)
+                    Util.isLoading(bounceLoaderBG, false)
                 }
             }
 

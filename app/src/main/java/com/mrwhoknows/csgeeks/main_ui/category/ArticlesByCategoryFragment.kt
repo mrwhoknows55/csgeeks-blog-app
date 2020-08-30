@@ -1,4 +1,4 @@
-package com.mrwhoknows.csgeeks.ui.article
+package com.mrwhoknows.csgeeks.main_ui.category
 
 import android.os.Bundle
 import android.util.Log
@@ -8,30 +8,42 @@ import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
-import com.mrwhoknows.csgeeks.MainActivity
+import com.mrwhoknows.csgeeks.main_ui.MainActivity
 import com.mrwhoknows.csgeeks.R
 import com.mrwhoknows.csgeeks.adapter.ArticleListAdapter
 import com.mrwhoknows.csgeeks.model.ArticleList
 import com.mrwhoknows.csgeeks.util.Resource
 import com.mrwhoknows.csgeeks.util.Util
 import com.mrwhoknows.csgeeks.viewmodels.BlogViewModel
-import kotlinx.android.synthetic.main.fragment_articles_list.*
+import kotlinx.android.synthetic.main.fragment_articles_by_category.*
 
-private const val TAG = "ListFragment"
+private const val TAG = "ArticlesByCategory"
 
-class ArticlesListFragment : Fragment(R.layout.fragment_articles_list) {
+class ArticlesByCategoryFragment : Fragment(R.layout.fragment_articles_by_category) {
 
-    private lateinit var articleAdapter: ArticleListAdapter
     private lateinit var viewModel: BlogViewModel
+    private lateinit var args: ArticlesByCategoryFragmentArgs
+    private lateinit var articleAdapter: ArticleListAdapter
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         viewModel = (activity as MainActivity).viewModel
+        args =
+            ArticlesByCategoryFragmentArgs.fromBundle(
+                requireArguments()
+            )
+
+        viewModel.getArticlesByTag(args.tag)
 
         viewModel.getAllArticles()
         viewModel.articles.observe(viewLifecycleOwner, Observer { response ->
             when (response) {
+                is Resource.Loading -> {
+                    Util.isLoading(bounceLoader, true)
+                    Util.isLoading(bounceLoaderBG, true)
+                }
+
                 is Resource.Success -> {
                     Util.isLoading(bounceLoader, false)
                     Util.isLoading(bounceLoaderBG, false)
@@ -39,7 +51,7 @@ class ArticlesListFragment : Fragment(R.layout.fragment_articles_list) {
                         initRecyclerView(articleList)
                         articleAdapter.setOnItemClickListener {
                             findNavController().navigate(
-                                ArticlesListFragmentDirections.actionArticlesListFragmentToArticleFragment(
+                                ArticlesByCategoryFragmentDirections.actionArticlesByCategoryFragmentToArticleFragment(
                                     it.id.toString()
                                 )
                             )
@@ -53,10 +65,6 @@ class ArticlesListFragment : Fragment(R.layout.fragment_articles_list) {
                         Log.e(TAG, "Error: $it")
                         Snackbar.make(view, "Error: $it", Snackbar.LENGTH_SHORT).show()
                     }
-                }
-                is Resource.Loading -> {
-                    Util.isLoading(bounceLoader, true)
-                    Util.isLoading(bounceLoaderBG, true)
                 }
             }
         })

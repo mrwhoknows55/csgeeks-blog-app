@@ -1,4 +1,4 @@
-package com.mrwhoknows.csgeeks.ui.author
+package com.mrwhoknows.csgeeks.main_ui.author
 
 import android.content.Intent
 import android.os.Bundle
@@ -7,7 +7,7 @@ import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import com.google.android.material.snackbar.Snackbar
-import com.mrwhoknows.csgeeks.MainActivity
+import com.mrwhoknows.csgeeks.main_ui.MainActivity
 import com.mrwhoknows.csgeeks.R
 import com.mrwhoknows.csgeeks.model.Author
 import com.mrwhoknows.csgeeks.util.Resource
