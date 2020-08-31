@@ -1,10 +1,12 @@
 package com.mrwhoknows.csgeeks.admin_ui.create
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.mrwhoknows.csgeeks.R
+import com.mrwhoknows.csgeeks.admin_ui.AdminActivity
 import com.mrwhoknows.csgeeks.model.SendArticle
 import com.mrwhoknows.csgeeks.util.Util
 import com.mrwhoknows.csgeeks.viewmodels.BlogViewModel
@@ -21,6 +23,12 @@ class CreateArticleFragment : Fragment(R.layout.fragment_create_article) {
         super.onViewCreated(view, savedInstanceState)
         Util.isLoading(bounceLoader, false)
         Util.isLoading(bounceLoaderBG, false)
+
+        val authorName = (requireActivity() as AdminActivity).AUTHOR
+        Log.d(TAG, "onCreate: $authorName ")
+
+        if (authorName.isNotEmpty())
+            etArticleAuthorName.setText(authorName)
 
         btEnterBody.setOnClickListener {
             getInput()

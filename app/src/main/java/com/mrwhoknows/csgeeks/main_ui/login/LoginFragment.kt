@@ -11,6 +11,10 @@ import androidx.navigation.fragment.findNavController
 import com.google.android.material.snackbar.Snackbar
 import com.mrwhoknows.csgeeks.main_ui.MainActivity
 import com.mrwhoknows.csgeeks.R
+import com.mrwhoknows.csgeeks.util.Constants.AUTHOR_NAME
+import com.mrwhoknows.csgeeks.util.Constants.IS_LOGGED_IN
+import com.mrwhoknows.csgeeks.util.Constants.LOGIN_TOKEN
+import com.mrwhoknows.csgeeks.util.Constants.TOKEN_SHARED_PREFF
 import com.mrwhoknows.csgeeks.util.Resource
 import com.mrwhoknows.csgeeks.viewmodels.BlogViewModel
 import kotlinx.android.synthetic.main.fragment_login.*
@@ -86,17 +90,16 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
     }
 
     private fun saveLoginToken(isLoginSuccess: Boolean, loginToken: String?, authorName: String?) {
-        val sharedPreferences = requireActivity().getSharedPreferences("TOKEN", 0)
+        val sharedPreferences = requireActivity().getSharedPreferences(TOKEN_SHARED_PREFF, 0)
         val editor = sharedPreferences.edit()
 
-        //TODO use constants
         if (isLoginSuccess) {
-            editor.clear().remove("LOGIN_TOKEN")
-            editor.putString("LOGIN_TOKEN", loginToken)
-            editor.putString("AUTHOR_NAME", authorName)
-            editor.putBoolean("IS_LOGGED_IN", isLoginSuccess)
+            editor.clear().remove(LOGIN_TOKEN)
+            editor.putString(LOGIN_TOKEN, loginToken)
+            editor.putString(AUTHOR_NAME, authorName)
+            editor.putBoolean(IS_LOGGED_IN, isLoginSuccess)
         } else
-            editor.putBoolean("IS_LOGGED_IN", isLoginSuccess)
+            editor.putBoolean(IS_LOGGED_IN, isLoginSuccess)
 
         editor.apply()
     }

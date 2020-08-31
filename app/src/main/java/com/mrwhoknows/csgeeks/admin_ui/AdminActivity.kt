@@ -4,6 +4,7 @@ import android.content.DialogInterface
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
+import android.util.Log
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
@@ -17,16 +18,22 @@ import com.google.android.material.snackbar.Snackbar
 import com.mrwhoknows.csgeeks.R
 import com.mrwhoknows.csgeeks.main_ui.MainActivity
 import com.mrwhoknows.csgeeks.repository.BlogRepository
+import com.mrwhoknows.csgeeks.util.Constants.AUTHOR_NAME
+import com.mrwhoknows.csgeeks.util.Constants.LOGIN_TOKEN
+import com.mrwhoknows.csgeeks.util.Constants.TOKEN_SHARED_PREFF
 import com.mrwhoknows.csgeeks.util.Resource
 import com.mrwhoknows.csgeeks.viewmodels.BlogViewModel
 import com.mrwhoknows.csgeeks.viewmodels.BlogViewModelFactory
 import kotlinx.android.synthetic.main.activity_admin.*
 import kotlinx.android.synthetic.main.activity_main.*
 
+private const val TAG = "AdminActivity"
+
 class AdminActivity : AppCompatActivity() {
 
     lateinit var viewModel: BlogViewModel
     var USER_TOKEN = ""
+    var AUTHOR = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,8 +47,9 @@ class AdminActivity : AppCompatActivity() {
             )
         viewModel = ViewModelProvider(this, viewModelFactory).get(BlogViewModel::class.java)
 
-        val adminSharedPrefs = this.getSharedPreferences("TOKEN", 0)
-        USER_TOKEN = adminSharedPrefs.getString("LOGIN_TOKEN", "empty").toString()
+        val adminSharedPrefs = this.getSharedPreferences(TOKEN_SHARED_PREFF, 0)
+        USER_TOKEN = adminSharedPrefs.getString(LOGIN_TOKEN, "empty").toString()
+        AUTHOR = adminSharedPrefs.getString(AUTHOR_NAME, "empty").toString()
 
         initLogoutInMenu()
         val navController = findNavController(R.id.adminNavHostFragment)
