@@ -23,14 +23,14 @@ class BlogRepository {
     suspend fun getAuthor(authorName: String) =
         RetrofitInstance.api.getAuthor(authorName)
 
-    suspend fun createArticle(article: SendArticle) =
-        RetrofitInstance.api.createArticle(article)
+    suspend fun createArticle(article: SendArticle, token: String) =
+        RetrofitInstance.api.createArticle(article, token)
 
-    suspend fun updateArticle(id: String, article: SendArticle) =
-        RetrofitInstance.api.updateArticle(id, article)
+    suspend fun updateArticle(id: String, article: SendArticle, token: String) =
+        RetrofitInstance.api.updateArticle(id, article, token)
 
-    suspend fun deleteArticle(id: String) =
-        RetrofitInstance.api.deleteArticle(id)
+    suspend fun deleteArticle(id: String, token: String) =
+        RetrofitInstance.api.deleteArticle(id, token)
 
     suspend fun getArticleTags() =
         RetrofitInstance.api.getTags()
@@ -46,5 +46,4 @@ class BlogRepository {
 
     suspend fun isLoggedIn(token: String) =
         RetrofitInstance.api.isLoggedIn(token)
-
 }

@@ -14,10 +14,14 @@ import com.mrwhoknows.csgeeks.R
 import com.mrwhoknows.csgeeks.adapter.ArticleListAdapter
 import com.mrwhoknows.csgeeks.admin_ui.AdminActivity
 import com.mrwhoknows.csgeeks.model.ArticleList
+import com.mrwhoknows.csgeeks.util.LoginInfo
 import com.mrwhoknows.csgeeks.util.Resource
 import com.mrwhoknows.csgeeks.util.Util
 import com.mrwhoknows.csgeeks.viewmodels.BlogViewModel
-import kotlinx.android.synthetic.main.fragment_all_articles.*
+import kotlinx.android.synthetic.main.fragment_all_articles.bounceLoader
+import kotlinx.android.synthetic.main.fragment_all_articles.bounceLoaderBG
+import kotlinx.android.synthetic.main.fragment_all_articles.rv_articleList
+import kotlinx.android.synthetic.main.fragment_articles_list.*
 
 private const val TAG = "YourArticlesFragment"
 
@@ -25,16 +29,21 @@ class YourArticlesFragment : Fragment(R.layout.fragment_articles_list) {
 
     private lateinit var articleAdapter: ArticleListAdapter
     private lateinit var viewModel: BlogViewModel
-    private var authorName: String? = ""
+    private var authorName: String = ""
+    private var loginToken: String = ""
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        val loginInfo = LoginInfo(requireActivity())
+        authorName = loginInfo.authorName
+        loginToken = loginInfo.loginToken
+
         viewModel = (activity as AdminActivity).viewModel
 
-        val sharedPreferences = requireActivity().getSharedPreferences("TOKEN", 0)
-        authorName = sharedPreferences.getString("AUTHOR_NAME", "")
 
+        etSearchArticles.visibility = View.GONE
+        spFilterBy.visibility = View.GONE
         showYourArticles()
         swipeToDeleteArticle()
     }
@@ -48,7 +57,7 @@ class YourArticlesFragment : Fragment(R.layout.fragment_articles_list) {
     }
 
     private fun showYourArticles() {
-        viewModel.getArticlesByAuthor(authorName!!)
+        viewModel.getArticlesByAuthor(authorName)
         Log.d(TAG, "showYourArticles: $authorName")
         viewModel.articles.observe(viewLifecycleOwner, Observer { response ->
             when (response) {
@@ -126,7 +135,7 @@ class YourArticlesFragment : Fragment(R.layout.fragment_articles_list) {
     }
 
     private fun deleteArticle(article: ArticleList.Article) {
-        viewModel.deleteArticleToServer(article.id.toString())
+        viewModel.deleteArticleToServer(article.id.toString(),loginToken)
         viewModel.deleteArticleResponse.observe(viewLifecycleOwner, Observer {
             when (it) {
                 is Resource.Success -> {

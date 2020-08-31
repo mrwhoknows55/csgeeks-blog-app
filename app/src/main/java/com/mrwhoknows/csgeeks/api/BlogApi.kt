@@ -7,11 +7,9 @@ import com.mrwhoknows.csgeeks.model.Author
 import com.mrwhoknows.csgeeks.model.LoginResponse
 import com.mrwhoknows.csgeeks.model.ResultResponse
 import com.mrwhoknows.csgeeks.model.SendArticle
-import com.mrwhoknows.csgeeks.util.Keys.C_AUTH
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.GET
-import retrofit2.http.Headers
 import retrofit2.http.Multipart
 import retrofit2.http.POST
 import retrofit2.http.PUT
@@ -61,28 +59,30 @@ interface BlogApi {
         authorName: String
     ): Response<Author>
 
-    //TODO C_AUTH to token
     @POST("blog/create")
-    @Headers("C_AUTH: $C_AUTH")
     suspend fun createArticle(
         @Body
-        article: SendArticle
+        article: SendArticle,
+        @Query("token")
+        token: String
     ): Response<ResultResponse>
 
     @POST("blog/post/delete")
-    @Headers("C_AUTH: $C_AUTH")
     suspend fun deleteArticle(
         @Query("id")
-        id: String
+        id: String,
+        @Query("token")
+        token: String
     ): Response<ResultResponse>
 
     @PUT("blog/update")
-    @Headers("C_AUTH: $C_AUTH")
     suspend fun updateArticle(
         @Query("id")
         id: String,
         @Body
-        article: SendArticle
+        article: SendArticle,
+        @Query("token")
+        token: String
     ): Response<ResultResponse>
 
     @GET("blog")
