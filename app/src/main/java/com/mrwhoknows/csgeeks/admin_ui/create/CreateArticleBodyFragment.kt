@@ -10,6 +10,7 @@ import com.google.android.material.snackbar.Snackbar
 import com.mrwhoknows.csgeeks.R
 import com.mrwhoknows.csgeeks.model.SendArticle
 import com.mrwhoknows.csgeeks.repository.BlogRepository
+import com.mrwhoknows.csgeeks.util.LoginInfo
 import com.mrwhoknows.csgeeks.util.Resource
 import com.mrwhoknows.csgeeks.util.Util
 import com.mrwhoknows.csgeeks.viewmodels.BlogViewModel
@@ -25,11 +26,15 @@ class CreateArticleBodyFragment : Fragment(R.layout.fragment_create_article_body
     lateinit var article: SendArticle
     lateinit var viewModel: BlogViewModel
     lateinit var args: CreateArticleBodyFragmentArgs
+    private var loginToken: String = ""
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         Util.isLoading(bounceLoader, false)
         Util.isLoading(bounceLoaderBG, false)
+
+        val loginInfo = LoginInfo(requireActivity())
+        loginToken = loginInfo.loginToken
 
         //TODO MAKE this better
 
@@ -79,7 +84,7 @@ class CreateArticleBodyFragment : Fragment(R.layout.fragment_create_article_body
     }
 
     private fun sendArticle() {
-        viewModel.sendArticleToServer(article)
+        viewModel.sendArticleToServer(article,loginToken)
 
         viewModel.createArticleResponseLiveData.observe(viewLifecycleOwner, Observer {
             when (it) {

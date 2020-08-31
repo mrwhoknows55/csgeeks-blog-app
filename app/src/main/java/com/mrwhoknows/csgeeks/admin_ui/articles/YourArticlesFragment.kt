@@ -14,6 +14,7 @@ import com.mrwhoknows.csgeeks.R
 import com.mrwhoknows.csgeeks.adapter.ArticleListAdapter
 import com.mrwhoknows.csgeeks.admin_ui.AdminActivity
 import com.mrwhoknows.csgeeks.model.ArticleList
+import com.mrwhoknows.csgeeks.util.LoginInfo
 import com.mrwhoknows.csgeeks.util.Resource
 import com.mrwhoknows.csgeeks.util.Util
 import com.mrwhoknows.csgeeks.viewmodels.BlogViewModel
@@ -25,15 +26,17 @@ class YourArticlesFragment : Fragment(R.layout.fragment_articles_list) {
 
     private lateinit var articleAdapter: ArticleListAdapter
     private lateinit var viewModel: BlogViewModel
-    private var authorName: String? = ""
+    private var authorName: String = ""
+    private var loginToken: String = ""
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel = (activity as AdminActivity).viewModel
+        val loginInfo = LoginInfo(requireActivity())
+        authorName = loginInfo.authorName
+        loginToken = loginInfo.loginToken
 
-        val sharedPreferences = requireActivity().getSharedPreferences("TOKEN", 0)
-        authorName = sharedPreferences.getString("AUTHOR_NAME", "")
+        viewModel = (activity as AdminActivity).viewModel
 
         showYourArticles()
         swipeToDeleteArticle()
@@ -48,7 +51,7 @@ class YourArticlesFragment : Fragment(R.layout.fragment_articles_list) {
     }
 
     private fun showYourArticles() {
-        viewModel.getArticlesByAuthor(authorName!!)
+        viewModel.getArticlesByAuthor(authorName)
         Log.d(TAG, "showYourArticles: $authorName")
         viewModel.articles.observe(viewLifecycleOwner, Observer { response ->
             when (response) {
@@ -126,7 +129,7 @@ class YourArticlesFragment : Fragment(R.layout.fragment_articles_list) {
     }
 
     private fun deleteArticle(article: ArticleList.Article) {
-        viewModel.deleteArticleToServer(article.id.toString())
+        viewModel.deleteArticleToServer(article.id.toString(),loginToken)
         viewModel.deleteArticleResponse.observe(viewLifecycleOwner, Observer {
             when (it) {
                 is Resource.Success -> {

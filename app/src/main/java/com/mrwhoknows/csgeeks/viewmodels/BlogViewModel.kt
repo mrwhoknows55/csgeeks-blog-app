@@ -128,16 +128,16 @@ class BlogViewModel(
     val createArticleResponseLiveData: LiveData<Resource<ResultResponse>> = _createArticleResponse
     private var createArticleResponse: ResultResponse? = null
 
-    fun sendArticleToServer(article: SendArticle) {
+    fun sendArticleToServer(article: SendArticle, token: String) {
         viewModelScope.launch {
-            createArticle(article)
+            createArticle(article, token)
         }
     }
 
-    private suspend fun createArticle(article: SendArticle) {
+    private suspend fun createArticle(article: SendArticle, token: String) {
         _createArticleResponse.postValue(Resource.Loading())
         try {
-            val response = repository.createArticle(article)
+            val response = repository.createArticle(article, token)
             if (response.isSuccessful) {
                 if (response.body()!!.success) {
                     _createArticleResponse.postValue(handleCreateArticleResponse(response))
@@ -290,16 +290,16 @@ class BlogViewModel(
     val updateArticleResponse: LiveData<Resource<ResultResponse>> = _updateArticle
     private var updateArticle: ResultResponse? = null
 
-    fun updateArticleToServer(id: String, article: SendArticle) {
+    fun updateArticleToServer(id: String, article: SendArticle, token: String) {
         viewModelScope.launch {
-            updateArticle(id, article)
+            updateArticle(id, article, token)
         }
     }
 
-    private suspend fun updateArticle(id: String, article: SendArticle) {
+    private suspend fun updateArticle(id: String, article: SendArticle, token: String) {
         _updateArticle.postValue(Resource.Loading())
         try {
-            val response = repository.updateArticle(id, article)
+            val response = repository.updateArticle(id, article, token)
             if (response.isSuccessful) {
                 if (response.body()!!.success) {
                     _updateArticle.postValue(handleUpdateArticleResponse(response))
@@ -323,16 +323,16 @@ class BlogViewModel(
     val deleteArticleResponse: LiveData<Resource<ResultResponse>> = _deleteArticle
     private var deleteArticle: ResultResponse? = null
 
-    fun deleteArticleToServer(id: String) {
+    fun deleteArticleToServer(id: String, token: String) {
         viewModelScope.launch {
-            deleteArticle(id)
+            deleteArticle(id, token)
         }
     }
 
-    private suspend fun deleteArticle(id: String) {
+    private suspend fun deleteArticle(id: String, token: String) {
         _deleteArticle.postValue(Resource.Loading())
         try {
-            val response = repository.deleteArticle(id)
+            val response = repository.deleteArticle(id, token)
             if (response.isSuccessful) {
                 if (response.body()!!.success) {
                     _deleteArticle.postValue(handleDeleteArticleResponse(response))
