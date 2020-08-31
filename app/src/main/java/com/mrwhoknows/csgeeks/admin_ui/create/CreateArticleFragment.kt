@@ -9,8 +9,6 @@ import com.mrwhoknows.csgeeks.model.SendArticle
 import com.mrwhoknows.csgeeks.util.Util
 import com.mrwhoknows.csgeeks.viewmodels.BlogViewModel
 import kotlinx.android.synthetic.main.fragment_create_article.*
-import kotlinx.android.synthetic.main.fragment_create_article.bounceLoader
-import kotlinx.android.synthetic.main.fragment_create_article.bounceLoaderBG
 
 private const val TAG = "CreateArticleFragment"
 
