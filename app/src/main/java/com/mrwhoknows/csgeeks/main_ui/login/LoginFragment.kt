@@ -14,7 +14,7 @@ import com.mrwhoknows.csgeeks.R
 import com.mrwhoknows.csgeeks.util.Constants.AUTHOR_NAME
 import com.mrwhoknows.csgeeks.util.Constants.IS_LOGGED_IN
 import com.mrwhoknows.csgeeks.util.Constants.LOGIN_TOKEN
-import com.mrwhoknows.csgeeks.util.Constants.TOKEN_SHARED_PREFF
+import com.mrwhoknows.csgeeks.util.LoginInfo
 import com.mrwhoknows.csgeeks.util.Resource
 import com.mrwhoknows.csgeeks.viewmodels.BlogViewModel
 import kotlinx.android.synthetic.main.fragment_login.*
@@ -90,17 +90,14 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
     }
 
     private fun saveLoginToken(isLoginSuccess: Boolean, loginToken: String?, authorName: String?) {
-        val sharedPreferences = requireActivity().getSharedPreferences(TOKEN_SHARED_PREFF, 0)
-        val editor = sharedPreferences.edit()
+        val loginInfo = LoginInfo(requireActivity())
 
         if (isLoginSuccess) {
-            editor.clear().remove(LOGIN_TOKEN)
-            editor.putString(LOGIN_TOKEN, loginToken)
-            editor.putString(AUTHOR_NAME, authorName)
-            editor.putBoolean(IS_LOGGED_IN, isLoginSuccess)
+            loginInfo.editor.clear().remove(LOGIN_TOKEN)
+            loginInfo.setToken(loginToken!!)
+            loginInfo.setAuthorName(authorName!!)
+            loginInfo.setIsLoggedIn(isLoginSuccess)
         } else
-            editor.putBoolean(IS_LOGGED_IN, isLoginSuccess)
-
-        editor.apply()
+            loginInfo.setIsLoggedIn(isLoginSuccess)
     }
 }

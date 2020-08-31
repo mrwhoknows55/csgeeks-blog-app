@@ -59,7 +59,6 @@ interface BlogApi {
         authorName: String
     ): Response<Author>
 
-    //TODO C_AUTH to token
     @POST("blog/create")
     suspend fun createArticle(
         @Body

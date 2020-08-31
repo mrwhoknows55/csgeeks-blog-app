@@ -18,7 +18,10 @@ import com.mrwhoknows.csgeeks.util.LoginInfo
 import com.mrwhoknows.csgeeks.util.Resource
 import com.mrwhoknows.csgeeks.util.Util
 import com.mrwhoknows.csgeeks.viewmodels.BlogViewModel
-import kotlinx.android.synthetic.main.fragment_all_articles.*
+import kotlinx.android.synthetic.main.fragment_all_articles.bounceLoader
+import kotlinx.android.synthetic.main.fragment_all_articles.bounceLoaderBG
+import kotlinx.android.synthetic.main.fragment_all_articles.rv_articleList
+import kotlinx.android.synthetic.main.fragment_articles_list.*
 
 private const val TAG = "YourArticlesFragment"
 
@@ -38,6 +41,9 @@ class YourArticlesFragment : Fragment(R.layout.fragment_articles_list) {
 
         viewModel = (activity as AdminActivity).viewModel
 
+
+        etSearchArticles.visibility = View.GONE
+        spFilterBy.visibility = View.GONE
         showYourArticles()
         swipeToDeleteArticle()
     }

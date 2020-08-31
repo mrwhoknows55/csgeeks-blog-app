@@ -9,9 +9,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.mrwhoknows.csgeeks.R
 import com.mrwhoknows.csgeeks.admin_ui.AdminActivity
 import com.mrwhoknows.csgeeks.repository.BlogRepository
-import com.mrwhoknows.csgeeks.util.Constants.IS_LOGGED_IN
-import com.mrwhoknows.csgeeks.util.Constants.LOGIN_TOKEN
-import com.mrwhoknows.csgeeks.util.Constants.TOKEN_SHARED_PREFF
+import com.mrwhoknows.csgeeks.util.LoginInfo
 import com.mrwhoknows.csgeeks.util.Resource
 import com.mrwhoknows.csgeeks.viewmodels.BlogViewModel
 import com.mrwhoknows.csgeeks.viewmodels.BlogViewModelFactory
@@ -26,6 +24,8 @@ class SplashActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splash)
 
+        val loginInfo = LoginInfo(this)
+
         val main = Intent(this, MainActivity::class.java)
         val admin = Intent(this, AdminActivity::class.java)
 
@@ -36,12 +36,12 @@ class SplashActivity : AppCompatActivity() {
             )
         viewModel = ViewModelProvider(this, viewModelFactory).get(BlogViewModel::class.java)
 
-        val sharedPreferences = this.getSharedPreferences(TOKEN_SHARED_PREFF, 0)
-        Log.d(TAG, "isLoggedIn: " + sharedPreferences.getBoolean(IS_LOGGED_IN, false))
-        if (sharedPreferences.getBoolean(IS_LOGGED_IN, false)) {
+        Log.d(TAG, "isLoggedIn: " + loginInfo.isLoggedIn)
+        if (loginInfo.isLoggedIn) {
             //author or admin user
-            val token = sharedPreferences.getString(LOGIN_TOKEN, "empty")
-            viewModel.isLoggedUserLoggedIn(token!!)
+            val token = loginInfo.loginToken
+
+            viewModel.isLoggedUserLoggedIn(token)
             viewModel.isLoggedIn.observe(this, Observer {
                 if (it is Resource.Success) {
                     if (it.data!!.success)
