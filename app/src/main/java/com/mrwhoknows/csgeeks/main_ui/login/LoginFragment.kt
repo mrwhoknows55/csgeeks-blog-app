@@ -66,6 +66,7 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
                     if (loginResource.data!!.success) {
                         saveLoginToken(true, token, authorName)
                         findNavController().navigate(R.id.action_loginFragment_to_adminActivity)
+                        requireActivity().finish()
                     } else {
                         Snackbar.make(
                             requireView(),
