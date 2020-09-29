@@ -3,17 +3,17 @@
 
     <item
         android:id="@+id/allArticlesFragment"
-        android:title="All Articles" />
+        android:title="@string/menu_all_articles" />
 
     <item
-        android:id="@+id/createArticleFragment2"
-        android:title="Create Article" />
+        android:id="@+id/createArticleFragment"
+        android:title="@string/menu_create_article" />
 
     <item
         android:id="@+id/yourArticles"
-        android:title="Manage Your Articles" />
+        android:title="@string/menu_manage_your_articles" />
 
     <item
         android:id="@+id/logout"
-        android:title="Logout" />
+        android:title="@string/menu_logout" />
 </menu>

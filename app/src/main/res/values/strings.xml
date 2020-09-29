@@ -1,4 +1,8 @@
 <resources>
     <string name="app_name">CS Geeks</string>
     <string name="blog_article_thumbnail">Blog Article Thumbnail</string>
+    <string name="menu_all_articles">All Articles</string>
+    <string name="menu_create_article">Create Article</string>
+    <string name="menu_manage_your_articles">Manage Your Articles</string>
+    <string name="menu_logout">Logout</string>
 </resources>
