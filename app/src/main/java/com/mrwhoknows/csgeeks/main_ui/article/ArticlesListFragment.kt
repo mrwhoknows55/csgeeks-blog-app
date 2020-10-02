@@ -2,11 +2,13 @@ package com.mrwhoknows.csgeeks.main_ui.article
 
 import android.os.Bundle
 import android.util.Log
+import android.view.Menu
+import android.view.MenuInflater
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import androidx.appcompat.widget.SearchView
 import androidx.core.content.ContextCompat
-import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
@@ -16,7 +18,6 @@ import com.google.android.material.snackbar.Snackbar
 import com.mrwhoknows.csgeeks.main_ui.MainActivity
 import com.mrwhoknows.csgeeks.R
 import com.mrwhoknows.csgeeks.adapter.ArticleListAdapter
-import com.mrwhoknows.csgeeks.admin_ui.articles.AllArticlesFragmentDirections
 import com.mrwhoknows.csgeeks.model.ArticleList
 import com.mrwhoknows.csgeeks.util.Resource
 import com.mrwhoknows.csgeeks.util.Util
@@ -45,16 +46,7 @@ class ArticlesListFragment : Fragment(R.layout.fragment_articles_list),
         showAllArticles()
         initFilterSpinner()
 
-        var job: Job? = null
-        etSearchArticles.addTextChangedListener {
-            job?.cancel()
-            job = MainScope().launch {
-                delay(500L)
-                it?.let {
-                    if (it.toString().isNotEmpty()) viewModel.searchArticles(it.toString())
-                }
-            }
-        }
+        setHasOptionsMenu(true)
     }
 
     private fun initRecyclerView(data: ArticleList) {
@@ -217,5 +209,33 @@ class ArticlesListFragment : Fragment(R.layout.fragment_articles_list),
 
             else -> viewModel.getAllArticles()
         }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        super.onCreateOptionsMenu(menu, inflater)
+
+        inflater.inflate(R.menu.search_menu, menu)
+
+        val searchItem = menu.findItem(R.id.action_search)
+        val searchView = searchItem.actionView as SearchView
+        var job: Job? = null
+
+        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                if (query != null) {
+                    job?.cancel()
+                    job = MainScope().launch {
+                        delay(500L)
+                        viewModel.searchArticles(query)
+                    }
+                }
+                searchView.clearFocus()
+                return true
+            }
+
+            override fun onQueryTextChange(query: String?): Boolean {
+                return true
+            }
+        })
     }
 }
