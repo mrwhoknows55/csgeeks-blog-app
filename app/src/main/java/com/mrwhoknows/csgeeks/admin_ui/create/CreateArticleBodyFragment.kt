@@ -25,7 +25,7 @@ class CreateArticleBodyFragment : Fragment(R.layout.fragment_create_article_body
 
     lateinit var article: SendArticle
     lateinit var viewModel: BlogViewModel
-    lateinit var args: CreateArticleBodyFragmentArgs
+    private lateinit var args: CreateArticleBodyFragmentArgs
     private var loginToken: String = ""
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -71,13 +71,15 @@ class CreateArticleBodyFragment : Fragment(R.layout.fragment_create_article_body
         } else {
             args = CreateArticleBodyFragmentArgs.fromBundle(requireArguments())
 
+            val articleToSend = args.articleToCreate
+
             article = SendArticle(
-                args.authorName,
+                articleToSend.author!!,
                 content,
-                args.description,
-                args.tags,
-                args.thumbImgLink,
-                args.title
+                articleToSend.description!!,
+                articleToSend.tags!!,
+                articleToSend.thumbnail!!,
+                articleToSend.title!!
             )
             sendArticle()
         }
