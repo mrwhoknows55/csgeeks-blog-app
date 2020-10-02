@@ -9,7 +9,7 @@
         android:name="com.mrwhoknows.csgeeks.admin_ui.create.CreateArticleFragment"
         android:label="Create Article">
         <action
-            android:id="@+id/actionCreateArticleFragmentToCreateArticleBodyFragment"
+            android:id="@+id/action_createArticleFragment_to_createArticleBodyFragment"
             app:destination="@id/createArticleBodyFragment"
             app:enterAnim="@anim/nav_default_enter_anim"
             app:exitAnim="@anim/nav_default_exit_anim"
@@ -42,21 +42,6 @@
         android:id="@+id/createArticleBodyFragment"
         android:name="com.mrwhoknows.csgeeks.admin_ui.create.CreateArticleBodyFragment"
         android:label="Create Article">
-        <argument
-            android:name="title"
-            app:argType="string" />
-        <argument
-            android:name="description"
-            app:argType="string" />
-        <argument
-            android:name="authorName"
-            app:argType="string" />
-        <argument
-            android:name="thumbImgLink"
-            app:argType="string" />
-        <argument
-            android:name="tags"
-            app:argType="string" />
         <action
             android:id="@+id/action_createArticleBodyFragment_to_allArticlesFragment"
             app:destination="@id/allArticlesFragment"
@@ -66,6 +51,9 @@
             app:popExitAnim="@anim/nav_default_pop_exit_anim"
             app:popUpTo="@id/allArticlesFragment"
             app:popUpToInclusive="true" />
+        <argument
+            android:name="articleToCreate"
+            app:argType="com.mrwhoknows.csgeeks.model.CreateArticle" />
     </fragment>
     <fragment
         android:id="@+id/editArticleFragment"
