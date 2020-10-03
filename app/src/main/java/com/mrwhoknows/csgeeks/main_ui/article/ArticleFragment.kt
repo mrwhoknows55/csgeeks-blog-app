@@ -96,7 +96,7 @@ class ArticleFragment : Fragment(R.layout.fragment_article) {
                                 )
                             )
                             .build()
-                        markwon.setMarkdown(tvArticleBody, articleHeader + data.content)
+                        markwon.setMarkdown(tvArticleBody, articleHeader + "\n"+ data.content)
                     }
 
                     Util.isLoading(bounceLoader, false)
