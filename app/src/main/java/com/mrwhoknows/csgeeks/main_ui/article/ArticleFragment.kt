@@ -1,19 +1,12 @@
 package com.mrwhoknows.csgeeks.main_ui.article
 
-import android.graphics.drawable.Drawable
 import android.os.Bundle
-import android.transition.Fade
 import android.util.Log
 import android.view.View
-import android.view.animation.Transformation
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
-import com.bumptech.glide.RequestBuilder
-import com.bumptech.glide.RequestManager
-import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions.withCrossFade
-import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.request.target.Target
 import com.google.android.material.snackbar.Snackbar
 import com.mrwhoknows.csgeeks.R
