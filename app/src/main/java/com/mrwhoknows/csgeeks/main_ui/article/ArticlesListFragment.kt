@@ -118,9 +118,11 @@ class ArticlesListFragment : Fragment(R.layout.fragment_articles_list),
                                     e.printStackTrace()
                                 }
                             }
-                        } else
+                        } else {
+                            rv_articleList.adapter = null
                             Snackbar.make(requireView(), "No Articles Found", Snackbar.LENGTH_SHORT)
                                 .show()
+                        }
                     }
                 }
                 is Resource.Error -> {
@@ -140,7 +142,6 @@ class ArticlesListFragment : Fragment(R.layout.fragment_articles_list),
     }
 
     // Article Sorting Filters
-
     private fun initFilterSpinner() {
 
         val filterList = mutableListOf<String>()
@@ -211,6 +212,7 @@ class ArticlesListFragment : Fragment(R.layout.fragment_articles_list),
         }
     }
 
+    //TODO: make livedata changes when we go back from search view
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
 
@@ -225,7 +227,6 @@ class ArticlesListFragment : Fragment(R.layout.fragment_articles_list),
                 if (query != null) {
                     job?.cancel()
                     job = MainScope().launch {
-                        delay(500L)
                         viewModel.searchArticles(query)
                     }
                 }
