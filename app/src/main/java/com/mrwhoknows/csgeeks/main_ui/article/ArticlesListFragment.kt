@@ -6,14 +6,13 @@ import android.view.Menu
 import android.view.MenuInflater
 import android.view.View
 import android.widget.AdapterView
-import android.widget.ArrayAdapter
-import android.widget.Toast
 import androidx.appcompat.widget.SearchView
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.chip.Chip
 import com.google.android.material.snackbar.Snackbar
 import com.mrwhoknows.csgeeks.main_ui.MainActivity
@@ -26,9 +25,9 @@ import com.mrwhoknows.csgeeks.viewmodels.BlogViewModel
 import kotlinx.android.synthetic.main.fragment_articles_list.*
 import kotlinx.android.synthetic.main.fragment_articles_list.bounceLoader
 import kotlinx.android.synthetic.main.fragment_articles_list.bounceLoaderBG
+import kotlinx.android.synthetic.main.sort_menu_bottom_sheet.*
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.MainScope
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 private const val TAG = "ListFragment"
@@ -48,6 +47,18 @@ class ArticlesListFragment : Fragment(R.layout.fragment_articles_list),
         initFilterSpinner()
 
         setHasOptionsMenu(true)
+
+        val bottomSheet = sortOptionsBottomSheetLayout
+        val bottomSheetBehavior = BottomSheetBehavior.from(bottomSheet)
+        bottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
+
+        btnSort.setOnClickListener {
+            if (!bottomSheetBehavior.isHideable)
+                bottomSheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
+            else
+                bottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
+        }
+
     }
 
     private fun initRecyclerView(data: ArticleList) {
@@ -64,6 +75,8 @@ class ArticlesListFragment : Fragment(R.layout.fragment_articles_list),
         viewModel.tags.observe(viewLifecycleOwner, { resource ->
             when (resource) {
                 is Resource.Success -> {
+                    Util.isLoading(bounceLoader, false)
+                    Util.isLoading(bounceLoaderBG, false)
                     Log.d(TAG, "tags: ${resource.data}")
                     resource.data?.let {
                         tags = it.tags
@@ -94,8 +107,15 @@ class ArticlesListFragment : Fragment(R.layout.fragment_articles_list),
                     }
                 }
                 is Resource.Error -> {
+                    Util.isLoading(bounceLoader, true)
+                    Util.isLoading(bounceLoaderBG, true)
                     Snackbar.make(requireView(), "Something Went Wrong", Snackbar.LENGTH_LONG)
                         .show()
+                }
+
+                is Resource.Loading -> {
+                    Util.isLoading(bounceLoader, true)
+                    Util.isLoading(bounceLoaderBG, true)
                 }
             }
         })

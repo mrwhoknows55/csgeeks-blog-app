@@ -3,13 +3,16 @@
 
     <item
         android:id="@+id/articlesListFragment"
-        android:title="Home" />
+        android:icon="@drawable/ic_home"
+        android:title="@string/home" />
 
+    <!--    TODO Remove this-->
     <item
         android:id="@+id/articlesCategoriesFragment"
-        android:title="Categories" />
+        android:title="@string/categories" />
 
     <item
         android:id="@+id/loginFragment"
-        android:title="Login" />
+        android:icon="@drawable/ic_login"
+        android:title="@string/login" />
 </menu>

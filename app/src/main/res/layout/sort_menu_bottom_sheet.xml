@@ -1,0 +1,104 @@
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/sortOptionsBottomSheetLayout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/colorBackgroundDark2"
+    android:paddingVertical="16dp"
+    app:behavior_hideable="true"
+    app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
+
+    <TextView
+        android:id="@+id/sortByLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="8dp"
+        android:text="@string/sort_by"
+        android:textColor="@color/colorNordBlue"
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <View
+        android:id="@+id/line"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:layout_marginTop="8dp"
+        android:background="@color/colorTextSecondary"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/sortByLabel" />
+
+
+    <RadioGroup
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/line">
+
+        <com.google.android.material.radiobutton.MaterialRadioButton
+            android:id="@+id/sortByTimeAscending"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="16dp"
+            android:paddingHorizontal="20dp"
+            android:text="Latest First"
+            android:textColor="@color/colorTextPrimary"
+            android:textSize="18sp" />
+
+        <com.google.android.material.radiobutton.MaterialRadioButton
+            android:id="@+id/sortByTimeDescending"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="16dp"
+            android:paddingHorizontal="20dp"
+            android:text="Oldest First"
+            android:textColor="@color/colorTextPrimary"
+            android:textSize="18sp" />
+
+        <com.google.android.material.radiobutton.MaterialRadioButton
+            android:id="@+id/sortByTitleAscending"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="16dp"
+            android:paddingHorizontal="20dp"
+            android:text="Title -- A to Z"
+            android:textColor="@color/colorTextPrimary"
+            android:textSize="18sp" />
+
+        <com.google.android.material.radiobutton.MaterialRadioButton
+            android:id="@+id/sortByTitleDescending"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="16dp"
+            android:paddingHorizontal="20dp"
+            android:text="Title -- Z to A"
+            android:textColor="@color/colorTextPrimary"
+            android:textSize="18sp" />
+
+        <com.google.android.material.radiobutton.MaterialRadioButton
+            android:id="@+id/sortByAuthorAscending"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="16dp"
+            android:paddingHorizontal="20dp"
+            android:text="Author -- A to Z"
+            android:textColor="@color/colorTextPrimary"
+            android:textSize="18sp" />
+
+        <com.google.android.material.radiobutton.MaterialRadioButton
+            android:id="@+id/sortByAuthorDescending"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="16dp"
+            android:paddingHorizontal="20dp"
+            android:text="Author -- Z to A"
+            android:textColor="@color/colorTextPrimary"
+            android:textSize="18sp" />
+    </RadioGroup>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
