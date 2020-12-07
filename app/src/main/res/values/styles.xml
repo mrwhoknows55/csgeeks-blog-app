@@ -5,6 +5,7 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorNordBlue</item>
+        <item name="colorOnPrimary">@color/colorTextToolbar</item>
     </style>
 
 </resources>

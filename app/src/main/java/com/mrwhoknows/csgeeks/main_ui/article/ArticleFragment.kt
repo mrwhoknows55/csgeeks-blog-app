@@ -70,9 +70,11 @@ class ArticleFragment : Fragment(R.layout.fragment_article) {
                             "dd, MMM yyyy hh:mm a"
                         )
 
+                        val authorDeepLink = "blog.csgeeks.app/${data.author}"
+
                         val articleHeader =
                             "# ${data.title}\n![thumb](${data.thumbnail})  \n\nCreated by," +
-                                " [${data.author}](https://google.com)   \n" + "at $date  \n"
+                                    " [${data.author}]($authorDeepLink)   \n" + "at $date  \n"
 
                         val markwon = Markwon.builder(requireContext())
                             .usePlugin(
@@ -89,7 +91,7 @@ class ArticleFragment : Fragment(R.layout.fragment_article) {
                                 )
                             )
                             .build()
-                        markwon.setMarkdown(tvArticleBody, articleHeader + "\n"+ data.content)
+                        markwon.setMarkdown(tvArticleBody, articleHeader + "\n" + data.content)
                     }
 
                     Util.isLoading(bounceLoader, false)
@@ -110,14 +112,5 @@ class ArticleFragment : Fragment(R.layout.fragment_article) {
             }
 
         })
-
-        //TODO solve this
-
-        // tvAuthorName.setOnClickListener {
-        //     CoroutineScope(Dispatchers.IO).launch {
-        //         viewModel.getAuthor(authorName)
-        //     }
-        //     findNavController().navigate(R.id.action_articleFragment_to_authorFragment)
-        // }
     }
 }

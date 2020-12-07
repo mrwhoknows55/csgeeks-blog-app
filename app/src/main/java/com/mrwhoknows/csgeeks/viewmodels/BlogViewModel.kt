@@ -102,7 +102,12 @@ class BlogViewModel(
     val author: LiveData<Resource<Author>> = _author
     private var authorResponse: Author? = null
 
-    suspend fun getAuthor(authorName: String) {
+    fun getAuthor(authorName: String) =
+        viewModelScope.launch {
+            getAuthorDetails(authorName)
+        }
+
+    private suspend fun getAuthorDetails(authorName: String) {
         _author.postValue(Resource.Loading())
         try {
             val response = repository.getAuthor(authorName)

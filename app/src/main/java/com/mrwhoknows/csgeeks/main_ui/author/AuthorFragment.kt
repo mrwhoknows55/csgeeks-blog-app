@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.text.util.Linkify
 import android.view.View
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 import com.google.android.material.snackbar.Snackbar
 import com.mrwhoknows.csgeeks.main_ui.MainActivity
 import com.mrwhoknows.csgeeks.R
@@ -20,17 +19,27 @@ class AuthorFragment : Fragment(R.layout.fragment_author) {
     private lateinit var viewModel: BlogViewModel
     private lateinit var authorEmail: String
     private lateinit var authorName: String
+    private lateinit var args: AuthorFragmentArgs
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         viewModel = (activity as MainActivity).viewModel
 
-        getAuthorData()
+        args = AuthorFragmentArgs.fromBundle(requireArguments())
+
+//        TODO: Look for this bug
+        val authorName = args.authorName
+//        val authorName = "RedRanger"
+        authorName?.let {
+            viewModel.getAuthor(authorName)
+            getAuthorData()
+        }
+
     }
 
     private fun getAuthorData() {
-        viewModel.author.observe(viewLifecycleOwner, Observer { authorResource ->
+        viewModel.author.observe(viewLifecycleOwner, { authorResource ->
             when (authorResource) {
                 is Resource.Success -> {
                     Util.isLoading(bounceLoader, false)
