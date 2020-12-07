@@ -41,7 +41,6 @@ class YourArticlesFragment : Fragment(R.layout.fragment_articles_list) {
 
         viewModel = (activity as AdminActivity).viewModel
 
-        spFilterBy.visibility = View.GONE
         showYourArticles()
         swipeToDeleteArticle()
     }

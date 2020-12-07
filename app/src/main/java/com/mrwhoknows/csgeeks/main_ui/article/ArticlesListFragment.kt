@@ -7,6 +7,7 @@ import android.view.MenuInflater
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import android.widget.Toast
 import androidx.appcompat.widget.SearchView
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
@@ -60,7 +61,7 @@ class ArticlesListFragment : Fragment(R.layout.fragment_articles_list),
     private fun initCategories() {
         var tags: List<String>
         viewModel.getArticleTags()
-        viewModel.tags.observe(viewLifecycleOwner, Observer { resource ->
+        viewModel.tags.observe(viewLifecycleOwner, { resource ->
             when (resource) {
                 is Resource.Success -> {
                     Log.d(TAG, "tags: ${resource.data}")
@@ -71,7 +72,7 @@ class ArticlesListFragment : Fragment(R.layout.fragment_articles_list),
                             chip.text = tag
                             chip.chipBackgroundColor = ContextCompat.getColorStateList(
                                 requireContext(),
-                                R.color.colorBackgroundDark2
+                                R.color.colorBackgroundDark3
                             )
 
                             chip.isClickable = true
@@ -81,11 +82,10 @@ class ArticlesListFragment : Fragment(R.layout.fragment_articles_list),
                     }
                     chipsCategories.isSingleSelection = true
 
-                    chipsCategories.setOnCheckedChangeListener { group, id ->
+                    chipsCategories.setOnCheckedChangeListener { _, id ->
                         val chip = chipsCategories.findViewById<Chip>(id)
                         if (chip != null) {
                             Log.d(TAG, "chip sel: ${chip.text}")
-                            spFilterBy.setSelection(0)
                             viewModel.getArticlesByTag(chip.text.toString())
                         } else {
                             Log.d(TAG, "chip not selected")
@@ -93,13 +93,17 @@ class ArticlesListFragment : Fragment(R.layout.fragment_articles_list),
                         }
                     }
                 }
+                is Resource.Error -> {
+                    Snackbar.make(requireView(), "Something Went Wrong", Snackbar.LENGTH_LONG)
+                        .show()
+                }
             }
         })
     }
 
     private fun showAllArticles() {
         viewModel.getAllArticles()
-        viewModel.articles.observe(viewLifecycleOwner, Observer { response ->
+        viewModel.articles.observe(viewLifecycleOwner, { response ->
             when (response) {
                 is Resource.Success -> {
                     Util.isLoading(bounceLoader, false)
@@ -156,22 +160,24 @@ class ArticlesListFragment : Fragment(R.layout.fragment_articles_list),
         filterList.add("By content (A-Z)")
         filterList.add("By content (Z-A)")
 
-        val spinnerAdapter =
-            ArrayAdapter(
-                requireContext(),
-                R.layout.support_simple_spinner_dropdown_item,
-                filterList
-            )
-        spinnerAdapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item)
 
-        with(spFilterBy)
-        {
-            adapter = spinnerAdapter
-            setSelection(0, false)
-            onItemSelectedListener = this@ArticlesListFragment
-            prompt = "Sort By"
-            setPopupBackgroundResource(R.color.colorBackgroundDark2)
-        }
+//        TODO: Remove this
+//        val spinnerAdapter =
+//            ArrayAdapter(
+//                requireContext(),
+//                R.layout.support_simple_spinner_dropdown_item,
+//                filterList
+//            )
+//        spinnerAdapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item)
+//
+//        with(spFilterBy)
+//        {
+//            adapter = spinnerAdapter
+//            setSelection(0, false)
+//            onItemSelectedListener = this@ArticlesListFragment
+//            prompt = "Sort By"
+//            setPopupBackgroundResource(R.color.colorBackgroundDark2)
+//        }
     }
 
     override fun onNothingSelected(parent: AdapterView<*>?) {

@@ -7,32 +7,56 @@
     android:background="@color/colorBackgroundDark3"
     tools:context=".main_ui.article.ArticlesListFragment">
 
-    <HorizontalScrollView
-        android:id="@+id/scrollView"
-        android:layout_width="0dp"
-        android:layout_height="45dp"
-        android:scrollbarSize="0dp"
-        app:layout_constraintEnd_toStartOf="@+id/spFilterBy"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorBackgroundDark2"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <com.google.android.material.chip.ChipGroup
-            android:id="@+id/chipsCategories"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:backgroundTint="@color/colorNordBlue"
-            android:foregroundTint="@color/colorNordBlue"
-            android:paddingHorizontal="2dp"
-            app:chipSpacingHorizontal="2dp"
-            app:singleSelection="true" />
-    </HorizontalScrollView>
+        <View
+            android:id="@+id/view"
+            android:layout_width="1dp"
+            android:layout_height="0dp"
+            android:paddingVertical="12dp"
+            android:background="@color/colorTextSecondary"
+            app:layout_constraintBottom_toBottomOf="@+id/scrollView"
+            app:layout_constraintEnd_toStartOf="@+id/btnSort"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    <Spinner
-        android:id="@+id/spFilterBy"
-        android:layout_width="wrap_content"
-        android:layout_height="45dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        <HorizontalScrollView
+            android:id="@+id/scrollView"
+            android:layout_width="0dp"
+            android:layout_height="45dp"
+            android:scrollbarSize="2dp"
+            app:layout_constraintEnd_toStartOf="@+id/view"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <com.google.android.material.chip.ChipGroup
+                android:id="@+id/chipsCategories"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@color/colorBackgroundDark"
+                android:backgroundTint="@color/colorBackgroundDark"
+                android:foregroundTint="@color/colorBackgroundDark3"
+                android:paddingHorizontal="2dp"
+                app:chipSpacingHorizontal="3dp"
+                app:singleSelection="true" />
+        </HorizontalScrollView>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnSort"
+            style="@style/Widget.MaterialComponents.Button.TextButton"
+            android:layout_width="wrap_content"
+            android:layout_height="45dp"
+            android:text="@string/sort"
+            app:icon="@drawable/ic_filter_list"
+            app:iconSize="20dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <FrameLayout
         android:id="@+id/bounceLoaderBG"
@@ -54,7 +78,7 @@
         app:layout_constraintBottom_toBottomOf="@+id/rv_articleList"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="@+id/constraintLayout" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_articleList"
@@ -63,18 +87,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/scrollView" />
-
-    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
-        android:id="@+id/floating_action_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|end"
-        android:layout_margin="16dp"
-        android:backgroundTint="@color/colorNordBlue"
-        app:icon="@drawable/ic_filter_list"
-        app:iconTint="@android:color/white"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/constraintLayout" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
