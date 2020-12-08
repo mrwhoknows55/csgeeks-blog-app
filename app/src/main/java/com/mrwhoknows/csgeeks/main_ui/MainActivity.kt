@@ -30,7 +30,6 @@ class MainActivity : AppCompatActivity() {
         viewModel = ViewModelProvider(this, viewModelFactory).get(BlogViewModel::class.java)
 
         val navController = this.findNavController(R.id.navHostFragment)
-        NavigationUI.setupActionBarWithNavController(this, navController)
         NavigationUI.setupWithNavController(navView, navController)
         NavigationUI.setupActionBarWithNavController(this, navController, drawerLayout)
     }

@@ -19,14 +19,6 @@
             app:popExitAnim="@anim/fragment_close_exit"
             app:popUpTo="@id/articlesListFragment" />
         <action
-            android:id="@+id/action_articlesListFragment_to_createArticleFragment"
-            app:destination="@id/createArticleFragment"
-            app:enterAnim="@anim/nav_default_enter_anim"
-            app:exitAnim="@anim/nav_default_exit_anim"
-            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
-            app:popExitAnim="@anim/nav_default_pop_exit_anim"
-            app:popUpTo="@id/articlesListFragment" />
-        <action
             android:id="@+id/action_articlesListFragment_to_adminActivity"
             app:destination="@id/adminActivity"
             app:enterAnim="@anim/nav_default_enter_anim"
@@ -55,20 +47,17 @@
     <fragment
         android:id="@+id/authorFragment"
         android:name="com.mrwhoknows.csgeeks.main_ui.author.AuthorFragment"
-        android:label="Author" />
-    <fragment
-        android:id="@+id/createArticleFragment"
-        android:name="com.mrwhoknows.csgeeks.admin_ui.create.CreateArticleFragment"
-        android:label="Create Article">
-        <action
-            android:id="@+id/action_createArticleFragment_to_articlesListFragment"
-            app:destination="@id/articlesListFragment"
-            app:enterAnim="@anim/nav_default_enter_anim"
-            app:exitAnim="@anim/nav_default_exit_anim"
-            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
-            app:popExitAnim="@anim/nav_default_pop_exit_anim"
-            app:popUpTo="@id/articlesListFragment"
-            app:popUpToInclusive="true" />
+        android:label="Author">
+        <argument
+            android:name="authorName"
+            android:defaultValue="@null"
+            app:argType="string"
+            app:nullable="true" />
+        <deepLink
+            android:id="@+id/deepLink"
+            android:autoVerify="true"
+            app:mimeType="text/url"
+            app:uri="blog.mrwhoknows.com/{author}" />
     </fragment>
     <fragment
         android:id="@+id/articlesCategoriesFragment"

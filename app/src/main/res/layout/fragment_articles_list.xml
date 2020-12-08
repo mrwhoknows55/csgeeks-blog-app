@@ -1,91 +1,102 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorBackgroundDark3"
-    tools:context=".main_ui.article.ArticlesListFragment">
+    android:background="@color/colorBackgroundDark3">
 
-    <HorizontalScrollView
-        android:id="@+id/scrollView"
-        android:layout_width="0dp"
-        android:layout_height="45dp"
-        android:scrollbarSize="0dp"
-        app:layout_constraintEnd_toStartOf="@+id/spFilterBy"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <com.google.android.material.chip.ChipGroup
-            android:id="@+id/chipsCategories"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:backgroundTint="@color/colorNordBlue"
-            android:foregroundTint="@color/colorNordBlue"
-            android:paddingHorizontal="2dp"
-            app:chipSpacingHorizontal="2dp"
-            app:singleSelection="true" />
-    </HorizontalScrollView>
-
-    <Spinner
-        android:id="@+id/spFilterBy"
-        android:layout_width="wrap_content"
-        android:layout_height="45dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <FrameLayout
-        android:id="@+id/bounceLoaderBG"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/colorBackgroundDark3"
-        android:elevation="10dp"
-        android:visibility="gone" />
+        tools:context=".main_ui.article.ArticlesListFragment">
 
-    <com.agrawalsuneet.dotsloader.loaders.BounceLoader
-        android:id="@+id/bounceLoader"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:elevation="11dp"
-        app:bounce_animDuration="400"
-        app:bounce_ballColor="@color/colorAccent"
-        app:bounce_ballRadius="22dp"
-        app:bounce_showShadow="true"
-        app:layout_constraintBottom_toBottomOf="@+id/rv_articleList"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/constraintLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorBackgroundDark2"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rv_articleList"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/etSearchArticles" />
+            <View
+                android:id="@+id/view"
+                android:layout_width="1dp"
+                android:layout_height="0dp"
+                android:background="@color/colorTextSecondary"
+                android:paddingVertical="12dp"
+                app:layout_constraintBottom_toBottomOf="@+id/scrollView"
+                app:layout_constraintEnd_toStartOf="@+id/btnSort"
+                app:layout_constraintTop_toTopOf="parent" />
 
-    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
-        android:id="@+id/floating_action_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|end"
-        android:layout_margin="16dp"
-        android:backgroundTint="@color/colorNordBlue"
-        android:tint="@color/colorBackgroundDark3"
-        app:icon="@drawable/ic_filter_list"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+            <HorizontalScrollView
+                android:id="@+id/scrollView"
+                android:layout_width="0dp"
+                android:layout_height="45dp"
+                android:scrollbarSize="2dp"
+                app:layout_constraintEnd_toStartOf="@+id/view"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
 
-    <EditText
-        android:id="@+id/etSearchArticles"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
-        android:hint="Search Something"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/scrollView" />
+                <com.google.android.material.chip.ChipGroup
+                    android:id="@+id/chipsCategories"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@color/colorBackgroundDark2"
+                    android:backgroundTint="@color/colorBackgroundDark2"
+                    android:foregroundTint="@color/colorBackgroundDark2"
+                    android:paddingHorizontal="2dp"
+                    app:chipSpacingHorizontal="3dp"
+                    app:singleSelection="true" />
+            </HorizontalScrollView>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnSort"
+                style="@style/Widget.MaterialComponents.Button.TextButton"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:backgroundTint="@color/colorBackgroundDark2"
+                android:text="@string/sort"
+                android:textColor="@color/colorTextPrimary"
+                app:icon="@drawable/ic_filter_list"
+                app:iconSize="20dp"
+                app:iconTint="@color/colorTextPrimary"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <FrameLayout
+            android:id="@+id/bounceLoaderBG"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/colorBackgroundDark3"
+            android:elevation="10dp"
+            android:visibility="gone" />
+
+        <com.agrawalsuneet.dotsloader.loaders.BounceLoader
+            android:id="@+id/bounceLoader"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:elevation="11dp"
+            app:bounce_animDuration="400"
+            app:bounce_ballColor="@color/colorAccent"
+            app:bounce_ballRadius="22dp"
+            app:bounce_showShadow="true"
+            app:layout_constraintBottom_toBottomOf="@+id/rv_articleList"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/constraintLayout" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_articleList"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/constraintLayout" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <include layout="@layout/sort_menu_bottom_sheet" />
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

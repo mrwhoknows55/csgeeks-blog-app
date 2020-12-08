@@ -54,7 +54,10 @@ class ArticleListAdapter(val articleMetaList: ArticleList) :
             )
             createdAt.text = "at  $date"
 
-            Glide.with(itemView.context).load(data.thumbnail).into(thmb)
+            Glide.with(itemView.context)
+                .load(data.thumbnail)
+                .placeholder(R.drawable.placeholder_horizontal)
+                .into(thmb)
         }
     }
 

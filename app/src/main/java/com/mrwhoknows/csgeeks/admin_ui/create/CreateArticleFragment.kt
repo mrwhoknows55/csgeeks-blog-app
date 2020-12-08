@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.mrwhoknows.csgeeks.R
 import com.mrwhoknows.csgeeks.admin_ui.AdminActivity
+import com.mrwhoknows.csgeeks.model.CreateArticle
 import com.mrwhoknows.csgeeks.model.SendArticle
 import com.mrwhoknows.csgeeks.util.Util
 import com.mrwhoknows.csgeeks.viewmodels.BlogViewModel
@@ -36,6 +37,8 @@ class CreateArticleFragment : Fragment(R.layout.fragment_create_article) {
     }
 
     private fun getInput(): Boolean {
+        lateinit var article: CreateArticle
+
         val title = etArticleTitle.text.toString()
         val authorName = etArticleAuthorName.text.toString()
         val thumbLink = etArticleThumbnailLink.text.toString()
@@ -59,14 +62,11 @@ class CreateArticleFragment : Fragment(R.layout.fragment_create_article) {
             return false
         }
 
-        // TODO CHANGE this safe args to serializable  or parcelable
-        findNavController().navigate(
-            CreateArticleFragmentDirections.actionCreateArticleFragment2ToCreateArticleBodyFragment(
-                title,
-                desc,
-                authorName,
-                thumbLink,
-                tags
+        article = CreateArticle(authorName, null, desc, tags, thumbLink, title)
+
+        this.findNavController().navigate(
+            CreateArticleFragmentDirections.actionCreateArticleFragmentToCreateArticleBodyFragment(
+                article
             )
         )
         return true

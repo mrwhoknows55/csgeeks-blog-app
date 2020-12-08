@@ -102,7 +102,12 @@ class BlogViewModel(
     val author: LiveData<Resource<Author>> = _author
     private var authorResponse: Author? = null
 
-    suspend fun getAuthor(authorName: String) {
+    fun getAuthor(authorName: String) =
+        viewModelScope.launch {
+            getAuthorDetails(authorName)
+        }
+
+    private suspend fun getAuthorDetails(authorName: String) {
         _author.postValue(Resource.Loading())
         try {
             val response = repository.getAuthor(authorName)
@@ -208,6 +213,21 @@ class BlogViewModel(
             _articles.postValue(Resource.Loading())
             try {
                 val response = repository.orderArticlesBy(orderBy, order)
+                _articles.postValue(handleArticles(response))
+            } catch (t: Throwable) {
+                when (t) {
+                    is IOException -> _articles.postValue(Resource.Error("Network Failure"))
+                    else -> _articles.postValue(Resource.Error("Conversion Error"))
+                }
+            }
+        }
+    }
+
+    fun orderArticlesBy(tag: String, orderBy: String, order: String) {
+        viewModelScope.launch {
+            _articles.postValue(Resource.Loading())
+            try {
+                val response = repository.orderArticlesBy(tag, orderBy, order)
                 _articles.postValue(handleArticles(response))
             } catch (t: Throwable) {
                 when (t) {
