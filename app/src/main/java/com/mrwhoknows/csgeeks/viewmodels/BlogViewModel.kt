@@ -223,6 +223,21 @@ class BlogViewModel(
         }
     }
 
+    fun orderArticlesBy(tag: String, orderBy: String, order: String) {
+        viewModelScope.launch {
+            _articles.postValue(Resource.Loading())
+            try {
+                val response = repository.orderArticlesBy(tag, orderBy, order)
+                _articles.postValue(handleArticles(response))
+            } catch (t: Throwable) {
+                when (t) {
+                    is IOException -> _articles.postValue(Resource.Error("Network Failure"))
+                    else -> _articles.postValue(Resource.Error("Conversion Error"))
+                }
+            }
+        }
+    }
+
     private suspend fun getArticles(tag: String) {
         _articles.postValue(Resource.Loading())
         try {

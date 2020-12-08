@@ -22,25 +22,20 @@
                 style="@style/Widget.MaterialComponents.Toolbar.Primary"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
+                app:layout_scrollFlags="scroll|enterAlways|snap"
                 app:navigationIcon="@drawable/ic_menu"
                 app:title="@string/app_name"
                 app:titleTextColor="@color/colorTextToolbar" />
         </com.google.android.material.appbar.AppBarLayout>
 
-        <FrameLayout
+        <fragment
+            android:id="@+id/navHostFragment"
+            android:name="androidx.navigation.fragment.NavHostFragment"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior">
-
-            <fragment
-                android:id="@+id/navHostFragment"
-                android:name="androidx.navigation.fragment.NavHostFragment"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                app:defaultNavHost="true"
-                app:layout_behavior="@string/appbar_scrolling_view_behavior"
-                app:navGraph="@navigation/blog_nav_graph" />
-        </FrameLayout>
+            app:defaultNavHost="true"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"
+            app:navGraph="@navigation/blog_nav_graph" />
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
     <com.google.android.material.navigation.NavigationView

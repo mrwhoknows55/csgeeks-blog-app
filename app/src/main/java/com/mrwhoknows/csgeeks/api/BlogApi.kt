@@ -48,6 +48,16 @@ interface BlogApi {
     ): Response<ArticleList>
 
     @GET("blog/posts")
+    suspend fun orderArticlesBy(
+        @Query("tag")
+        tag: String,
+        @Query("orderby")
+        orderBy: String,
+        @Query("order")
+        order: String
+    ): Response<ArticleList>
+
+    @GET("blog/posts")
     suspend fun searchArticles(
         @Query("search")
         query: String
