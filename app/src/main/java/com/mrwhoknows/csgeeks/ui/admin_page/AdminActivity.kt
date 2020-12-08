@@ -3,6 +3,7 @@ package com.mrwhoknows.csgeeks.ui.admin_page
 import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
+import android.view.MotionEvent
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
@@ -17,6 +18,7 @@ import com.mrwhoknows.csgeeks.util.Constants.AUTHOR_NAME
 import com.mrwhoknows.csgeeks.util.Constants.LOGIN_TOKEN
 import com.mrwhoknows.csgeeks.util.Constants.TOKEN_SHARED_PREFF
 import com.mrwhoknows.csgeeks.util.Resource
+import com.mrwhoknows.csgeeks.util.collapseKeyboardIfFocusOutsideEditText
 import com.mrwhoknows.csgeeks.viewmodels.BlogViewModel
 import com.mrwhoknows.csgeeks.viewmodels.BlogViewModelFactory
 import kotlinx.android.synthetic.main.activity_admin.*
@@ -97,5 +99,16 @@ class AdminActivity : AppCompatActivity() {
     override fun onSupportNavigateUp(): Boolean {
         val navController = this.findNavController(R.id.adminNavHostFragment)
         return NavigationUI.navigateUp(navController, adminDrawerLayout)
+    }
+
+    //    Collapse the keyboard when the user taps outside the EditText
+    override fun dispatchTouchEvent(motionEvent: MotionEvent): Boolean {
+
+        currentFocus?.let { oldFocus ->
+            super.dispatchTouchEvent(motionEvent)
+            val newFocus = currentFocus ?: oldFocus
+            collapseKeyboardIfFocusOutsideEditText(motionEvent, oldFocus, newFocus)
+        }
+        return super.dispatchTouchEvent(motionEvent)
     }
 }
