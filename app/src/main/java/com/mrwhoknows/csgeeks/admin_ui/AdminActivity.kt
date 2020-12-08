@@ -2,13 +2,9 @@ package com.mrwhoknows.csgeeks.admin_ui
 
 import android.content.DialogInterface
 import android.content.Intent
-import android.graphics.Color
 import android.os.Bundle
-import android.util.Log
-import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
-import androidx.core.content.res.ComplexColorCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
@@ -25,7 +21,6 @@ import com.mrwhoknows.csgeeks.util.Resource
 import com.mrwhoknows.csgeeks.viewmodels.BlogViewModel
 import com.mrwhoknows.csgeeks.viewmodels.BlogViewModelFactory
 import kotlinx.android.synthetic.main.activity_admin.*
-import kotlinx.android.synthetic.main.activity_main.*
 
 private const val TAG = "AdminActivity"
 
@@ -87,12 +82,13 @@ class AdminActivity : AppCompatActivity() {
         viewModel.logoutUserFromLiveData.observe(this, Observer {
             when (it) {
                 is Resource.Success -> {
+                    Snackbar.make(adminToolbar, "Log Out Success!", Snackbar.LENGTH_SHORT).show()
                     val intent = Intent(this, MainActivity::class.java)
                     startActivity(intent)
                     finish()
                 }
                 is Resource.Error -> {
-                    Snackbar.make(mainToolbar, "Something Went Wrong", Snackbar.LENGTH_SHORT).show()
+                    Snackbar.make(adminToolbar, "Something Went Wrong", Snackbar.LENGTH_SHORT).show()
                 }
             }
         })
