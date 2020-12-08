@@ -5,14 +5,14 @@ import android.util.Log
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.View
-import android.widget.AdapterView
-import android.widget.ArrayAdapter
+import android.widget.RadioButton
 import androidx.appcompat.widget.SearchView
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.chip.Chip
 import com.google.android.material.snackbar.Snackbar
 import com.mrwhoknows.csgeeks.main_ui.MainActivity
@@ -25,28 +25,118 @@ import com.mrwhoknows.csgeeks.viewmodels.BlogViewModel
 import kotlinx.android.synthetic.main.fragment_articles_list.*
 import kotlinx.android.synthetic.main.fragment_articles_list.bounceLoader
 import kotlinx.android.synthetic.main.fragment_articles_list.bounceLoaderBG
+import kotlinx.android.synthetic.main.sort_menu_bottom_sheet.*
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.MainScope
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 private const val TAG = "ListFragment"
 
-class ArticlesListFragment : Fragment(R.layout.fragment_articles_list),
-    AdapterView.OnItemSelectedListener {
+class ArticlesListFragment : Fragment(R.layout.fragment_articles_list) {
 
     private lateinit var articleAdapter: ArticleListAdapter
     private lateinit var viewModel: BlogViewModel
+    private lateinit var bottomSheetBehavior: BottomSheetBehavior<ConstraintLayout>
+    private var selectedTag: String = ""
+    private var sortBy: String = ""
+    private var order: String = ""
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        setHasOptionsMenu(true)
 
         viewModel = (activity as MainActivity).viewModel
-        initCategories()
+        blogTags()
         showAllArticles()
-        initFilterSpinner()
+        sortSheet()
+    }
 
-        setHasOptionsMenu(true)
+    private fun sortSheet() {
+        val bottomSheet = sortOptionsBottomSheetLayout
+        bottomSheetBehavior = BottomSheetBehavior.from(bottomSheet)
+        bottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
+
+        btnSort.setOnClickListener {
+            bottomSheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
+
+            tvApplyBtn.setOnClickListener {
+                val id = sortByOptions.checkedRadioButtonId
+                val option = requireView().findViewById<RadioButton>(id)
+
+                if (selectedTag.isEmpty()) {
+                    when (option.tag) {
+                        "1" -> {
+                            sortBy = "created"
+                            order = "desc"
+                            viewModel.orderArticlesBy(sortBy, order)
+                        }
+                        "2" -> {
+                            sortBy = "created"
+                            order = "asc"
+                            viewModel.orderArticlesBy(sortBy, order)
+                        }
+                        "3" -> {
+                            sortBy = "title"
+                            order = "asc"
+                            viewModel.orderArticlesBy(sortBy, order)
+                        }
+                        "4" -> {
+                            sortBy = "title"
+                            order = "desc"
+                            viewModel.orderArticlesBy(sortBy, order)
+                        }
+                        "5" -> {
+                            sortBy = "author"
+                            order = "asc"
+                            viewModel.orderArticlesBy(sortBy, order)
+                        }
+                        "6" -> {
+                            sortBy = "author"
+                            order = "desc"
+                            viewModel.orderArticlesBy(sortBy, order)
+                        }
+
+                        else -> viewModel.getAllArticles()
+                    }
+                } else {
+                    when (option.tag) {
+                        "1" -> {
+                            sortBy = "created"
+                            order = "desc"
+                            viewModel.orderArticlesBy(selectedTag, sortBy, order)
+                        }
+                        "2" -> {
+                            sortBy = "created"
+                            order = "asc"
+                            viewModel.orderArticlesBy(selectedTag, sortBy, order)
+                        }
+                        "3" -> {
+                            sortBy = "title"
+                            order = "asc"
+                            viewModel.orderArticlesBy(selectedTag, sortBy, order)
+                        }
+                        "4" -> {
+                            sortBy = "title"
+                            order = "desc"
+                            viewModel.orderArticlesBy(selectedTag, sortBy, order)
+                        }
+                        "5" -> {
+                            sortBy = "author"
+                            order = "asc"
+                            viewModel.orderArticlesBy(selectedTag, sortBy, order)
+                        }
+                        "6" -> {
+                            sortBy = "author"
+                            order = "desc"
+                            viewModel.orderArticlesBy(selectedTag, sortBy, order)
+                        }
+
+                        else -> viewModel.getAllArticles()
+                    }
+                }
+                bottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
+            }
+        }
     }
 
     private fun initRecyclerView(data: ArticleList) {
@@ -57,12 +147,14 @@ class ArticlesListFragment : Fragment(R.layout.fragment_articles_list),
         }
     }
 
-    private fun initCategories() {
+    private fun blogTags() {
         var tags: List<String>
         viewModel.getArticleTags()
-        viewModel.tags.observe(viewLifecycleOwner, Observer { resource ->
+        viewModel.tags.observe(viewLifecycleOwner, { resource ->
             when (resource) {
                 is Resource.Success -> {
+                    Util.isLoading(bounceLoader, false)
+                    Util.isLoading(bounceLoaderBG, false)
                     Log.d(TAG, "tags: ${resource.data}")
                     resource.data?.let {
                         tags = it.tags
@@ -71,7 +163,7 @@ class ArticlesListFragment : Fragment(R.layout.fragment_articles_list),
                             chip.text = tag
                             chip.chipBackgroundColor = ContextCompat.getColorStateList(
                                 requireContext(),
-                                R.color.colorBackgroundDark2
+                                R.color.colorBackgroundDark3
                             )
 
                             chip.isClickable = true
@@ -81,17 +173,38 @@ class ArticlesListFragment : Fragment(R.layout.fragment_articles_list),
                     }
                     chipsCategories.isSingleSelection = true
 
-                    chipsCategories.setOnCheckedChangeListener { group, id ->
+                    chipsCategories.setOnCheckedChangeListener { _, id ->
                         val chip = chipsCategories.findViewById<Chip>(id)
                         if (chip != null) {
                             Log.d(TAG, "chip sel: ${chip.text}")
-                            spFilterBy.setSelection(0)
-                            viewModel.getArticlesByTag(chip.text.toString())
+                            selectedTag = chip.text.toString()
+                            if (sortBy.isNotEmpty() and order.isNotEmpty())
+                                viewModel.orderArticlesBy(selectedTag, sortBy, order)
+                            else {
+                                sortBy = ""
+                                viewModel.getAllArticles()
+                            }
                         } else {
                             Log.d(TAG, "chip not selected")
-                            viewModel.getAllArticles()
+                            if (sortBy.isNotEmpty() and order.isNotEmpty())
+                                viewModel.orderArticlesBy(sortBy, order)
+                            else {
+                                selectedTag = ""
+                                viewModel.getAllArticles()
+                            }
                         }
                     }
+                }
+                is Resource.Error -> {
+                    Util.isLoading(bounceLoader, true)
+                    Util.isLoading(bounceLoaderBG, true)
+                    Snackbar.make(requireView(), "Something Went Wrong", Snackbar.LENGTH_LONG)
+                        .show()
+                }
+
+                is Resource.Loading -> {
+                    Util.isLoading(bounceLoader, true)
+                    Util.isLoading(bounceLoaderBG, true)
                 }
             }
         })
@@ -99,7 +212,7 @@ class ArticlesListFragment : Fragment(R.layout.fragment_articles_list),
 
     private fun showAllArticles() {
         viewModel.getAllArticles()
-        viewModel.articles.observe(viewLifecycleOwner, Observer { response ->
+        viewModel.articles.observe(viewLifecycleOwner, { response ->
             when (response) {
                 is Resource.Success -> {
                     Util.isLoading(bounceLoader, false)
@@ -120,8 +233,11 @@ class ArticlesListFragment : Fragment(R.layout.fragment_articles_list),
                             }
                         } else {
                             rv_articleList.adapter = null
-                            Snackbar.make(requireView(), "No Articles Found", Snackbar.LENGTH_SHORT)
-                                .show()
+                            Snackbar.make(
+                                requireView(),
+                                "No Articles Found",
+                                Snackbar.LENGTH_SHORT
+                            ).show()
                         }
                     }
                 }
@@ -141,78 +257,7 @@ class ArticlesListFragment : Fragment(R.layout.fragment_articles_list),
         })
     }
 
-    // Article Sorting Filters
-    private fun initFilterSpinner() {
-
-        val filterList = mutableListOf<String>()
-        filterList.add("Latest article first")
-        filterList.add("Oldest article first")
-        filterList.add("By title (A-Z)")
-        filterList.add("By title (Z-A)")
-        filterList.add("By description (A-Z)")
-        filterList.add("By description (Z-A)")
-        filterList.add("By author (A-Z)")
-        filterList.add("By author (Z-A)")
-        filterList.add("By content (A-Z)")
-        filterList.add("By content (Z-A)")
-
-        val spinnerAdapter =
-            ArrayAdapter(
-                requireContext(),
-                R.layout.support_simple_spinner_dropdown_item,
-                filterList
-            )
-        spinnerAdapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item)
-
-        with(spFilterBy)
-        {
-            adapter = spinnerAdapter
-            setSelection(0, false)
-            onItemSelectedListener = this@ArticlesListFragment
-            prompt = "Sort By"
-            setPopupBackgroundResource(R.color.colorBackgroundDark2)
-        }
-    }
-
-    override fun onNothingSelected(parent: AdapterView<*>?) {
-        chipsCategories.isSingleSelection = true
-        viewModel.getAllArticles()
-    }
-
-    override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-        chipsCategories.isSelected = false
-        chipsCategories.clearCheck()
-        callFilterRequests(position)
-    }
-
-    private fun callFilterRequests(position: Int) {
-        when (position) {
-
-            0 -> viewModel.getAllArticles()
-
-            1 -> viewModel.orderArticlesBy("created", "asc")
-
-            2 -> viewModel.orderArticlesBy("title", "asc")
-
-            3 -> viewModel.orderArticlesBy("title", "desc")
-
-            4 -> viewModel.orderArticlesBy("description", "asc")
-
-            5 -> viewModel.orderArticlesBy("description", "desc")
-
-            6 -> viewModel.orderArticlesBy("author", "asc")
-
-            7 -> viewModel.orderArticlesBy("author", "desc")
-
-            8 -> viewModel.orderArticlesBy("content", "asc")
-
-            9 -> viewModel.orderArticlesBy("content", "desc")
-
-            else -> viewModel.getAllArticles()
-        }
-    }
-
-    //TODO: make livedata changes when we go back from search view
+    //TODO: call showAllArticles() changes when we go back from search view
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
 
@@ -221,6 +266,10 @@ class ArticlesListFragment : Fragment(R.layout.fragment_articles_list),
         val searchItem = menu.findItem(R.id.action_search)
         val searchView = searchItem.actionView as SearchView
         var job: Job? = null
+
+        searchView.setOnClickListener {
+            bottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
+        }
 
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
@@ -231,10 +280,12 @@ class ArticlesListFragment : Fragment(R.layout.fragment_articles_list),
                     }
                 }
                 searchView.clearFocus()
+                bottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
                 return true
             }
 
             override fun onQueryTextChange(query: String?): Boolean {
+                bottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
                 return true
             }
         })

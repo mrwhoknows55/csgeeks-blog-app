@@ -20,6 +20,9 @@ class BlogRepository {
     suspend fun orderArticlesBy(orderBy: String, order: String) =
         RetrofitInstance.api.orderArticlesBy(orderBy, order)
 
+    suspend fun orderArticlesBy(tag:String, orderBy: String, order: String) =
+        RetrofitInstance.api.orderArticlesBy(tag, orderBy, order)
+
     suspend fun getAuthor(authorName: String) =
         RetrofitInstance.api.getAuthor(authorName)
 

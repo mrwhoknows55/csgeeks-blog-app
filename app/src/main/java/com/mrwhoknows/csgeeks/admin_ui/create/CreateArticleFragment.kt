@@ -62,9 +62,9 @@ class CreateArticleFragment : Fragment(R.layout.fragment_create_article) {
             return false
         }
 
-        article = CreateArticle(authorName,null,desc,tags,thumbLink,title)
+        article = CreateArticle(authorName, null, desc, tags, thumbLink, title)
 
-        findNavController().navigate(
+        this.findNavController().navigate(
             CreateArticleFragmentDirections.actionCreateArticleFragmentToCreateArticleBodyFragment(
                 article
             )

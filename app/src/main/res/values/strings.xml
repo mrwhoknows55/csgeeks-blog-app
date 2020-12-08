@@ -6,4 +6,16 @@
     <string name="menu_manage_your_articles">Manage Your Articles</string>
     <string name="menu_logout">Logout</string>
     <string name="search">Search</string>
+    <string name="sort">Sort</string>
+    <string name="sort_by">Sort By</string>
+    <string name="home">Home</string>
+    <string name="categories">Categories</string>
+    <string name="login">Login</string>
+    <string name="title_z_to_a">Title -- Z to A</string>
+    <string name="author_a_to_z">Author -- A to Z</string>
+    <string name="author_z_to_a">Author -- Z to A</string>
+    <string name="title_a_to_z">Title -- A to Z</string>
+    <string name="oldest_first">Oldest First</string>
+    <string name="latest_first">Latest First</string>
+    <string name="apply">Apply</string>
 </resources>
