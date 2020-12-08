@@ -1,14 +1,14 @@
-package com.mrwhoknows.csgeeks.main_ui
+package com.mrwhoknows.csgeeks.ui
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import androidx.lifecycle.Observer
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import com.mrwhoknows.csgeeks.R
-import com.mrwhoknows.csgeeks.admin_ui.AdminActivity
 import com.mrwhoknows.csgeeks.repository.BlogRepository
+import com.mrwhoknows.csgeeks.ui.admin_page.AdminActivity
+import com.mrwhoknows.csgeeks.ui.home_page.MainActivity
 import com.mrwhoknows.csgeeks.util.LoginInfo
 import com.mrwhoknows.csgeeks.util.Resource
 import com.mrwhoknows.csgeeks.viewmodels.BlogViewModel
@@ -42,7 +42,7 @@ class SplashActivity : AppCompatActivity() {
             val token = loginInfo.loginToken
 
             viewModel.isLoggedUserLoggedIn(token)
-            viewModel.isLoggedIn.observe(this, Observer {
+            viewModel.isLoggedIn.observe(this, {
                 if (it is Resource.Success) {
                     if (it.data!!.success)
                         navigateToActivity(admin)

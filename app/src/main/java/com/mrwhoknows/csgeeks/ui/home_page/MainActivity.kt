@@ -1,7 +1,7 @@
-package com.mrwhoknows.csgeeks.main_ui
+package com.mrwhoknows.csgeeks.ui.home_page
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
 import androidx.navigation.ui.NavigationUI

@@ -1,9 +1,8 @@
-package com.mrwhoknows.csgeeks.admin_ui.edit
+package com.mrwhoknows.csgeeks.ui.admin_page.edit
 
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.snackbar.Snackbar
@@ -12,7 +11,6 @@ import com.mrwhoknows.csgeeks.model.SendArticle
 import com.mrwhoknows.csgeeks.repository.BlogRepository
 import com.mrwhoknows.csgeeks.util.LoginInfo
 import com.mrwhoknows.csgeeks.util.Resource
-
 import com.mrwhoknows.csgeeks.util.Util
 import com.mrwhoknows.csgeeks.viewmodels.BlogViewModel
 import com.mrwhoknows.csgeeks.viewmodels.BlogViewModelFactory
@@ -91,7 +89,7 @@ class EditArticleBodyFragment : Fragment(R.layout.fragment_create_article_body) 
     private fun updateArticle() {
         viewModel.updateArticleToServer(args.id, article, loginToken)
 
-        viewModel.updateArticleResponse.observe(viewLifecycleOwner, Observer {
+        viewModel.updateArticleResponse.observe(viewLifecycleOwner, {
             when (it) {
                 is Resource.Loading -> {
                     Util.isLoading(bounceLoader, true)

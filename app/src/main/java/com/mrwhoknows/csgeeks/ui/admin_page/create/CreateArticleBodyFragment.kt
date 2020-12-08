@@ -1,9 +1,8 @@
-package com.mrwhoknows.csgeeks.admin_ui.create
+package com.mrwhoknows.csgeeks.ui.admin_page.create
 
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.snackbar.Snackbar
@@ -88,7 +87,7 @@ class CreateArticleBodyFragment : Fragment(R.layout.fragment_create_article_body
     private fun sendArticle() {
         viewModel.sendArticleToServer(article,loginToken)
 
-        viewModel.createArticleResponseLiveData.observe(viewLifecycleOwner, Observer {
+        viewModel.createArticleResponseLiveData.observe(viewLifecycleOwner, {
             when (it) {
                 is Resource.Loading -> {
                     Util.isLoading(bounceLoader, true)

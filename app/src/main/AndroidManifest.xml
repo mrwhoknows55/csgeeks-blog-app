@@ -11,11 +11,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".main_ui.MainActivity">
-            <nav-graph android:value="@navigation/blog_nav_graph"/>
+        <activity android:name=".ui.home_page.MainActivity">
+            <nav-graph android:value="@navigation/blog_nav_graph" />
         </activity>
-        <activity android:name=".admin_ui.AdminActivity" />
-        <activity android:name=".main_ui.SplashActivity">
+        <activity android:name=".ui.admin_page.AdminActivity" />
+        <activity android:name=".ui.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

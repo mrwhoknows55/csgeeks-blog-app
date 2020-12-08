@@ -1,4 +1,4 @@
-package com.mrwhoknows.csgeeks.admin_ui.create
+package com.mrwhoknows.csgeeks.ui.admin_page.create
 
 import android.os.Bundle
 import android.util.Log
@@ -6,9 +6,9 @@ import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.mrwhoknows.csgeeks.R
-import com.mrwhoknows.csgeeks.admin_ui.AdminActivity
 import com.mrwhoknows.csgeeks.model.CreateArticle
 import com.mrwhoknows.csgeeks.model.SendArticle
+import com.mrwhoknows.csgeeks.ui.admin_page.AdminActivity
 import com.mrwhoknows.csgeeks.util.Util
 import com.mrwhoknows.csgeeks.viewmodels.BlogViewModel
 import kotlinx.android.synthetic.main.fragment_create_article.*

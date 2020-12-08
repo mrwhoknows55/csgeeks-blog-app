@@ -1,17 +1,16 @@
-package com.mrwhoknows.csgeeks.main_ui.category
+package com.mrwhoknows.csgeeks.ui.home_page.category
 
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
-import com.mrwhoknows.csgeeks.main_ui.MainActivity
 import com.mrwhoknows.csgeeks.R
 import com.mrwhoknows.csgeeks.adapter.ArticleListAdapter
 import com.mrwhoknows.csgeeks.model.ArticleList
+import com.mrwhoknows.csgeeks.ui.home_page.MainActivity
 import com.mrwhoknows.csgeeks.util.Resource
 import com.mrwhoknows.csgeeks.util.Util
 import com.mrwhoknows.csgeeks.viewmodels.BlogViewModel
@@ -37,7 +36,7 @@ class ArticlesByCategoryFragment : Fragment(R.layout.fragment_articles_by_catego
         viewModel.getArticlesByTag(args.tag)
 
         viewModel.getAllArticles()
-        viewModel.articles.observe(viewLifecycleOwner, Observer { response ->
+        viewModel.articles.observe(viewLifecycleOwner, { response ->
             when (response) {
                 is Resource.Loading -> {
                     Util.isLoading(bounceLoader, true)

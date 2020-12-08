@@ -1,10 +1,9 @@
-package com.mrwhoknows.csgeeks.admin_ui.articles
+package com.mrwhoknows.csgeeks.ui.admin_page.articles
 
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -12,16 +11,13 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
 import com.mrwhoknows.csgeeks.R
 import com.mrwhoknows.csgeeks.adapter.ArticleListAdapter
-import com.mrwhoknows.csgeeks.admin_ui.AdminActivity
 import com.mrwhoknows.csgeeks.model.ArticleList
+import com.mrwhoknows.csgeeks.ui.admin_page.AdminActivity
 import com.mrwhoknows.csgeeks.util.LoginInfo
 import com.mrwhoknows.csgeeks.util.Resource
 import com.mrwhoknows.csgeeks.util.Util
 import com.mrwhoknows.csgeeks.viewmodels.BlogViewModel
-import kotlinx.android.synthetic.main.fragment_all_articles.bounceLoader
-import kotlinx.android.synthetic.main.fragment_all_articles.bounceLoaderBG
-import kotlinx.android.synthetic.main.fragment_all_articles.rv_articleList
-import kotlinx.android.synthetic.main.fragment_articles_list.*
+import kotlinx.android.synthetic.main.fragment_all_articles.*
 
 private const val TAG = "YourArticlesFragment"
 
@@ -56,7 +52,7 @@ class YourArticlesFragment : Fragment(R.layout.fragment_articles_list) {
     private fun showYourArticles() {
         viewModel.getArticlesByAuthor(authorName)
         Log.d(TAG, "showYourArticles: $authorName")
-        viewModel.articles.observe(viewLifecycleOwner, Observer { response ->
+        viewModel.articles.observe(viewLifecycleOwner, { response ->
             when (response) {
                 is Resource.Success -> {
                     Util.isLoading(bounceLoader, false)
@@ -133,7 +129,7 @@ class YourArticlesFragment : Fragment(R.layout.fragment_articles_list) {
 
     private fun deleteArticle(article: ArticleList.Article) {
         viewModel.deleteArticleToServer(article.id.toString(),loginToken)
-        viewModel.deleteArticleResponse.observe(viewLifecycleOwner, Observer {
+        viewModel.deleteArticleResponse.observe(viewLifecycleOwner, {
             when (it) {
                 is Resource.Success -> {
                     Util.isLoading(bounceLoader, false)

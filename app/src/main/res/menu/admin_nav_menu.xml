@@ -6,7 +6,7 @@
         android:title="@string/menu_all_articles" />
 
     <item
-        android:id="@+id/createArticleFragment"
+        android:id="@+id/createArticleFragStep1"
         android:title="@string/menu_create_article" />
 
     <item

@@ -1,14 +1,15 @@
-package com.mrwhoknows.csgeeks.main_ui.author
+package com.mrwhoknows.csgeeks.ui.home_page.author
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.text.util.Linkify
 import android.view.View
 import androidx.fragment.app.Fragment
 import com.google.android.material.snackbar.Snackbar
-import com.mrwhoknows.csgeeks.main_ui.MainActivity
 import com.mrwhoknows.csgeeks.R
 import com.mrwhoknows.csgeeks.model.Author
+import com.mrwhoknows.csgeeks.ui.home_page.MainActivity
 import com.mrwhoknows.csgeeks.util.Resource
 import com.mrwhoknows.csgeeks.util.Util
 import com.mrwhoknows.csgeeks.viewmodels.BlogViewModel
@@ -38,6 +39,7 @@ class AuthorFragment : Fragment(R.layout.fragment_author) {
 
     }
 
+    @SuppressLint("SetTextI18n")
     private fun getAuthorData() {
         viewModel.author.observe(viewLifecycleOwner, { authorResource ->
             when (authorResource) {

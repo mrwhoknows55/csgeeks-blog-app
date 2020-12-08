@@ -1,19 +1,18 @@
-package com.mrwhoknows.csgeeks.admin_ui
+package com.mrwhoknows.csgeeks.ui.admin_page
 
 import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
 import androidx.navigation.ui.NavigationUI
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 import com.mrwhoknows.csgeeks.R
-import com.mrwhoknows.csgeeks.main_ui.MainActivity
 import com.mrwhoknows.csgeeks.repository.BlogRepository
+import com.mrwhoknows.csgeeks.ui.home_page.MainActivity
 import com.mrwhoknows.csgeeks.util.Constants.AUTHOR_NAME
 import com.mrwhoknows.csgeeks.util.Constants.LOGIN_TOKEN
 import com.mrwhoknows.csgeeks.util.Constants.TOKEN_SHARED_PREFF
@@ -56,7 +55,7 @@ class AdminActivity : AppCompatActivity() {
         adminNavView.menu.getItem(3).setOnMenuItemClickListener {
 
             val dialogClickListener: DialogInterface.OnClickListener =
-                DialogInterface.OnClickListener { dialog, which ->
+                DialogInterface.OnClickListener { _, which ->
                     when (which) {
                         DialogInterface.BUTTON_POSITIVE -> {
                             logoutUser()
@@ -79,7 +78,7 @@ class AdminActivity : AppCompatActivity() {
     private fun logoutUser() {
         viewModel.logoutUserFromServer(USER_TOKEN)
 
-        viewModel.logoutUserFromLiveData.observe(this, Observer {
+        viewModel.logoutUserFromLiveData.observe(this, {
             when (it) {
                 is Resource.Success -> {
                     Snackbar.make(adminToolbar, "Log Out Success!", Snackbar.LENGTH_SHORT).show()
@@ -88,7 +87,8 @@ class AdminActivity : AppCompatActivity() {
                     finish()
                 }
                 is Resource.Error -> {
-                    Snackbar.make(adminToolbar, "Something Went Wrong", Snackbar.LENGTH_SHORT).show()
+                    Snackbar.make(adminToolbar, "Something Went Wrong", Snackbar.LENGTH_SHORT)
+                        .show()
                 }
             }
         })

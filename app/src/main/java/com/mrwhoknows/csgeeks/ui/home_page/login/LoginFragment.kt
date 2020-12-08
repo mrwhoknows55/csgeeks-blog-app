@@ -1,4 +1,4 @@
-package com.mrwhoknows.csgeeks.main_ui.login
+package com.mrwhoknows.csgeeks.ui.home_page.login
 
 import android.content.Context
 import android.os.Bundle
@@ -6,13 +6,10 @@ import android.util.Log
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.snackbar.Snackbar
-import com.mrwhoknows.csgeeks.main_ui.MainActivity
 import com.mrwhoknows.csgeeks.R
-import com.mrwhoknows.csgeeks.util.Constants.AUTHOR_NAME
-import com.mrwhoknows.csgeeks.util.Constants.IS_LOGGED_IN
+import com.mrwhoknows.csgeeks.ui.home_page.MainActivity
 import com.mrwhoknows.csgeeks.util.Constants.LOGIN_TOKEN
 import com.mrwhoknows.csgeeks.util.LoginInfo
 import com.mrwhoknows.csgeeks.util.Resource
@@ -56,7 +53,7 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
     }
 
     private fun observeLogin() {
-        viewModel.loginUser.observe(viewLifecycleOwner, Observer { loginResource ->
+        viewModel.loginUser.observe(viewLifecycleOwner, { loginResource ->
             when (loginResource) {
 
                 is Resource.Success -> {

@@ -1,10 +1,9 @@
-package com.mrwhoknows.csgeeks.admin_ui.edit
+package com.mrwhoknows.csgeeks.ui.admin_page.edit
 
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.snackbar.Snackbar
@@ -46,7 +45,7 @@ class EditArticleFragment : Fragment(R.layout.fragment_create_article) {
     }
 
     private fun setOldDataToViews() {
-        viewModel.article.observe(viewLifecycleOwner, Observer { articleResource ->
+        viewModel.article.observe(viewLifecycleOwner, { articleResource ->
             when (articleResource) {
 
                 is Resource.Loading -> {

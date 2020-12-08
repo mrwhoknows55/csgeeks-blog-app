@@ -1,4 +1,4 @@
-package com.mrwhoknows.csgeeks.main_ui.article
+package com.mrwhoknows.csgeeks.ui.home_page.article
 
 import android.os.Bundle
 import android.util.Log
@@ -15,16 +15,14 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.chip.Chip
 import com.google.android.material.snackbar.Snackbar
-import com.mrwhoknows.csgeeks.main_ui.MainActivity
 import com.mrwhoknows.csgeeks.R
 import com.mrwhoknows.csgeeks.adapter.ArticleListAdapter
 import com.mrwhoknows.csgeeks.model.ArticleList
+import com.mrwhoknows.csgeeks.ui.home_page.MainActivity
 import com.mrwhoknows.csgeeks.util.Resource
 import com.mrwhoknows.csgeeks.util.Util
 import com.mrwhoknows.csgeeks.viewmodels.BlogViewModel
 import kotlinx.android.synthetic.main.fragment_articles_list.*
-import kotlinx.android.synthetic.main.fragment_articles_list.bounceLoader
-import kotlinx.android.synthetic.main.fragment_articles_list.bounceLoaderBG
 import kotlinx.android.synthetic.main.sort_menu_bottom_sheet.*
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.MainScope

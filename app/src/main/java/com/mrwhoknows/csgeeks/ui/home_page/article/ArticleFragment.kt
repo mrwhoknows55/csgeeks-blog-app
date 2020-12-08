@@ -1,10 +1,9 @@
-package com.mrwhoknows.csgeeks.main_ui.article
+package com.mrwhoknows.csgeeks.ui.home_page.article
 
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.target.Target
@@ -53,7 +52,7 @@ class ArticleFragment : Fragment(R.layout.fragment_article) {
             viewModel.getArticle(articleID)
         }
 
-        viewModel.article.observe(viewLifecycleOwner, Observer { articleResource ->
+        viewModel.article.observe(viewLifecycleOwner, { articleResource ->
             when (articleResource) {
                 is Resource.Loading -> {
                     Util.isLoading(bounceLoader, true)

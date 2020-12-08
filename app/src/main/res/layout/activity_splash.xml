@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorBackgroundDark3"
-    tools:context=".main_ui.SplashActivity">
+    tools:context=".ui.SplashActivity">
 
     <com.agrawalsuneet.dotsloader.loaders.BounceLoader
         android:id="@+id/bounceLoader"
@@ -28,7 +28,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="169dp"
         android:lines="2"
-        android:text="CS\nGEEKS"
+        android:text="@string/app_name_splash"
         android:textAlignment="center"
         android:textColor="@color/colorNordBlue"
         android:textStyle="bold"
