@@ -19,22 +19,12 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
-            <View
-                android:id="@+id/view"
-                android:layout_width="1dp"
-                android:layout_height="0dp"
-                android:background="@color/colorTextSecondary"
-                android:paddingVertical="12dp"
-                app:layout_constraintBottom_toBottomOf="@+id/scrollView"
-                app:layout_constraintEnd_toStartOf="@+id/btnSort"
-                app:layout_constraintTop_toTopOf="parent" />
-
             <HorizontalScrollView
                 android:id="@+id/scrollView"
                 android:layout_width="0dp"
                 android:layout_height="45dp"
                 android:scrollbarSize="2dp"
-                app:layout_constraintEnd_toStartOf="@+id/view"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
 
@@ -50,19 +40,6 @@
                     app:singleSelection="true" />
             </HorizontalScrollView>
 
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btnSort"
-                style="@style/Widget.MaterialComponents.Button.TextButton"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:backgroundTint="@color/colorBackgroundDark2"
-                android:text="@string/sort"
-                android:textColor="@color/colorTextPrimary"
-                app:icon="@drawable/ic_filter_list"
-                app:iconSize="20dp"
-                app:iconTint="@color/colorTextPrimary"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <FrameLayout
@@ -95,6 +72,21 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/constraintLayout" />
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/btnSort"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="24dp"
+            android:layout_marginBottom="24dp"
+            android:background="@color/colorNordBlue"
+            android:backgroundTint="@color/colorNordBlue"
+            android:clickable="true"
+            android:contentDescription="@string/sort"
+            android:focusable="true"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:srcCompat="@drawable/ic_filter_list" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

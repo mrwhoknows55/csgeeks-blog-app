@@ -183,13 +183,12 @@ class ArticlesListFragment : Fragment(R.layout.fragment_articles_list) {
                                 viewModel.getAllArticles()
                             }
                         } else {
+                            selectedTag = ""
                             Log.d(TAG, "chip not selected")
                             if (sortBy.isNotEmpty() and order.isNotEmpty())
                                 viewModel.orderArticlesBy(sortBy, order)
-                            else {
-                                selectedTag = ""
+                            else
                                 viewModel.getAllArticles()
-                            }
                         }
                     }
                 }

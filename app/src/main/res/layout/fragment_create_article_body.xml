@@ -36,10 +36,11 @@
     <EditText
         android:id="@+id/etArticleContent"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
         android:background="@color/colorBackgroundDark2"
         android:gravity="top"
         android:hint="Article Body"
@@ -49,6 +50,7 @@
         android:singleLine="false"
         android:textColor="@color/colorTextPrimary"
         android:textColorHint="@color/colorNordBlue"
+        app:layout_constraintBottom_toTopOf="@+id/btCreateArticle"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

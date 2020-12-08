@@ -22,10 +22,6 @@ import com.mrwhoknows.csgeeks.util.LoginInfo
 import com.mrwhoknows.csgeeks.util.Resource
 import com.mrwhoknows.csgeeks.util.Util
 import com.mrwhoknows.csgeeks.viewmodels.BlogViewModel
-import kotlinx.android.synthetic.main.fragment_all_articles.bounceLoader
-import kotlinx.android.synthetic.main.fragment_all_articles.bounceLoaderBG
-import kotlinx.android.synthetic.main.fragment_all_articles.chipsCategories
-import kotlinx.android.synthetic.main.fragment_all_articles.rv_articleList
 import kotlinx.android.synthetic.main.fragment_articles_list.*
 import kotlinx.android.synthetic.main.sort_menu_bottom_sheet.*
 

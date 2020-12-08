@@ -19,10 +19,6 @@ import com.mrwhoknows.csgeeks.ui.admin_page.AdminActivity
 import com.mrwhoknows.csgeeks.util.Resource
 import com.mrwhoknows.csgeeks.util.Util
 import com.mrwhoknows.csgeeks.viewmodels.BlogViewModel
-import kotlinx.android.synthetic.main.fragment_all_articles.bounceLoader
-import kotlinx.android.synthetic.main.fragment_all_articles.bounceLoaderBG
-import kotlinx.android.synthetic.main.fragment_all_articles.chipsCategories
-import kotlinx.android.synthetic.main.fragment_all_articles.rv_articleList
 import kotlinx.android.synthetic.main.fragment_articles_list.*
 import kotlinx.android.synthetic.main.sort_menu_bottom_sheet.*
 
@@ -172,13 +168,12 @@ class AllArticlesFragment : Fragment(R.layout.fragment_articles_list) {
                                 viewModel.getAllArticles()
                             }
                         } else {
+                            selectedTag = ""
                             Log.d(TAG, "chip not selected")
                             if (sortBy.isNotEmpty() and order.isNotEmpty())
                                 viewModel.orderArticlesBy(sortBy, order)
-                            else {
-                                selectedTag = ""
+                            else
                                 viewModel.getAllArticles()
-                            }
                         }
                     }
                 }
