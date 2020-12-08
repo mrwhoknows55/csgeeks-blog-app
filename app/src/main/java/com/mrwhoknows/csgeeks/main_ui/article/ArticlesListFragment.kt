@@ -5,9 +5,8 @@ import android.util.Log
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.View
-import android.widget.AdapterView
+import android.widget.RadioButton
 import androidx.appcompat.widget.SearchView
-import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
@@ -32,32 +31,49 @@ import kotlinx.coroutines.launch
 
 private const val TAG = "ListFragment"
 
-class ArticlesListFragment : Fragment(R.layout.fragment_articles_list),
-    AdapterView.OnItemSelectedListener {
+class ArticlesListFragment : Fragment(R.layout.fragment_articles_list) {
 
     private lateinit var articleAdapter: ArticleListAdapter
     private lateinit var viewModel: BlogViewModel
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        setHasOptionsMenu(true)
 
         viewModel = (activity as MainActivity).viewModel
         initCategories()
         showAllArticles()
-        initFilterSpinner()
-
-        setHasOptionsMenu(true)
 
         val bottomSheet = sortOptionsBottomSheetLayout
         val bottomSheetBehavior = BottomSheetBehavior.from(bottomSheet)
         bottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
 
         btnSort.setOnClickListener {
-            if (!bottomSheetBehavior.isHideable)
-                bottomSheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
-            else
-                bottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
+            bottomSheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
+
+            tvApplyBtn.setOnClickListener {
+                val id = sortByOptions.checkedRadioButtonId
+                val option = requireView().findViewById<RadioButton>(id)
+                when (option.tag) {
+                    "1" -> viewModel.orderArticlesBy("created", "desc")
+
+                    "2" -> viewModel.orderArticlesBy("created", "asc")
+
+                    "3" -> viewModel.orderArticlesBy("title", "asc")
+
+                    "4" -> viewModel.orderArticlesBy("title", "desc")
+
+                    "5" -> viewModel.orderArticlesBy("author", "asc")
+
+                    "6" -> viewModel.orderArticlesBy("author", "desc")
+
+                    else -> viewModel.getAllArticles()
+                }
+
+                bottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
+            }
         }
+
 
     }
 
@@ -165,78 +181,18 @@ class ArticlesListFragment : Fragment(R.layout.fragment_articles_list),
         })
     }
 
-    // Article Sorting Filters
-    private fun initFilterSpinner() {
-
-        val filterList = mutableListOf<String>()
-        filterList.add("Latest article first")
-        filterList.add("Oldest article first")
-        filterList.add("By title (A-Z)")
-        filterList.add("By title (Z-A)")
-        filterList.add("By description (A-Z)")
-        filterList.add("By description (Z-A)")
-        filterList.add("By author (A-Z)")
-        filterList.add("By author (Z-A)")
-        filterList.add("By content (A-Z)")
-        filterList.add("By content (Z-A)")
-
-
-//        TODO: Remove this
-//        val spinnerAdapter =
-//            ArrayAdapter(
-//                requireContext(),
-//                R.layout.support_simple_spinner_dropdown_item,
-//                filterList
-//            )
-//        spinnerAdapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item)
+//  TODO ref this for chip and sort query
 //
-//        with(spFilterBy)
-//        {
-//            adapter = spinnerAdapter
-//            setSelection(0, false)
-//            onItemSelectedListener = this@ArticlesListFragment
-//            prompt = "Sort By"
-//            setPopupBackgroundResource(R.color.colorBackgroundDark2)
-//        }
-    }
-
-    override fun onNothingSelected(parent: AdapterView<*>?) {
-        chipsCategories.isSingleSelection = true
-        viewModel.getAllArticles()
-    }
-
-    override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-        chipsCategories.isSelected = false
-        chipsCategories.clearCheck()
-        callFilterRequests(position)
-    }
-
-    private fun callFilterRequests(position: Int) {
-        when (position) {
-
-            0 -> viewModel.getAllArticles()
-
-            1 -> viewModel.orderArticlesBy("created", "asc")
-
-            2 -> viewModel.orderArticlesBy("title", "asc")
-
-            3 -> viewModel.orderArticlesBy("title", "desc")
-
-            4 -> viewModel.orderArticlesBy("description", "asc")
-
-            5 -> viewModel.orderArticlesBy("description", "desc")
-
-            6 -> viewModel.orderArticlesBy("author", "asc")
-
-            7 -> viewModel.orderArticlesBy("author", "desc")
-
-            8 -> viewModel.orderArticlesBy("content", "asc")
-
-            9 -> viewModel.orderArticlesBy("content", "desc")
-
-            else -> viewModel.getAllArticles()
-        }
-    }
+//    override fun onNothingSelected(parent: AdapterView<*>?) {
+//        chipsCategories.isSingleSelection = true
+//        viewModel.getAllArticles()
+//    }
+//
+//    override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+//        chipsCategories.isSelected = false
+//        chipsCategories.clearCheck()
+//        callFilterRequests(position)
+//    }
 
     //TODO: make livedata changes when we go back from search view
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
