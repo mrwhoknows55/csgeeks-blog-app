@@ -4,8 +4,10 @@ import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.text.util.Linkify
+import android.util.Log
 import android.view.View
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.navArgs
 import com.google.android.material.snackbar.Snackbar
 import com.mrwhoknows.csgeeks.R
 import com.mrwhoknows.csgeeks.model.Author
@@ -15,23 +17,23 @@ import com.mrwhoknows.csgeeks.util.Util
 import com.mrwhoknows.csgeeks.viewmodels.BlogViewModel
 import kotlinx.android.synthetic.main.fragment_author.*
 
+private const val TAG = "AuthorFragment"
+
 class AuthorFragment : Fragment(R.layout.fragment_author) {
 
     private lateinit var viewModel: BlogViewModel
     private lateinit var authorEmail: String
     private lateinit var authorName: String
-    private lateinit var args: AuthorFragmentArgs
+    private val args: AuthorFragmentArgs by navArgs()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         viewModel = (activity as MainActivity).viewModel
 
-        args = AuthorFragmentArgs.fromBundle(requireArguments())
-
-//        TODO: Look for this bug
         val authorName = args.authorName
-//        val authorName = "RedRanger"
+        Log.d(TAG, "authorName: $authorName")
+
         authorName?.let {
             viewModel.getAuthor(authorName)
             getAuthorData()

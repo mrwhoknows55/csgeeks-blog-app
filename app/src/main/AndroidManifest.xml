@@ -14,7 +14,9 @@
         <activity android:name=".ui.home_page.MainActivity">
             <nav-graph android:value="@navigation/blog_nav_graph" />
         </activity>
-        <activity android:name=".ui.admin_page.AdminActivity" />
+        <activity android:name=".ui.admin_page.AdminActivity">
+            <nav-graph android:value="@navigation/admin_nav_graph" />
+        </activity>
         <activity android:name=".ui.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

@@ -43,6 +43,9 @@
             app:popEnterAnim="@anim/nav_default_pop_enter_anim"
             app:popExitAnim="@anim/nav_default_pop_exit_anim"
             app:popUpTo="@id/articleFragment" />
+        <deepLink
+            android:id="@+id/deepLink4"
+            app:uri="csgeeks-blog.000webhostapp.com/post.html?id={articleID}" />
     </fragment>
     <fragment
         android:id="@+id/authorFragment"
@@ -55,39 +58,8 @@
             app:nullable="true" />
         <!--        TODO: Fix deep link-->
         <deepLink
-            android:id="@+id/deepLink"
-            android:autoVerify="true"
-            app:mimeType="text/url"
-            app:uri="blog.mrwhoknows.com/{author}" />
-    </fragment>
-    <fragment
-        android:id="@+id/articlesCategoriesFragment"
-        android:name="com.mrwhoknows.csgeeks.ui.home_page.category.ArticlesCategoriesFragment"
-        android:label="Categories">
-        <action
-            android:id="@+id/action_articlesCategoriesFragment_to_articlesByCategoryFragment"
-            app:destination="@id/articlesByCategoryFragment"
-            app:enterAnim="@anim/nav_default_enter_anim"
-            app:exitAnim="@anim/nav_default_exit_anim"
-            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
-            app:popExitAnim="@anim/nav_default_pop_exit_anim"
-            app:popUpTo="@id/articlesCategoriesFragment" />
-    </fragment>
-    <fragment
-        android:id="@+id/articlesByCategoryFragment"
-        android:name="com.mrwhoknows.csgeeks.ui.home_page.category.ArticlesByCategoryFragment"
-        android:label="Articles">
-        <action
-            android:id="@+id/action_articlesByCategoryFragment_to_articleFragment"
-            app:destination="@id/articleFragment"
-            app:enterAnim="@anim/nav_default_enter_anim"
-            app:exitAnim="@anim/nav_default_exit_anim"
-            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
-            app:popExitAnim="@anim/nav_default_pop_exit_anim"
-            app:popUpTo="@id/articlesByCategoryFragment" />
-        <argument
-            android:name="tag"
-            app:argType="string" />
+            android:id="@+id/deepLink3"
+            app:uri="csgeeks-blog.000webhostapp.com/author.html?name={authorName}" />
     </fragment>
     <fragment
         android:id="@+id/loginFragment"
