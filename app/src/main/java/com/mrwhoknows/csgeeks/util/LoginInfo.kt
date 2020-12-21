@@ -10,8 +10,8 @@ class LoginInfo(activity: Activity) {
 
     val editor: SharedPreferences.Editor = sharedPreferences.edit()
 
-    val loginToken = sharedPreferences.getString(Constants.LOGIN_TOKEN, "empty")!!
-    val authorName = sharedPreferences.getString(Constants.AUTHOR_NAME, "empty")!!
+    val loginToken = sharedPreferences.getString(Constants.LOGIN_TOKEN, null)
+    val authorName = sharedPreferences.getString(Constants.AUTHOR_NAME, null)
     val isLoggedIn = sharedPreferences.getBoolean(Constants.IS_LOGGED_IN, false)
 
     fun setToken(token: String) {

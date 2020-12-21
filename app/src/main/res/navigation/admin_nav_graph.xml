@@ -7,7 +7,7 @@
     <fragment
         android:id="@+id/allArticlesFragment"
         android:name="com.mrwhoknows.csgeeks.ui.admin_page.articles.AllArticlesFragment"
-        android:label="All Articles">
+        android:label="Admin: All Articles">
         <action
             android:id="@+id/action_allArticlesFragment_to_articleFragment2"
             app:destination="@id/articleFragment2"

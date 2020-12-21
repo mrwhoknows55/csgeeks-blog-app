@@ -5,6 +5,7 @@ import android.util.Log
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.target.Target
 import com.google.android.material.snackbar.Snackbar
@@ -26,7 +27,7 @@ private const val TAG = "ArticleFragment"
 
 class ArticleFragment : Fragment(R.layout.fragment_article) {
 
-    private lateinit var args: ArticleFragmentArgs
+    private val args: ArticleFragmentArgs by navArgs()
     private lateinit var viewModel: BlogViewModel
     private lateinit var authorName: String
 
@@ -41,10 +42,6 @@ class ArticleFragment : Fragment(R.layout.fragment_article) {
             )
         viewModel =
             ViewModelProvider(requireActivity(), viewModelFactory).get(BlogViewModel::class.java)
-        args =
-            ArticleFragmentArgs.fromBundle(
-                requireArguments()
-            )
 
         val articleID = args.articleID
 
@@ -69,7 +66,8 @@ class ArticleFragment : Fragment(R.layout.fragment_article) {
                             "dd, MMM yyyy hh:mm a"
                         )
 
-                        val authorDeepLink = "blog.csgeeks.app/${data.author}"
+                        val authorDeepLink =
+                            "https://csgeeks-blog.000webhostapp.com/author.html?name=${data.author}"
 
                         val articleHeader =
                             "# ${data.title}\n![thumb](${data.thumbnail})  \n\nCreated by," +

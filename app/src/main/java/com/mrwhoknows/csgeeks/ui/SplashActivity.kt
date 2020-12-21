@@ -41,17 +41,27 @@ class SplashActivity : AppCompatActivity() {
             //author or admin user
             val token = loginInfo.loginToken
 
-            viewModel.isLoggedUserLoggedIn(token)
+            if (token != null) {
+                viewModel.isLoggedUserLoggedIn(token)
+            } else {
+                navigateToActivity(main)
+            }
+
             viewModel.isLoggedIn.observe(this, {
-                if (it is Resource.Success) {
-                    if (it.data!!.success)
-                        navigateToActivity(admin)
-                    else
+                when (it) {
+                    is Resource.Success -> {
+                        if (it.data!!.success)
+                            navigateToActivity(admin)
+                        else
+                            navigateToActivity(main)
+                    }
+                    is Resource.Error -> {
                         navigateToActivity(main)
-                }
-                if (it is Resource.Error) {
-                    navigateToActivity(main)
-                    Log.d(TAG, "called main1")
+                        Log.d(TAG, "called main1")
+                    }
+                    is Resource.Loading -> {
+                        Log.d(TAG, "onCreate: loading")
+                    }
                 }
             })
         } else {
@@ -62,6 +72,6 @@ class SplashActivity : AppCompatActivity() {
 
     private fun navigateToActivity(intent: Intent) {
         startActivity(intent)
-        finish()
+        finishAfterTransition()
     }
 }

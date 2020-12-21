@@ -6,13 +6,12 @@
         android:icon="@drawable/ic_home"
         android:title="@string/home" />
 
-    <!--    TODO Remove this-->
-    <item
-        android:id="@+id/articlesCategoriesFragment"
-        android:title="@string/categories" />
-
     <item
         android:id="@+id/loginFragment"
         android:icon="@drawable/ic_login"
         android:title="@string/login" />
+
+    <item
+        android:id="@+id/darkModeSwitch"
+        android:title="@string/dark_mode" />
 </menu>
