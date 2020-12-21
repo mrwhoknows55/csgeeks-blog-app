@@ -54,11 +54,17 @@ class EditArticleFragment : Fragment(R.layout.fragment_create_article) {
                 }
 
                 is Resource.Success -> {
-
-                    articleResource.data?.let {
+                    articleResource.data?.let { it ->
                         val article = it.article
-                        //TODO change this to comma method
-                        etArticleTags.setText(article.tags[0])
+
+                        var tags = ""
+                        article.tags.forEachIndexed { pos, tag ->
+                            tags += if (pos == 0)
+                                tag
+                            else
+                                ",$tag"
+                        }
+                        etArticleTags.setText(tags)
                         etArticleThumbnailLink.setText(article.thumbnail)
                         etArticleTitle.setText(article.title)
                         etArticleAuthorName.setText(article.author)
@@ -99,7 +105,7 @@ class EditArticleFragment : Fragment(R.layout.fragment_create_article) {
     }
 
     private fun getInput()
-        : Boolean {
+            : Boolean {
         val title = etArticleTitle.text.toString()
         val authorName = etArticleAuthorName.text.toString()
         val thumbLink = etArticleThumbnailLink.text.toString()

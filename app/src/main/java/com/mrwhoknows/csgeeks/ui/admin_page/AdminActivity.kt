@@ -84,12 +84,18 @@ class AdminActivity : AppCompatActivity() {
             when (it) {
                 is Resource.Success -> {
                     Snackbar.make(adminToolbar, "Log Out Success!", Snackbar.LENGTH_SHORT).show()
-                    val intent = Intent(this, MainActivity::class.java)
+                    val intent = Intent(this, MainActivity::class.java).apply {
+                        flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
+                    }
                     startActivity(intent)
-                    finish()
+                    finishAfterTransition()
                 }
                 is Resource.Error -> {
                     Snackbar.make(adminToolbar, "Something Went Wrong", Snackbar.LENGTH_SHORT)
+                        .show()
+                }
+                is Resource.Loading -> {
+                    Snackbar.make(adminToolbar, "Logging Out...", Snackbar.LENGTH_SHORT)
                         .show()
                 }
             }

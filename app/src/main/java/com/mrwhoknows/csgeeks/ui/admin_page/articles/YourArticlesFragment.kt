@@ -42,8 +42,12 @@ class YourArticlesFragment : Fragment(R.layout.fragment_articles_list) {
         super.onViewCreated(view, savedInstanceState)
 
         val loginInfo = LoginInfo(requireActivity())
-        authorName = loginInfo.authorName
-        loginToken = loginInfo.loginToken
+        loginInfo.authorName?.let {
+            authorName = it
+        }
+        loginInfo.loginToken?.let {
+            loginToken = it
+        }
 
         viewModel = (activity as AdminActivity).viewModel
 
