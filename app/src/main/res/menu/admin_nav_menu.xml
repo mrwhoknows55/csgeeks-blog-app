@@ -3,17 +3,26 @@
 
     <item
         android:id="@+id/allArticlesFragment"
+        android:icon="@drawable/ic_list_bulleted"
         android:title="@string/menu_all_articles" />
 
     <item
         android:id="@+id/createArticleFragStep1"
+        android:icon="@drawable/ic_add"
         android:title="@string/menu_create_article" />
 
     <item
         android:id="@+id/yourArticles"
-        android:title="@string/menu_manage_your_articles" />
+        android:icon="@drawable/ic_edit"
+        android:title="@string/menu_manage_articles" />
 
     <item
-        android:id="@+id/logout"
+        android:id="@+id/darkModeSwitch"
+        android:icon="@drawable/ic_palette"
+        android:title="@string/dark_mode" />
+
+    <item
+        android:id="@+id/logoutNavBtn"
+        android:icon="@drawable/ic_login"
         android:title="@string/menu_logout" />
 </menu>

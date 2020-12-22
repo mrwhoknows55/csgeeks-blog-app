@@ -3,7 +3,7 @@
     <string name="blog_article_thumbnail">Blog Article Thumbnail</string>
     <string name="menu_all_articles">All Articles</string>
     <string name="menu_create_article">Create Article</string>
-    <string name="menu_manage_your_articles">Manage Your Articles</string>
+    <string name="menu_manage_articles">Manage Articles</string>
     <string name="menu_logout">Logout</string>
     <string name="search">Search</string>
     <string name="sort">Sort</string>
@@ -20,4 +20,6 @@
     <string name="apply">Apply</string>
     <string name="app_name_splash">CS<br />GEEKS</string>
     <string name="dark_mode">Dark Mode</string>
+    <string name="username">Username</string>
+    <string name="password">Password</string>
 </resources>

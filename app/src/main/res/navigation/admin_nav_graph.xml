@@ -79,7 +79,7 @@
     <fragment
         android:id="@+id/yourArticles"
         android:name="com.mrwhoknows.csgeeks.ui.admin_page.articles.YourArticlesFragment"
-        android:label="Manage Your Articles">
+        android:label="@string/menu_manage_articles">
         <action
             android:id="@+id/action_yourArticles_to_editArticleFragment"
             app:destination="@id/editArticleFragment"
