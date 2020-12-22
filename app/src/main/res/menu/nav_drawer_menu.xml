@@ -7,11 +7,12 @@
         android:title="@string/home" />
 
     <item
+        android:id="@+id/darkModeSwitch"
+        android:icon="@drawable/ic_palette"
+        android:title="@string/dark_mode" />
+
+    <item
         android:id="@+id/loginFragment"
         android:icon="@drawable/ic_login"
         android:title="@string/login" />
-
-    <item
-        android:id="@+id/darkModeSwitch"
-        android:title="@string/dark_mode" />
 </menu>

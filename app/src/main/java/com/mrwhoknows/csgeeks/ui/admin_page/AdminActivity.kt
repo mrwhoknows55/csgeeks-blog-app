@@ -44,8 +44,8 @@ class AdminActivity : AppCompatActivity() {
         viewModel = ViewModelProvider(this, viewModelFactory).get(BlogViewModel::class.java)
 
         val adminSharedPrefs = this.getSharedPreferences(TOKEN_SHARED_PREFF, 0)
-        USER_TOKEN = adminSharedPrefs.getString(LOGIN_TOKEN, "empty").toString()
-        AUTHOR = adminSharedPrefs.getString(AUTHOR_NAME, "empty").toString()
+        USER_TOKEN = adminSharedPrefs.getString(LOGIN_TOKEN, null).toString()
+        AUTHOR = adminSharedPrefs.getString(AUTHOR_NAME, null).toString()
 
         initLogoutInMenu()
         val navController = findNavController(R.id.adminNavHostFragment)
@@ -54,7 +54,7 @@ class AdminActivity : AppCompatActivity() {
     }
 
     private fun initLogoutInMenu() {
-        adminNavView.menu.getItem(3).setOnMenuItemClickListener {
+        adminNavView.menu.getItem(4).setOnMenuItemClickListener {
 
             val dialogClickListener: DialogInterface.OnClickListener =
                 DialogInterface.OnClickListener { _, which ->
@@ -68,8 +68,14 @@ class AdminActivity : AppCompatActivity() {
                 }
 
             val builder = MaterialAlertDialogBuilder(this)
-            builder.setMessage("Are you sure?")
-                .setBackground(ContextCompat.getDrawable(baseContext, R.color.colorBackgroundDark3))
+            builder.setTitle("Logout")
+                .setMessage("Are you sure?")
+                .setBackground(
+                    ContextCompat.getDrawable(
+                        baseContext,
+                        R.color.colorBackgroundDark3
+                    )
+                )
                 .setPositiveButton("Yes, Logout", dialogClickListener)
                 .setNegativeButton("No", dialogClickListener).show()
 
