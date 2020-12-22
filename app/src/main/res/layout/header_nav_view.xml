@@ -4,6 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
+    <!--    TODO Change header-->
     <ImageView
         android:id="@+id/imageView"
         android:layout_width="0dp"
