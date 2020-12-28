@@ -10,12 +10,12 @@
         android:id="@+id/tvAuthorProfileName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="120dp"
+        android:layout_marginTop="16dp"
         android:textAppearance="@style/TextAppearance.MaterialComponents.Headline3"
         android:textColor="@color/colorNordOrange"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ivAuthorProfilePic"
         tools:text="WhoKnows" />
 
     <TextView
@@ -33,40 +33,11 @@
         app:layout_constraintTop_toBottomOf="@+id/tvAuthorProfileName"
         tools:text="#AndroidDeveloper. I love everything related to computers, #foss, and technology." />
 
-    <TextView
-        android:id="@+id/tvAuthorEmail"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="16dp"
-        android:layout_marginTop="16dp"
-        android:textAlignment="center"
-        android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
-        android:textColor="@color/colorNordOrange"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvAuthorBio"
-        tools:text="example@mail.xyz" />
-
-    <TextView
-        android:id="@+id/tvAuthorSocials"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="16dp"
-        android:layout_marginTop="16dp"
-        android:textAlignment="center"
-        android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
-        android:textColor="@color/colorNordOrange"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvAuthorEmail"
-        tools:text="instagram: lol.com" />
-
     <com.agrawalsuneet.dotsloader.loaders.BounceLoader
         android:id="@+id/bounceLoader"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:elevation="16dp"
         android:gravity="center"
         app:bounce_animDuration="400"
         app:bounce_ballColor="@color/colorAccent"
@@ -74,6 +45,76 @@
         app:bounce_showShadow="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        tools:visibility="gone" />
+
+    <ImageView
+        android:id="@+id/ivAuthorProfilePic"
+        android:layout_width="128dp"
+        android:layout_height="128dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="16dp"
+        android:contentDescription="@string/author_image_desc"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_account_circle" />
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvAuthorBio">
+
+        <ImageView
+            android:id="@+id/ivMailIcon"
+            android:layout_width="56dp"
+            android:layout_height="56dp"
+            android:contentDescription="@string/author_mail_desc"
+            android:padding="8dp"
+            android:src="@drawable/ic_mail" />
+
+        <ImageView
+            android:id="@+id/ivInstagramIcon"
+            android:layout_width="56dp"
+            android:layout_height="56dp"
+            android:layout_toEndOf="@id/ivMailIcon"
+            android:contentDescription="@string/author_insta_desc"
+            android:padding="8dp"
+            android:src="@drawable/ic_instagram" />
+
+        <ImageView
+            android:id="@+id/ivTwitterIcon"
+            android:layout_width="56dp"
+            android:layout_height="56dp"
+            android:layout_toEndOf="@id/ivInstagramIcon"
+            android:contentDescription="@string/author_twitter_desc"
+            android:padding="8dp"
+            android:src="@drawable/ic_twitter" />
+
+        <ImageView
+            android:id="@+id/ivGithubIcon"
+            android:layout_width="56dp"
+            android:layout_height="56dp"
+            android:layout_toEndOf="@id/ivTwitterIcon"
+            android:contentDescription="@string/author_github_desc"
+            android:padding="8dp"
+            android:src="@drawable/ic_github" />
+    </RelativeLayout>
+
+    <FrameLayout
+        android:id="@+id/bounceLoaderBG"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/colorBackgroundDark3"
+        android:elevation="10dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:visibility="gone" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

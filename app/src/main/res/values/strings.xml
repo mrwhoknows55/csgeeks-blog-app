@@ -26,4 +26,8 @@
     <string name="author_image_desc">Author Image</string>
     <string name="regular_usr">Regular User</string>
     <string name="login_if_author_msg">Login if you\'re Author</string>
+    <string name="author_mail_desc">author mail</string>
+    <string name="author_insta_desc">author instagram profile</string>
+    <string name="author_twitter_desc">author twitter profile</string>
+    <string name="author_github_desc">author github profile</string>
 </resources>
