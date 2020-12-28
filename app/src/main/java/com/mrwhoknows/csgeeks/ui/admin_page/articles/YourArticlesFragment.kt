@@ -267,8 +267,8 @@ class YourArticlesFragment : Fragment(R.layout.fragment_articles_list) {
 
     private fun swipeToDeleteArticle() {
         val itemTouchHelperCallback = object : ItemTouchHelper.SimpleCallback(
-            0,
-            ItemTouchHelper.RIGHT
+            ItemTouchHelper.ACTION_STATE_IDLE,  // no dragging enabled
+            ItemTouchHelper.RIGHT           // swiping only to right
         ) {
             override fun onMove(
                 recyclerView: RecyclerView,

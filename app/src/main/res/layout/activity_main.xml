@@ -39,11 +39,11 @@
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
     <com.google.android.material.navigation.NavigationView
-        android:id="@+id/navView"
+        android:id="@+id/mainNavView"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity="start"
-        android:background="@color/colorBackgroundDark3"
+        android:background="@color/colorBackgroundDark2"
         app:headerLayout="@layout/header_nav_view"
         app:itemIconTint="@color/colorTextPrimary"
         app:itemTextColor="@color/colorTextPrimary"

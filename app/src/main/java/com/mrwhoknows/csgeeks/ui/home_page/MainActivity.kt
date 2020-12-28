@@ -3,6 +3,7 @@ package com.mrwhoknows.csgeeks.ui.home_page
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.MotionEvent
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.content.ContextCompat
@@ -16,10 +17,8 @@ import com.mrwhoknows.csgeeks.util.Constants
 import com.mrwhoknows.csgeeks.util.collapseKeyboardIfFocusOutsideEditText
 import com.mrwhoknows.csgeeks.viewmodels.BlogViewModel
 import com.mrwhoknows.csgeeks.viewmodels.BlogViewModelFactory
-import kotlinx.android.synthetic.main.activity_admin.*
 import kotlinx.android.synthetic.main.activity_main.*
-
-private const val TAG = "MainActivity"
+import kotlinx.android.synthetic.main.header_nav_view.view.*
 
 class MainActivity : AppCompatActivity() {
 
@@ -46,13 +45,28 @@ class MainActivity : AppCompatActivity() {
         viewModel = ViewModelProvider(this, viewModelFactory).get(BlogViewModel::class.java)
 
         val navController = this.findNavController(R.id.navHostFragment)
-        NavigationUI.setupWithNavController(navView, navController)
+        NavigationUI.setupWithNavController(mainNavView, navController)
         NavigationUI.setupActionBarWithNavController(this, navController, drawerLayout)
+        val navHeaderLayout = mainNavView.getHeaderView(0)
+
+        navHeaderLayout.tvHeaderAuthorName.apply {
+            visibility = View.VISIBLE
+            text = this.resources.getString(R.string.regular_usr)
+        }
+        navHeaderLayout.ivHeaderAuthorProfile.apply {
+            visibility = View.VISIBLE
+            setImageDrawable(ContextCompat.getDrawable(baseContext, R.drawable.ic_account_circle))
+        }
+
+        navHeaderLayout.tvHeaderAuthorMail.apply {
+            visibility = View.VISIBLE
+            text = this.resources.getString(R.string.login_if_author_msg)
+        }
         setNavMenuItemClicks()
     }
 
     private fun setNavMenuItemClicks() {
-        navView.menu.getItem(1).setOnMenuItemClickListener {
+        mainNavView.menu.getItem(1).setOnMenuItemClickListener {
             setAppThemeDialog()
             true
         }

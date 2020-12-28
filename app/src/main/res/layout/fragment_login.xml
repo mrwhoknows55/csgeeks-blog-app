@@ -12,7 +12,7 @@
         android:layout_marginStart="32dp"
         android:layout_marginTop="112dp"
         android:layout_marginEnd="32dp"
-        android:nextFocusDown="@id/tvPassword"
+        android:nextFocusForward="@id/tvPassword"
         app:boxStrokeColor="@color/colorNordBlue"
         app:boxStrokeErrorColor="@color/colorNordRed"
         app:endIconMode="clear_text"

@@ -4,14 +4,18 @@ import android.content.DialogInterface
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
+import android.util.Log
 import android.view.MotionEvent
-import android.widget.Toast
+import android.view.View
+import android.widget.ImageView
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
 import androidx.navigation.ui.NavigationUI
+import com.bumptech.glide.Glide
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 import com.mrwhoknows.csgeeks.R
@@ -27,6 +31,7 @@ import com.mrwhoknows.csgeeks.util.collapseKeyboardIfFocusOutsideEditText
 import com.mrwhoknows.csgeeks.viewmodels.BlogViewModel
 import com.mrwhoknows.csgeeks.viewmodels.BlogViewModelFactory
 import kotlinx.android.synthetic.main.activity_admin.*
+import kotlinx.android.synthetic.main.header_nav_view.view.*
 
 private const val TAG = "AdminActivity"
 
@@ -34,9 +39,12 @@ class AdminActivity : AppCompatActivity() {
 
     private lateinit var appSettingPrefs: SharedPreferences
     private lateinit var adminSharedPrefs: SharedPreferences
+    private lateinit var tvHeaderAuthorName: TextView
+    private lateinit var tvHeaderAuthorMail: TextView
+    private lateinit var ivHeaderAuthorProfile: ImageView
     lateinit var viewModel: BlogViewModel
-    var USER_TOKEN = ""
-    var AUTHOR = ""
+    var userToken = ""
+    var authorName = ""
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -59,8 +67,42 @@ class AdminActivity : AppCompatActivity() {
         viewModel = ViewModelProvider(this, viewModelFactory).get(BlogViewModel::class.java)
 
         adminSharedPrefs = this.getSharedPreferences(TOKEN_SHARED_PREFF, 0)
-        USER_TOKEN = adminSharedPrefs.getString(LOGIN_TOKEN, null).toString()
-        AUTHOR = adminSharedPrefs.getString(AUTHOR_NAME, null).toString()
+        userToken = adminSharedPrefs.getString(LOGIN_TOKEN, null).toString()
+        authorName = adminSharedPrefs.getString(AUTHOR_NAME, null).toString()
+
+        val navHeaderLayout = adminNavView.getHeaderView(0)
+        tvHeaderAuthorName = navHeaderLayout.tvHeaderAuthorName.apply {
+            visibility = View.VISIBLE
+            text = authorName
+        }
+        ivHeaderAuthorProfile = navHeaderLayout.ivHeaderAuthorProfile.apply {
+            visibility = View.VISIBLE
+        }
+        tvHeaderAuthorMail = navHeaderLayout.tvHeaderAuthorMail.apply {
+            visibility = View.VISIBLE
+        }
+
+        viewModel.getAuthor(authorName)
+        viewModel.author.observe(this, { authorResource ->
+            when (authorResource) {
+                is Resource.Success -> {
+                    authorResource.data?.let { data ->
+                        Glide.with(baseContext)
+                            .load(data.author.profilePhoto)
+                            .placeholder(R.drawable.ic_account_circle)
+                            .circleCrop()
+                            .into(ivHeaderAuthorProfile)
+                        tvHeaderAuthorName.text = data.author.name
+                        tvHeaderAuthorMail.text = data.author.mail
+                    }
+
+                }
+                else -> {
+                    Log.d(TAG, "onCreate: author image didn't load")
+                    Log.d(TAG, "onCreate: author details didn't load")
+                }
+            }
+        })
 
         setNavMenuItemClicks()
         val navController = findNavController(R.id.adminNavHostFragment)
@@ -156,7 +198,7 @@ class AdminActivity : AppCompatActivity() {
 
     private fun logoutUser() {
         val editor = adminSharedPrefs.edit()
-        viewModel.logoutUserFromServer(USER_TOKEN)
+        viewModel.logoutUserFromServer(userToken)
 
         viewModel.logoutUserFromLiveData.observe(this, {
             when (it) {

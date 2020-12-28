@@ -1,6 +1,5 @@
 package com.mrwhoknows.csgeeks.model
 
-
 import com.google.gson.annotations.SerializedName
 
 data class Author(
@@ -18,6 +17,10 @@ data class Author(
         val mail: String,
         @SerializedName("name")
         val name: String,
+        @SerializedName("profile_photo")
+        val profilePhoto: String,
+        @SerializedName("rname")
+        val rname: String,
         @SerializedName("social")
         val social: List<Social>
     ) {
