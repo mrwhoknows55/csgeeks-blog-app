@@ -20,8 +20,6 @@ import com.mrwhoknows.csgeeks.viewmodels.BlogViewModelFactory
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.header_nav_view.view.*
 
-private const val TAG = "MainActivity"
-
 class MainActivity : AppCompatActivity() {
 
     private lateinit var appSettingPrefs: SharedPreferences
@@ -50,8 +48,20 @@ class MainActivity : AppCompatActivity() {
         NavigationUI.setupWithNavController(mainNavView, navController)
         NavigationUI.setupActionBarWithNavController(this, navController, drawerLayout)
         val navHeaderLayout = mainNavView.getHeaderView(0)
-        navHeaderLayout.tvHeaderAuthorName.visibility = View.GONE
-        navHeaderLayout.ivHeaderAuthorProfile.visibility = View.GONE
+
+        navHeaderLayout.tvHeaderAuthorName.apply {
+            visibility = View.VISIBLE
+            text = this.resources.getString(R.string.regular_usr)
+        }
+        navHeaderLayout.ivHeaderAuthorProfile.apply {
+            visibility = View.VISIBLE
+            setImageDrawable(ContextCompat.getDrawable(baseContext, R.drawable.ic_account_circle))
+        }
+
+        navHeaderLayout.tvHeaderAuthorMail.apply {
+            visibility = View.VISIBLE
+            text = this.resources.getString(R.string.login_if_author_msg)
+        }
         setNavMenuItemClicks()
     }
 

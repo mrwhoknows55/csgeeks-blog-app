@@ -4,11 +4,11 @@ import android.content.DialogInterface
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
+import android.util.Log
 import android.view.MotionEvent
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.content.ContextCompat
@@ -40,6 +40,7 @@ class AdminActivity : AppCompatActivity() {
     private lateinit var appSettingPrefs: SharedPreferences
     private lateinit var adminSharedPrefs: SharedPreferences
     private lateinit var tvHeaderAuthorName: TextView
+    private lateinit var tvHeaderAuthorMail: TextView
     private lateinit var ivHeaderAuthorProfile: ImageView
     lateinit var viewModel: BlogViewModel
     var userToken = ""
@@ -77,6 +78,9 @@ class AdminActivity : AppCompatActivity() {
         ivHeaderAuthorProfile = navHeaderLayout.ivHeaderAuthorProfile.apply {
             visibility = View.VISIBLE
         }
+        tvHeaderAuthorMail = navHeaderLayout.tvHeaderAuthorMail.apply {
+            visibility = View.VISIBLE
+        }
 
         viewModel.getAuthor(authorName)
         viewModel.author.observe(this, { authorResource ->
@@ -85,16 +89,18 @@ class AdminActivity : AppCompatActivity() {
                     authorResource.data?.let { data ->
                         Glide.with(baseContext)
                             .load(data.author.profilePhoto)
-                            .placeholder(R.drawable.placeholder_horizontal)
+                            .placeholder(R.drawable.ic_account_circle)
                             .circleCrop()
                             .into(ivHeaderAuthorProfile)
                         tvHeaderAuthorName.text = data.author.name
+                        tvHeaderAuthorMail.text = data.author.mail
                     }
 
                 }
-//                TODO make changes
-                else ->
-                    Toast.makeText(baseContext, "Error loading image", Toast.LENGTH_SHORT).show()
+                else -> {
+                    Log.d(TAG, "onCreate: author image didn't load")
+                    Log.d(TAG, "onCreate: author details didn't load")
+                }
             }
         })
 

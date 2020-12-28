@@ -24,4 +24,6 @@
     <string name="password">Password</string>
     <string name="nav_header_image">Nav Header Image</string>
     <string name="author_image_desc">Author Image</string>
+    <string name="regular_usr">Regular User</string>
+    <string name="login_if_author_msg">Login if you\'re Author</string>
 </resources>

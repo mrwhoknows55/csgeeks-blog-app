@@ -3,50 +3,63 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="160dp"
-    android:background="@color/colorNordGreen">
+    android:layout_height="wrap_content"
+    android:background="@color/colorNordBlue"
+    android:paddingBottom="10dp">
 
     <TextView
         android:id="@+id/tvNavHeader"
+        style="@style/TextAppearance.MaterialComponents.Headline3"
         android:layout_width="0dp"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:paddingTop="10dp"
+        android:paddingBottom="20dp"
         android:text="@string/app_name_splash"
         android:textAlignment="center"
-        android:textColor="@color/colorTextPrimary"
-        android:textSize="42sp"
+        android:textColor="@color/colorNordGreen"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/placeholder_horizontal" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
         android:id="@+id/ivHeaderAuthorProfile"
         android:layout_width="56dp"
         android:layout_height="56dp"
-        android:layout_marginStart="24dp"
+        android:layout_marginStart="16dp"
         android:contentDescription="@string/author_image_desc"
-        android:cropToPadding="false"
-        android:fadingEdge="horizontal"
-        android:outlineProvider="none"
         android:scaleType="centerCrop"
-        app:layout_constraintBottom_toTopOf="@+id/tvHeaderAuthorName"
+        android:src="@drawable/ic_account_circle"
         app:layout_constraintStart_toStartOf="parent"
-        tools:src="@drawable/ic_add"
+        app:layout_constraintTop_toBottomOf="@+id/tvNavHeader"
         tools:visibility="visible" />
 
     <TextView
         android:id="@+id/tvHeaderAuthorName"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:maxEms="5"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginEnd="16dp"
         android:maxLines="1"
-        android:textColor="@color/colorTextPrimary"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/ivHeaderAuthorProfile"
-        app:layout_constraintStart_toStartOf="@+id/ivHeaderAuthorProfile"
-        tools:text="Author" />
+        android:textColor="@color/colorTextToolbar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/ivHeaderAuthorProfile"
+        app:layout_constraintTop_toBottomOf="@+id/tvNavHeader"
+        tools:text="Author Name" />
+
+    <TextView
+        android:id="@+id/tvHeaderAuthorMail"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
+        android:maxLines="1"
+        android:textColor="@color/colorTextToolbar"
+        app:layout_constraintBottom_toBottomOf="@+id/ivHeaderAuthorProfile"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/ivHeaderAuthorProfile"
+        app:layout_constraintTop_toBottomOf="@+id/tvHeaderAuthorName"
+        tools:text="author@csgeeks.com" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
