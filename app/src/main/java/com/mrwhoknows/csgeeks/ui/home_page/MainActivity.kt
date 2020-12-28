@@ -3,6 +3,7 @@ package com.mrwhoknows.csgeeks.ui.home_page
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.MotionEvent
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.content.ContextCompat
@@ -16,8 +17,8 @@ import com.mrwhoknows.csgeeks.util.Constants
 import com.mrwhoknows.csgeeks.util.collapseKeyboardIfFocusOutsideEditText
 import com.mrwhoknows.csgeeks.viewmodels.BlogViewModel
 import com.mrwhoknows.csgeeks.viewmodels.BlogViewModelFactory
-import kotlinx.android.synthetic.main.activity_admin.*
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.header_nav_view.view.*
 
 private const val TAG = "MainActivity"
 
@@ -46,13 +47,16 @@ class MainActivity : AppCompatActivity() {
         viewModel = ViewModelProvider(this, viewModelFactory).get(BlogViewModel::class.java)
 
         val navController = this.findNavController(R.id.navHostFragment)
-        NavigationUI.setupWithNavController(navView, navController)
+        NavigationUI.setupWithNavController(mainNavView, navController)
         NavigationUI.setupActionBarWithNavController(this, navController, drawerLayout)
+        val navHeaderLayout = mainNavView.getHeaderView(0)
+        navHeaderLayout.tvHeaderAuthorName.visibility = View.GONE
+        navHeaderLayout.ivHeaderAuthorProfile.visibility = View.GONE
         setNavMenuItemClicks()
     }
 
     private fun setNavMenuItemClicks() {
-        navView.menu.getItem(1).setOnMenuItemClickListener {
+        mainNavView.menu.getItem(1).setOnMenuItemClickListener {
             setAppThemeDialog()
             true
         }

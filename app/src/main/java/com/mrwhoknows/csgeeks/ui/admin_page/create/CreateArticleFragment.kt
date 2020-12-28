@@ -25,7 +25,7 @@ class CreateArticleFragment : Fragment(R.layout.fragment_create_article) {
         Util.isLoading(bounceLoader, false)
         Util.isLoading(bounceLoaderBG, false)
 
-        val authorName = (requireActivity() as AdminActivity).AUTHOR
+        val authorName = (requireActivity() as AdminActivity).authorName
         Log.d(TAG, "onCreate: $authorName ")
 
         if (authorName.isNotEmpty())

@@ -22,4 +22,6 @@
     <string name="dark_mode">Dark Mode</string>
     <string name="username">Username</string>
     <string name="password">Password</string>
+    <string name="nav_header_image">Nav Header Image</string>
+    <string name="author_image_desc">Author Image</string>
 </resources>
