@@ -257,7 +257,7 @@ class ArticlesListFragment : Fragment(R.layout.fragment_articles_list) {
     //TODO: call showAllArticles() changes when we go back from search view
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
-
+        menu.clear()
         inflater.inflate(R.menu.search_menu, menu)
 
         val searchItem = menu.findItem(R.id.action_search)

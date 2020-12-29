@@ -1,7 +1,11 @@
 package com.mrwhoknows.csgeeks.ui.home_page.article
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -11,6 +15,7 @@ import com.bumptech.glide.request.target.Target
 import com.google.android.material.snackbar.Snackbar
 import com.mrwhoknows.csgeeks.R
 import com.mrwhoknows.csgeeks.repository.BlogRepository
+import com.mrwhoknows.csgeeks.util.Constants
 import com.mrwhoknows.csgeeks.util.Resource
 import com.mrwhoknows.csgeeks.util.Util
 import com.mrwhoknows.csgeeks.viewmodels.BlogViewModel
@@ -30,11 +35,12 @@ class ArticleFragment : Fragment(R.layout.fragment_article) {
     private val args: ArticleFragmentArgs by navArgs()
     private lateinit var viewModel: BlogViewModel
     private lateinit var authorName: String
+    var articleID = ""
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        setHasOptionsMenu(true)
 
-        // viewModel = (activity as MainActivity).viewModel
         val blogRepository = BlogRepository()
         val viewModelFactory =
             BlogViewModelFactory(
@@ -43,7 +49,7 @@ class ArticleFragment : Fragment(R.layout.fragment_article) {
         viewModel =
             ViewModelProvider(requireActivity(), viewModelFactory).get(BlogViewModel::class.java)
 
-        val articleID = args.articleID
+        articleID = args.articleID
 
         CoroutineScope(Dispatchers.IO).launch {
             viewModel.getArticle(articleID)
@@ -109,5 +115,26 @@ class ArticleFragment : Fragment(R.layout.fragment_article) {
             }
 
         })
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        super.onCreateOptionsMenu(menu, inflater)
+        menu.clear()
+        inflater.inflate(R.menu.article_menu, menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if (item.itemId == R.id.action_share) {
+            val intent = Intent(Intent.ACTION_SEND).apply {
+                type = "text/plain"
+                putExtra(
+                    Intent.EXTRA_TEXT,
+                    "Checkout awesome article: ${Constants.BLOG_SITE_URL}/post.html?id=$articleID"
+                )
+            }
+            startActivity(Intent.createChooser(intent, "Share The Article"))
+            return true
+        }
+        return false
     }
 }

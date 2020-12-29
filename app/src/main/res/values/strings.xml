@@ -30,4 +30,5 @@
     <string name="author_insta_desc">author instagram profile</string>
     <string name="author_twitter_desc">author twitter profile</string>
     <string name="author_github_desc">author github profile</string>
+    <string name="share">Share</string>
 </resources>
