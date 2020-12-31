@@ -13,6 +13,25 @@ Simple blog app that shows different blog articles from a HTTP API.
 
 [![CS Geeks Blog App](https://img.shields.io/badge/Download-Latest-App?style=for-the-badge&logo=android)](https://github.com/mrwhoknows55/csgeeks-blog-app/releases/download/v1.0/csgeeks.apk)
 
+## Screenshots
+<table>
+  <tr>
+    <td><img src = "docs/screenshots/HomePage.png"></td>
+    <td><img src = "docs/screenshots/ArticlePage.png"></td>
+    <td><img src = "docs/screenshots/AuthorPage.png"></td>
+  </tr>
+  <tr>
+    <td><img src = "docs/screenshots/LoginPage.png"></td>
+    <td><img src = "docs/screenshots/CreateArticle.png"></td>
+    <td><img src = "docs/screenshots/EditArticlePage.png"></td>
+  </tr>
+    <tr>
+    <td><img src = "docs/screenshots/DeleteArticlePage.png"></td>
+    <td><img src = "docs/screenshots/NavDrawer.png"></td>
+    <td><img src = "docs/screenshots/SelectThemeDialog.png"></td>
+  </tr>
+</table>    
+
 ## Built using
 - [Kotlin 💙](https://kotlinlang.org/) - Official programming language for Android development.
 - [Android Architecture Components](https://developer.android.com/topic/libraries/architecture)
