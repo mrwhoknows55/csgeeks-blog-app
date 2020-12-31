@@ -9,6 +9,8 @@ Simple blog app that shows different blog articles from a HTTP API.
 - Create, Update, Delete article support.
 - Can navigate between the website and app (deeplinks).
 
+Checkout the [Flask API backend]() created by my friend [Jay](https://github.com/jaypowar00).
+
 ## You can download & install latest app ⬇   
 
 [![CS Geeks Blog App](https://img.shields.io/badge/Download-Latest-App?style=for-the-badge&logo=android)](https://github.com/mrwhoknows55/csgeeks-blog-app/releases/download/v1.0/csgeeks.apk)
