@@ -31,4 +31,11 @@
     <string name="author_twitter_desc">author twitter profile</string>
     <string name="author_github_desc">author github profile</string>
     <string name="share">Share</string>
+    <string name="article_body">Article Body</string>
+    <string name="title_of_the_article">Title of the article</string>
+    <string name="author_name">Author name</string>
+    <string name="thumbnail_image_link">Thumbnail image link</string>
+    <string name="tags_edit_text_hint">Tags (seperated by comma)</string>
+    <string name="description_hint">Description</string>
+    <string name="enter_article_body">Enter Article Body</string>
 </resources>

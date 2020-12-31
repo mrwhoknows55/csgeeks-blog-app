@@ -42,7 +42,7 @@
         android:layout_marginBottom="16dp"
         android:background="@color/colorBackgroundDark2"
         android:gravity="top"
-        android:hint="Article Body"
+        android:hint="@string/article_body"
         android:minHeight="300dp"
         android:paddingHorizontal="8dp"
         android:paddingVertical="10dp"
@@ -62,8 +62,7 @@
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="16dp"
         android:backgroundTint="@color/colorNordBlue"
-        android:text="Create Article"
-        android:textColor="@color/colorTextPrimary"
+        android:text="@string/menu_create_article"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
