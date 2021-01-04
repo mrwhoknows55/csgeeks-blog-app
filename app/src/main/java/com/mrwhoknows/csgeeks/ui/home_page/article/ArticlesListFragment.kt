@@ -14,6 +14,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.chip.Chip
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 import com.mrwhoknows.csgeeks.R
 import com.mrwhoknows.csgeeks.adapter.ArticleListAdapter
@@ -235,6 +236,19 @@ class ArticlesListFragment : Fragment(R.layout.fragment_articles_list) {
                                 "No Articles Found",
                                 Snackbar.LENGTH_SHORT
                             ).show()
+
+                            MaterialAlertDialogBuilder(requireContext())
+                                .setTitle("No Articles Found")
+                                .setMessage("Do you want to retry?")
+                                .setPositiveButton("Yes, Retry") { dialog, _ ->
+                                    showAllArticles()
+                                    dialog.dismiss()
+                                }
+                                .setNegativeButton("No, Exit") { dialog, _ ->
+                                    dialog.dismiss()
+                                    requireActivity().finish()
+                                }
+
                         }
                     }
                 }
@@ -243,7 +257,17 @@ class ArticlesListFragment : Fragment(R.layout.fragment_articles_list) {
                     Util.isLoading(bounceLoaderBG, false)
                     response.message?.let {
                         Log.e(TAG, "Error: $it")
-                        Snackbar.make(requireView(), "Error: $it", Snackbar.LENGTH_SHORT).show()
+                        MaterialAlertDialogBuilder(requireContext())
+                            .setTitle("Error: $it")
+                            .setMessage("Do you want to retry?")
+                            .setPositiveButton("Yes, Retry") { dialog, _ ->
+                                showAllArticles()
+                                dialog.dismiss()
+                            }
+                            .setNegativeButton("No, Exit") { dialog, _ ->
+                                dialog.dismiss()
+                                requireActivity().finish()
+                            }
                     }
                 }
                 is Resource.Loading -> {
