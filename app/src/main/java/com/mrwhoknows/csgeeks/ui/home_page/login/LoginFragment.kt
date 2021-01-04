@@ -27,19 +27,19 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
         viewModel = (activity as MainActivity).viewModel
 
         btLogin.setOnClickListener {
-            val username = tvUsername.editText!!.text.toString()
-            val passwd = tvPassword.editText!!.text.toString()
+            val username = usernameTextInput.editText!!.text.toString()
+            val passwd = passwordTextInput.editText!!.text.toString()
 
             if (username.isBlank() or passwd.isBlank()) {
 
-                if (username.isBlank()) tvUsername.error = "Please Enter Username"
-                else tvUsername.error = null
+                if (username.isBlank()) usernameTextInput.error = "Please Enter Username"
+                else usernameTextInput.error = null
 
-                if (passwd.isBlank()) tvPassword.error = "Please Enter Password"
-                else tvPassword.error = null
+                if (passwd.isBlank()) passwordTextInput.error = "Please Enter Password"
+                else passwordTextInput.error = null
             } else {
-                tvUsername.error = null
-                tvPassword.error = null
+                usernameTextInput.error = null
+                passwordTextInput.error = null
 
                 //Hide kyb when clicked on submit
                 val kbd =
