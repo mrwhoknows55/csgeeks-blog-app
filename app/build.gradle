@@ -69,7 +69,7 @@ dependencies {
     implementation "io.noties.markwon:image-glide:4.6.0"
 
     // progress bar
-    implementation 'com.agrawalsuneet.androidlibs:dotsloader:1.4'
+    implementation 'com.agrawalsuneet.androidlibs:dotsloader:1.4.2'
 }
 
 kapt {
