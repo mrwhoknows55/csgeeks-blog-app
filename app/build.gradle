@@ -61,7 +61,7 @@ dependencies {
 
     // Nav components
     implementation "androidx.navigation:navigation-fragment-ktx:2.3.3"
-    implementation "androidx.navigation:navigation-ui-ktx:2.3.0"
+    implementation "androidx.navigation:navigation-ui-ktx:2.3.3"
 
     // Markown
     implementation "io.noties.markwon:core:4.6.0"
