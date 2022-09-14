@@ -1,7 +1,9 @@
 package com.mrwhoknows.csgeeks.ui.admin_page.create
 
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.snackbar.Snackbar
@@ -18,12 +20,19 @@ import io.noties.markwon.editor.MarkwonEditorTextWatcher
 import kotlinx.android.synthetic.main.fragment_create_article_body.*
 import java.util.concurrent.Executors
 
-class CreateArticleBodyFragment : Fragment(R.layout.fragment_create_article_body) {
+class CreateArticleBodyFragment : Fragment() {
 
     lateinit var article: SendArticle
     lateinit var viewModel: BlogViewModel
     private lateinit var args: CreateArticleBodyFragmentArgs
     private var loginToken: String = ""
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View = inflater.inflate(R.layout.fragment_create_article_body, container, false)
+
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

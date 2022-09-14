@@ -53,7 +53,7 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
     }
 
     private fun observeLogin() {
-        viewModel.loginUser.observe(viewLifecycleOwner, { loginResource ->
+        viewModel.loginUser.observe(viewLifecycleOwner) { loginResource ->
             when (loginResource) {
 
                 is Resource.Success -> {
@@ -82,9 +82,11 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
                     Log.d(TAG, "error: ${loginResource.message!!}")
                     saveLoginToken(false, null, "")
                 }
+                is Resource.Loading -> {
 
+                }
             }
-        })
+        }
     }
 
     private fun saveLoginToken(isLoginSuccess: Boolean, loginToken: String?, authorName: String?) {

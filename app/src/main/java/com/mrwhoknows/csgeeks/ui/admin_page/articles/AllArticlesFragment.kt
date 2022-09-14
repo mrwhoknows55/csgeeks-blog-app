@@ -2,7 +2,9 @@ package com.mrwhoknows.csgeeks.ui.admin_page.articles
 
 import android.os.Bundle
 import android.util.Log
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import android.widget.RadioButton
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
@@ -24,7 +26,7 @@ import kotlinx.android.synthetic.main.sort_menu_bottom_sheet.*
 
 private const val TAG = "AllArticlesFragment"
 
-class AllArticlesFragment : Fragment(R.layout.fragment_articles_list) {
+class AllArticlesFragment : Fragment() {
 
     private lateinit var articleAdapter: ArticleListAdapter
     private lateinit var viewModel: BlogViewModel
@@ -32,6 +34,13 @@ class AllArticlesFragment : Fragment(R.layout.fragment_articles_list) {
     private var selectedTag: String = ""
     private var sortBy: String = ""
     private var order: String = ""
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View = inflater.inflate(R.layout.fragment_articles_list, container, false)
+
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

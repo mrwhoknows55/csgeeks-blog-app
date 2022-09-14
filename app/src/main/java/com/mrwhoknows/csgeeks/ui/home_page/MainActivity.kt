@@ -9,6 +9,7 @@ import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.NavigationUI
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.mrwhoknows.csgeeks.R
@@ -42,9 +43,10 @@ class MainActivity : AppCompatActivity() {
             BlogViewModelFactory(
                 blogRepository
             )
-        viewModel = ViewModelProvider(this, viewModelFactory).get(BlogViewModel::class.java)
+        viewModel = ViewModelProvider(this, viewModelFactory)[BlogViewModel::class.java]
 
-        val navController = this.findNavController(R.id.navHostFragment)
+        val navHostFragment = supportFragmentManager.findFragmentById(R.id.navHostFragment) as NavHostFragment
+        val navController = navHostFragment.navController
         NavigationUI.setupWithNavController(mainNavView, navController)
         NavigationUI.setupActionBarWithNavController(this, navController, drawerLayout)
         val navHeaderLayout = mainNavView.getHeaderView(0)

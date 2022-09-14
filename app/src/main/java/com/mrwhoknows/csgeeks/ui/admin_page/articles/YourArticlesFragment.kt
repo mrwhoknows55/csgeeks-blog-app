@@ -2,7 +2,9 @@ package com.mrwhoknows.csgeeks.ui.admin_page.articles
 
 import android.os.Bundle
 import android.util.Log
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
@@ -23,12 +25,19 @@ import kotlinx.android.synthetic.main.fragment_manage_articles.*
 
 private const val TAG = "YourArticlesFragment"
 
-class YourArticlesFragment : Fragment(R.layout.fragment_manage_articles) {
+class YourArticlesFragment : Fragment() {
 
     private lateinit var articleAdapter: ArticleListAdapter
     private lateinit var viewModel: BlogViewModel
     private var authorName: String = ""
     private var loginToken: String = ""
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View = inflater.inflate(R.layout.fragment_manage_articles, container, false)
+
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

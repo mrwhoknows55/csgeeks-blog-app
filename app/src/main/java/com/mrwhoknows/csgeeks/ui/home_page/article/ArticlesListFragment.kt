@@ -2,9 +2,7 @@ package com.mrwhoknows.csgeeks.ui.home_page.article
 
 import android.os.Bundle
 import android.util.Log
-import android.view.Menu
-import android.view.MenuInflater
-import android.view.View
+import android.view.*
 import android.widget.RadioButton
 import androidx.appcompat.widget.SearchView
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -31,7 +29,7 @@ import kotlinx.coroutines.launch
 
 private const val TAG = "ListFragment"
 
-class ArticlesListFragment : Fragment(R.layout.fragment_articles_list) {
+class ArticlesListFragment : Fragment() {
 
     private lateinit var articleAdapter: ArticleListAdapter
     private lateinit var viewModel: BlogViewModel
@@ -40,11 +38,18 @@ class ArticlesListFragment : Fragment(R.layout.fragment_articles_list) {
     private var sortBy: String = ""
     private var order: String = ""
 
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View = inflater.inflate(R.layout.fragment_articles_list, container, false)
+
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setHasOptionsMenu(true)
 
-        viewModel = (activity as MainActivity).viewModel
+        viewModel = (requireActivity() as MainActivity).viewModel
         blogTags()
         showAllArticles()
         sortSheet()

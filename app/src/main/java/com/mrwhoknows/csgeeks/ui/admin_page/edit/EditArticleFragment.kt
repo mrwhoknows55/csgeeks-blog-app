@@ -2,7 +2,9 @@ package com.mrwhoknows.csgeeks.ui.admin_page.edit
 
 import android.os.Bundle
 import android.util.Log
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
@@ -21,12 +23,18 @@ import kotlinx.coroutines.launch
 
 private const val TAG = "CreateArticleFragment"
 
-class EditArticleFragment : Fragment(R.layout.fragment_create_article) {
+class EditArticleFragment : Fragment() {
 
     lateinit var article: SendArticle
     lateinit var viewModel: BlogViewModel
     private lateinit var args: EditArticleFragmentArgs
     var body: String = ""
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View = inflater.inflate(R.layout.fragment_create_article, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

@@ -2,7 +2,9 @@ package com.mrwhoknows.csgeeks.ui.admin_page.create
 
 import android.os.Bundle
 import android.util.Log
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.mrwhoknows.csgeeks.R
@@ -15,10 +17,17 @@ import kotlinx.android.synthetic.main.fragment_create_article.*
 
 private const val TAG = "CreateArticleFragment"
 
-class CreateArticleFragment : Fragment(R.layout.fragment_create_article) {
+class CreateArticleFragment : Fragment() {
 
     lateinit var article: SendArticle
     lateinit var viewModel: BlogViewModel
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View = inflater.inflate(R.layout.fragment_create_article, container, false)
+
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
