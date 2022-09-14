@@ -1,11 +1,8 @@
 package com.mrwhoknows.csgeeks.util
 
 import android.view.View
-import kotlinx.android.synthetic.main.fragment_article.*
-import java.lang.Exception
 import java.text.SimpleDateFormat
-import java.util.Locale
-import java.util.TimeZone
+import java.util.*
 
 object Util {
 

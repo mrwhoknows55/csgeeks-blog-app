@@ -1,11 +1,14 @@
 package com.mrwhoknows.csgeeks.ui.admin_page.edit
 
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.snackbar.Snackbar
 import com.mrwhoknows.csgeeks.R
+import com.mrwhoknows.csgeeks.databinding.FragmentCreateArticleBodyBinding
 import com.mrwhoknows.csgeeks.model.SendArticle
 import com.mrwhoknows.csgeeks.ui.admin_page.AdminActivity
 import com.mrwhoknows.csgeeks.util.LoginInfo
@@ -15,52 +18,61 @@ import com.mrwhoknows.csgeeks.viewmodels.BlogViewModel
 import io.noties.markwon.Markwon
 import io.noties.markwon.editor.MarkwonEditor
 import io.noties.markwon.editor.MarkwonEditorTextWatcher
-import kotlinx.android.synthetic.main.fragment_create_article_body.*
 import java.util.concurrent.Executors
 
-class EditArticleBodyFragment : Fragment(R.layout.fragment_create_article_body) {
+class EditArticleBodyFragment : Fragment() {
 
     lateinit var article: SendArticle
     lateinit var viewModel: BlogViewModel
     private lateinit var args: EditArticleBodyFragmentArgs
+    private lateinit var binding: FragmentCreateArticleBodyBinding
     private var loginToken: String = ""
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        binding = FragmentCreateArticleBodyBinding.inflate(inflater, container, false)
+        return binding.root
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        Util.isLoading(bounceLoader, false)
-        Util.isLoading(bounceLoaderBG, false)
+        Util.isLoading(binding.bounceLoader, false)
+        Util.isLoading(binding.bounceLoaderBG, false)
 
         LoginInfo(requireActivity()).loginToken?.let {
             loginToken = it
         }
 
-        viewModel = (activity as AdminActivity).viewModel
+        viewModel = (requireActivity() as AdminActivity).viewModel
         args = EditArticleBodyFragmentArgs.fromBundle(requireArguments())
 
         val markwon: Markwon = Markwon.create(requireContext())
         val editor: MarkwonEditor = MarkwonEditor.create(markwon)
 
 
-        etArticleContent.addTextChangedListener(
+        binding.etArticleContent.addTextChangedListener(
             MarkwonEditorTextWatcher.withPreRender(
                 editor,
                 Executors.newCachedThreadPool(),
-                etArticleContent
+                binding.etArticleContent
             )
         )
 
-        etArticleContent.setText(args.body)
+        binding.etArticleContent.setText(args.body)
 
-        btCreateArticle.setOnClickListener {
+        binding.btCreateArticle.setOnClickListener {
             getInput()
         }
     }
 
     private fun getInput() {
-        val content = etArticleContent.text.toString()
+        val content = binding.etArticleContent.text.toString()
 
         if (content.isBlank()) {
-            etArticleContent.error = "Please enter the content"
+            binding.etArticleContent.error = "Please enter the content"
         } else {
 
             article = SendArticle(
@@ -79,11 +91,11 @@ class EditArticleBodyFragment : Fragment(R.layout.fragment_create_article_body) 
     private fun updateArticle() {
         viewModel.updateArticleToServer(args.id, article, loginToken)
 
-        viewModel.updateArticleResponse.observe(viewLifecycleOwner, {
+        viewModel.updateArticleResponse.observe(viewLifecycleOwner) {
             when (it) {
                 is Resource.Loading -> {
-                    Util.isLoading(bounceLoader, true)
-                    Util.isLoading(bounceLoaderBG, true)
+                    Util.isLoading(binding.bounceLoader, true)
+                    Util.isLoading(binding.bounceLoaderBG, true)
                 }
                 is Resource.Success -> {
 
@@ -103,8 +115,8 @@ class EditArticleBodyFragment : Fragment(R.layout.fragment_create_article_body) 
                         ).show()
                     }
 
-                    Util.isLoading(bounceLoader, false)
-                    Util.isLoading(bounceLoaderBG, false)
+                    Util.isLoading(binding.bounceLoader, false)
+                    Util.isLoading(binding.bounceLoaderBG, false)
                 }
                 is Resource.Error -> {
 
@@ -114,10 +126,10 @@ class EditArticleBodyFragment : Fragment(R.layout.fragment_create_article_body) 
                         Snackbar.LENGTH_SHORT
                     ).show()
 
-                    Util.isLoading(bounceLoaderBG, false)
-                    Util.isLoading(bounceLoaderBG, false)
+                    Util.isLoading(binding.bounceLoaderBG, false)
+                    Util.isLoading(binding.bounceLoaderBG, false)
                 }
             }
-        })
+        }
     }
 }

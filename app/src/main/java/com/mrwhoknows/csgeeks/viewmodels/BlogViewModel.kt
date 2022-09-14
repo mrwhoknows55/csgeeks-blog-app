@@ -198,11 +198,15 @@ class BlogViewModel(
             _articles.postValue(Resource.Loading())
             try {
                 val response = repository.getArticlesByAuthor(authorName)
-                _articles.postValue(handleArticles(response))
+                if (response.isSuccessful){
+                    _articles.postValue(handleArticles(response))
+                } else {
+                    throw Exception("Server Error")
+                }
             } catch (t: Throwable) {
                 when (t) {
                     is IOException -> _articles.postValue(Resource.Error("Network Failure"))
-                    else -> _articles.postValue(Resource.Error("Conversion Error"))
+                    else -> _articles.postValue(Resource.Error("Server Error"))
                 }
             }
         }

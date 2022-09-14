@@ -3,43 +3,55 @@ package com.mrwhoknows.csgeeks.ui.home_page.login
 import android.content.Context
 import android.os.Bundle
 import android.util.Log
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import androidx.fragment.app.Fragment
+import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.snackbar.Snackbar
 import com.mrwhoknows.csgeeks.R
+import com.mrwhoknows.csgeeks.databinding.FragmentLoginBinding
 import com.mrwhoknows.csgeeks.ui.home_page.MainActivity
 import com.mrwhoknows.csgeeks.util.Constants.LOGIN_TOKEN
 import com.mrwhoknows.csgeeks.util.LoginInfo
 import com.mrwhoknows.csgeeks.util.Resource
 import com.mrwhoknows.csgeeks.viewmodels.BlogViewModel
-import kotlinx.android.synthetic.main.fragment_login.*
 
 private const val TAG = "LoginFragment"
 
-class LoginFragment : Fragment(R.layout.fragment_login) {
+class LoginFragment : Fragment() {
 
     private lateinit var viewModel: BlogViewModel
+    private lateinit var binding: FragmentLoginBinding
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        binding = FragmentLoginBinding.inflate(inflater, container, false)
+        return binding.root
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel = (activity as MainActivity).viewModel
+        viewModel = (requireActivity() as MainActivity).viewModel
 
-        btLogin.setOnClickListener {
-            val username = usernameTextInput.editText!!.text.toString()
-            val passwd = passwordTextInput.editText!!.text.toString()
+        binding.btLogin.setOnClickListener {
+            val username = binding.usernameTextInput.editText!!.text.toString()
+            val passwd = binding.passwordTextInput.editText!!.text.toString()
 
             if (username.isBlank() or passwd.isBlank()) {
 
-                if (username.isBlank()) usernameTextInput.error = "Please Enter Username"
-                else usernameTextInput.error = null
+                if (username.isBlank()) binding.usernameTextInput.error = "Please Enter Username"
+                else binding.usernameTextInput.error = null
 
-                if (passwd.isBlank()) passwordTextInput.error = "Please Enter Password"
-                else passwordTextInput.error = null
+                if (passwd.isBlank()) binding.passwordTextInput.error = "Please Enter Password"
+                else binding.passwordTextInput.error = null
             } else {
-                usernameTextInput.error = null
-                passwordTextInput.error = null
+                binding.usernameTextInput.error = null
+                binding.passwordTextInput.error = null
 
                 //Hide kyb when clicked on submit
                 val kbd =
@@ -53,7 +65,7 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
     }
 
     private fun observeLogin() {
-        viewModel.loginUser.observe(viewLifecycleOwner, { loginResource ->
+        viewModel.loginUser.observe(viewLifecycleOwner) { loginResource ->
             when (loginResource) {
 
                 is Resource.Success -> {
@@ -62,7 +74,7 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
                     val authorName = loginResource.data?.author.toString()
                     if (loginResource.data!!.success) {
                         saveLoginToken(true, token, authorName)
-                        findNavController().navigate(R.id.action_loginFragment_to_adminActivity)
+                        requireActivity().findNavController(R.id.navHostFragment).navigate(R.id.action_loginFragment_to_adminActivity)
                         requireActivity().finish()
                     } else {
                         Snackbar.make(
@@ -82,9 +94,11 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
                     Log.d(TAG, "error: ${loginResource.message!!}")
                     saveLoginToken(false, null, "")
                 }
+                is Resource.Loading -> {
 
+                }
             }
-        })
+        }
     }
 
     private fun saveLoginToken(isLoginSuccess: Boolean, loginToken: String?, authorName: String?) {

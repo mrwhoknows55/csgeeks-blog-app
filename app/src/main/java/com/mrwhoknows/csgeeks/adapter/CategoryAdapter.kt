@@ -3,10 +3,10 @@ package com.mrwhoknows.csgeeks.adapter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.mrwhoknows.csgeeks.R
 import com.mrwhoknows.csgeeks.model.ArticleTags
-import kotlinx.android.synthetic.main.item_categories.view.*
 
 class CategoryAdapter(
     private val tags: ArticleTags,
@@ -17,7 +17,7 @@ class CategoryAdapter(
     inner class CategoryViewHolder(itemView: View) :
         RecyclerView.ViewHolder(itemView) {
         fun bind(tag: String, itemClickListener: OnItemClickListener) {
-            itemView.tvCategoryName.text = tag
+            itemView.findViewById<TextView>(R.id.tvCategoryName).text = tag
             itemView.setOnClickListener { itemClickListener.onItemClicked(tag) }
         }
     }

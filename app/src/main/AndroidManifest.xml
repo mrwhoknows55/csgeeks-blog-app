@@ -11,13 +11,16 @@
         android:roundIcon="@mipmap/ic_launcher"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ui.home_page.MainActivity">
+        <activity android:name=".ui.home_page.MainActivity"
+            android:exported="false">
             <nav-graph android:value="@navigation/blog_nav_graph" />
         </activity>
-        <activity android:name=".ui.admin_page.AdminActivity">
+        <activity android:name=".ui.admin_page.AdminActivity"
+            android:exported="false">
             <nav-graph android:value="@navigation/admin_nav_graph" />
         </activity>
-        <activity android:name=".ui.SplashActivity">
+        <activity android:name=".ui.SplashActivity"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
