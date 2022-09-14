@@ -11,6 +11,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.request.target.Target
 import com.google.android.material.snackbar.Snackbar
 import com.mrwhoknows.csgeeks.R
+import com.mrwhoknows.csgeeks.databinding.FragmentArticleBinding
 import com.mrwhoknows.csgeeks.repository.BlogRepository
 import com.mrwhoknows.csgeeks.util.Constants
 import com.mrwhoknows.csgeeks.util.Resource
@@ -20,7 +21,6 @@ import com.mrwhoknows.csgeeks.viewmodels.BlogViewModelFactory
 import io.noties.markwon.Markwon
 import io.noties.markwon.image.AsyncDrawable
 import io.noties.markwon.image.glide.GlideImagesPlugin
-import kotlinx.android.synthetic.main.fragment_article.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -30,6 +30,7 @@ private const val TAG = "ArticleFragment"
 class ArticleFragment : Fragment() {
 
     private val args: ArticleFragmentArgs by navArgs()
+    private lateinit var binding : FragmentArticleBinding
     private lateinit var viewModel: BlogViewModel
     private lateinit var authorName: String
     var articleID = ""
@@ -38,7 +39,10 @@ class ArticleFragment : Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View = inflater.inflate(R.layout.fragment_article, container, false)
+    ): View {
+        binding = FragmentArticleBinding.inflate(inflater, container, false)
+        return binding.root
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -58,11 +62,11 @@ class ArticleFragment : Fragment() {
             viewModel.getArticle(articleID)
         }
 
-        viewModel.article.observe(viewLifecycleOwner, { articleResource ->
+        viewModel.article.observe(viewLifecycleOwner) { articleResource ->
             when (articleResource) {
                 is Resource.Loading -> {
-                    Util.isLoading(bounceLoader, true)
-                    Util.isLoading(bounceLoaderBG, true)
+                    Util.isLoading(binding.bounceLoader, true)
+                    Util.isLoading(binding.bounceLoaderBG, true)
                 }
                 is Resource.Success -> {
                     articleResource.data?.let {
@@ -97,11 +101,11 @@ class ArticleFragment : Fragment() {
                                 )
                             )
                             .build()
-                        markwon.setMarkdown(tvArticleBody, articleHeader + "\n" + data.content)
+                        markwon.setMarkdown(binding.tvArticleBody, articleHeader + "\n" + data.content)
                     }
 
-                    Util.isLoading(bounceLoader, false)
-                    Util.isLoading(bounceLoaderBG, false)
+                    Util.isLoading(binding.bounceLoader, false)
+                    Util.isLoading(binding.bounceLoaderBG, false)
                 }
                 is Resource.Error -> {
                     Log.d(TAG, "onViewCreated: error")
@@ -112,12 +116,12 @@ class ArticleFragment : Fragment() {
                             Snackbar.LENGTH_SHORT
                         ).show()
                     }
-                    Util.isLoading(bounceLoader, false)
-                    Util.isLoading(bounceLoaderBG, false)
+                    Util.isLoading(binding.bounceLoader, false)
+                    Util.isLoading(binding.bounceLoaderBG, false)
                 }
             }
 
-        })
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {

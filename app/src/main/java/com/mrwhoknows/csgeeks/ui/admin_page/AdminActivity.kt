@@ -144,10 +144,10 @@ class AdminActivity : AppCompatActivity() {
             .setNeutralButton("Cancel") { dialog, _ ->
                 dialog.cancel()
             }
-            .setSingleChoiceItems(singleItems, checkedItem) { dialog, which ->
+            .setSingleChoiceItems(singleItems, checkedItem) { _, which ->
                 checkedItem = which
             }
-            .setPositiveButton("Apply") { dialog, which ->
+            .setPositiveButton("Apply") { dialog, _ ->
                 when (checkedItem) {
                     0 -> {
                         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)

@@ -9,14 +9,13 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.snackbar.Snackbar
-import com.mrwhoknows.csgeeks.R
+import com.mrwhoknows.csgeeks.databinding.FragmentCreateArticleBinding
 import com.mrwhoknows.csgeeks.model.SendArticle
 import com.mrwhoknows.csgeeks.repository.BlogRepository
 import com.mrwhoknows.csgeeks.util.Resource
 import com.mrwhoknows.csgeeks.util.Util
 import com.mrwhoknows.csgeeks.viewmodels.BlogViewModel
 import com.mrwhoknows.csgeeks.viewmodels.BlogViewModelFactory
-import kotlinx.android.synthetic.main.fragment_create_article.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -28,13 +27,17 @@ class EditArticleFragment : Fragment() {
     lateinit var article: SendArticle
     lateinit var viewModel: BlogViewModel
     private lateinit var args: EditArticleFragmentArgs
+    private lateinit var binding: FragmentCreateArticleBinding
     var body: String = ""
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View = inflater.inflate(R.layout.fragment_create_article, container, false)
+    ): View {
+        binding = FragmentCreateArticleBinding.inflate(inflater, container, false)
+        return binding.root
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -47,18 +50,18 @@ class EditArticleFragment : Fragment() {
             )
         viewModel = ViewModelProvider(this, viewModelFactory).get(BlogViewModel::class.java)
 
-        btEnterBody.isEnabled = false
+        binding.btEnterBody.isEnabled = false
         getOldArticleData()
         setOldDataToViews()
     }
 
     private fun setOldDataToViews() {
-        viewModel.article.observe(viewLifecycleOwner, { articleResource ->
+        viewModel.article.observe(viewLifecycleOwner) { articleResource ->
             when (articleResource) {
 
                 is Resource.Loading -> {
-                    Util.isLoading(bounceLoaderBG, true)
-                    Util.isLoading(bounceLoader, true)
+                    Util.isLoading(binding.bounceLoaderBG, true)
+                    Util.isLoading(binding.bounceLoader, true)
                 }
 
                 is Resource.Success -> {
@@ -72,20 +75,20 @@ class EditArticleFragment : Fragment() {
                             else
                                 ",$tag"
                         }
-                        etArticleTags.setText(tags)
-                        etArticleThumbnailLink.setText(article.thumbnail)
-                        etArticleTitle.setText(article.title)
-                        etArticleAuthorName.setText(article.author)
-                        etArticleDescription.setText(article.description)
+                        binding.etArticleTags.setText(tags)
+                        binding.etArticleThumbnailLink.setText(article.thumbnail)
+                        binding.etArticleTitle.setText(article.title)
+                        binding.etArticleAuthorName.setText(article.author)
+                        binding.etArticleDescription.setText(article.description)
                         body = article.content
 
-                        btEnterBody.isEnabled = true
-                        btEnterBody.setOnClickListener {
+                        binding.btEnterBody.isEnabled = true
+                        binding.btEnterBody.setOnClickListener {
                             getInput()
                         }
                     }
-                    Util.isLoading(bounceLoader, false)
-                    Util.isLoading(bounceLoaderBG, false)
+                    Util.isLoading(binding.bounceLoader, false)
+                    Util.isLoading(binding.bounceLoaderBG, false)
                 }
 
                 is Resource.Error -> {
@@ -99,11 +102,11 @@ class EditArticleFragment : Fragment() {
                         ).show()
                     }
 
-                    Util.isLoading(bounceLoaderBG, false)
-                    Util.isLoading(bounceLoader, false)
+                    Util.isLoading(binding.bounceLoaderBG, false)
+                    Util.isLoading(binding.bounceLoader, false)
                 }
             }
-        })
+        }
     }
 
     private fun getOldArticleData() {
@@ -114,26 +117,26 @@ class EditArticleFragment : Fragment() {
 
     private fun getInput()
             : Boolean {
-        val title = etArticleTitle.text.toString()
-        val authorName = etArticleAuthorName.text.toString()
-        val thumbLink = etArticleThumbnailLink.text.toString()
-        val tags = etArticleTags.text.toString()
-        val desc = etArticleDescription.text.toString()
+        val title = binding.etArticleTitle.text.toString()
+        val authorName = binding.etArticleAuthorName.text.toString()
+        val thumbLink = binding.etArticleThumbnailLink.text.toString()
+        val tags = binding.etArticleTags.text.toString()
+        val desc = binding.etArticleDescription.text.toString()
 
         if (title.isEmpty() || title.isBlank()) {
-            etArticleTitle.error = "Required"
+            binding.etArticleTitle.error = "Required"
             return false
         }
         if (authorName.isEmpty() || authorName.isBlank()) {
-            etArticleAuthorName.error = "Required"
+            binding.etArticleAuthorName.error = "Required"
             return false
         }
         if (thumbLink.isEmpty() || thumbLink.isBlank()) {
-            etArticleThumbnailLink.error = "Required"
+            binding.etArticleThumbnailLink.error = "Required"
             return false
         }
         if (tags.isEmpty() || tags.isBlank()) {
-            etArticleTags.error = "Required"
+            binding.etArticleTags.error = "Required"
             return false
         }
 

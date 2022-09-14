@@ -4,6 +4,8 @@ import android.os.Bundle
 import android.util.Log
 import android.view.*
 import android.widget.RadioButton
+import android.widget.RadioGroup
+import android.widget.TextView
 import androidx.appcompat.widget.SearchView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
@@ -16,13 +18,12 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 import com.mrwhoknows.csgeeks.R
 import com.mrwhoknows.csgeeks.adapter.ArticleListAdapter
+import com.mrwhoknows.csgeeks.databinding.FragmentArticlesListBinding
 import com.mrwhoknows.csgeeks.model.ArticleList
 import com.mrwhoknows.csgeeks.ui.home_page.MainActivity
 import com.mrwhoknows.csgeeks.util.Resource
 import com.mrwhoknows.csgeeks.util.Util
 import com.mrwhoknows.csgeeks.viewmodels.BlogViewModel
-import kotlinx.android.synthetic.main.fragment_articles_list.*
-import kotlinx.android.synthetic.main.sort_menu_bottom_sheet.*
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch
@@ -34,6 +35,7 @@ class ArticlesListFragment : Fragment() {
     private lateinit var articleAdapter: ArticleListAdapter
     private lateinit var viewModel: BlogViewModel
     private lateinit var bottomSheetBehavior: BottomSheetBehavior<ConstraintLayout>
+    private lateinit var binding: FragmentArticlesListBinding
     private var selectedTag: String = ""
     private var sortBy: String = ""
     private var order: String = ""
@@ -42,7 +44,10 @@ class ArticlesListFragment : Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View = inflater.inflate(R.layout.fragment_articles_list, container, false)
+    ): View {
+        binding = FragmentArticlesListBinding.inflate(inflater, container, false)
+        return binding.root
+    }
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -56,15 +61,17 @@ class ArticlesListFragment : Fragment() {
     }
 
     private fun sortSheet() {
-        val bottomSheet = sortOptionsBottomSheetLayout
+        val bottomSheet =
+            requireView().findViewById<ConstraintLayout>(R.id.sortOptionsBottomSheetLayout)
         bottomSheetBehavior = BottomSheetBehavior.from(bottomSheet)
         bottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
 
-        btnSort.setOnClickListener {
+        binding.btnSort.setOnClickListener {
             bottomSheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
 
-            tvApplyBtn.setOnClickListener {
-                val id = sortByOptions.checkedRadioButtonId
+            bottomSheet.findViewById<TextView>(R.id.tvApplyBtn).setOnClickListener {
+                val id =
+                    bottomSheet.findViewById<RadioGroup>(R.id.sortByOptions).checkedRadioButtonId
                 val option = requireView().findViewById<RadioButton>(id)
 
                 if (selectedTag.isEmpty()) {
@@ -144,7 +151,7 @@ class ArticlesListFragment : Fragment() {
     }
 
     private fun initRecyclerView(data: ArticleList) {
-        rv_articleList.apply {
+        binding.rvArticleList.apply {
             articleAdapter = ArticleListAdapter(data)
             layoutManager = LinearLayoutManager(context)
             adapter = articleAdapter
@@ -154,16 +161,16 @@ class ArticlesListFragment : Fragment() {
     private fun blogTags() {
         var tags: List<String>
         viewModel.getArticleTags()
-        viewModel.tags.observe(viewLifecycleOwner, { resource ->
+        viewModel.tags.observe(viewLifecycleOwner) { resource ->
             when (resource) {
                 is Resource.Success -> {
-                    Util.isLoading(bounceLoader, false)
-                    Util.isLoading(bounceLoaderBG, false)
+                    Util.isLoading(binding.bounceLoader, false)
+                    Util.isLoading(binding.bounceLoaderBG, false)
                     Log.d(TAG, "tags: ${resource.data}")
                     resource.data?.let {
                         tags = it.tags
                         for (tag in tags) {
-                            val chip = Chip(chipsCategories.context)
+                            val chip = Chip(binding.chipsCategories.context)
                             chip.text = tag
                             chip.chipBackgroundColor = ContextCompat.getColorStateList(
                                 requireContext(),
@@ -172,13 +179,13 @@ class ArticlesListFragment : Fragment() {
 
                             chip.isClickable = true
                             chip.isCheckable = true
-                            chipsCategories.addView(chip)
+                            binding.chipsCategories.addView(chip)
                         }
                     }
-                    chipsCategories.isSingleSelection = true
+                    binding.chipsCategories.isSingleSelection = true
 
-                    chipsCategories.setOnCheckedChangeListener { _, id ->
-                        val chip = chipsCategories.findViewById<Chip>(id)
+                    binding.chipsCategories.setOnCheckedChangeListener { _, id ->
+                        val chip = binding.chipsCategories.findViewById<Chip>(id)
                         if (chip != null) {
                             Log.d(TAG, "chip sel: ${chip.text}")
                             selectedTag = chip.text.toString()
@@ -199,27 +206,27 @@ class ArticlesListFragment : Fragment() {
                     }
                 }
                 is Resource.Error -> {
-                    Util.isLoading(bounceLoader, true)
-                    Util.isLoading(bounceLoaderBG, true)
+                    Util.isLoading(binding.bounceLoader, true)
+                    Util.isLoading(binding.bounceLoaderBG, true)
                     Snackbar.make(requireView(), "Something Went Wrong", Snackbar.LENGTH_LONG)
                         .show()
                 }
 
                 is Resource.Loading -> {
-                    Util.isLoading(bounceLoader, true)
-                    Util.isLoading(bounceLoaderBG, true)
+                    Util.isLoading(binding.bounceLoader, true)
+                    Util.isLoading(binding.bounceLoaderBG, true)
                 }
             }
-        })
+        }
     }
 
     private fun showAllArticles() {
         viewModel.getAllArticles()
-        viewModel.articles.observe(viewLifecycleOwner, { response ->
+        viewModel.articles.observe(viewLifecycleOwner) { response ->
             when (response) {
                 is Resource.Success -> {
-                    Util.isLoading(bounceLoader, false)
-                    Util.isLoading(bounceLoaderBG, false)
+                    Util.isLoading(binding.bounceLoader, false)
+                    Util.isLoading(binding.bounceLoaderBG, false)
                     response.data?.let { articleList ->
                         if (!articleList.articles.isNullOrEmpty()) {
                             initRecyclerView(articleList)
@@ -235,7 +242,7 @@ class ArticlesListFragment : Fragment() {
                                 }
                             }
                         } else {
-                            rv_articleList.adapter = null
+                            binding.rvArticleList.adapter = null
                             Snackbar.make(
                                 requireView(),
                                 "No Articles Found",
@@ -258,8 +265,8 @@ class ArticlesListFragment : Fragment() {
                     }
                 }
                 is Resource.Error -> {
-                    Util.isLoading(bounceLoader, false)
-                    Util.isLoading(bounceLoaderBG, false)
+                    Util.isLoading(binding.bounceLoader, false)
+                    Util.isLoading(binding.bounceLoaderBG, false)
                     response.message?.let {
                         Log.e(TAG, "Error: $it")
                         MaterialAlertDialogBuilder(requireContext())
@@ -276,11 +283,11 @@ class ArticlesListFragment : Fragment() {
                     }
                 }
                 is Resource.Loading -> {
-                    Util.isLoading(bounceLoader, true)
-                    Util.isLoading(bounceLoaderBG, true)
+                    Util.isLoading(binding.bounceLoader, true)
+                    Util.isLoading(binding.bounceLoaderBG, true)
                 }
             }
-        })
+        }
     }
 
     //TODO: call showAllArticles() changes when we go back from search view
