@@ -6,7 +6,7 @@ import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.lifecycle.ViewModelProvider
-import com.mrwhoknows.csgeeks.R
+import com.mrwhoknows.csgeeks.databinding.ActivitySplashBinding
 import com.mrwhoknows.csgeeks.repository.BlogRepository
 import com.mrwhoknows.csgeeks.ui.admin_page.AdminActivity
 import com.mrwhoknows.csgeeks.ui.home_page.MainActivity
@@ -22,10 +22,11 @@ private const val TAG = "SplashActivity"
 class SplashActivity : AppCompatActivity() {
 
     lateinit var viewModel: BlogViewModel
+    private val binding by lazy { ActivitySplashBinding.inflate(layoutInflater) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_splash)
+        setContentView(binding.root)
         val appSettingPrefs = getSharedPreferences(Constants.APP_THEME_SHARED_PREFS, MODE_PRIVATE)
         AppCompatDelegate.setDefaultNightMode(
             appSettingPrefs.getInt(

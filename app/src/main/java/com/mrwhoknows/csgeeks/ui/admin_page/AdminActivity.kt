@@ -20,6 +20,7 @@ import com.bumptech.glide.Glide
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 import com.mrwhoknows.csgeeks.R
+import com.mrwhoknows.csgeeks.databinding.ActivityAdminBinding
 import com.mrwhoknows.csgeeks.repository.BlogRepository
 import com.mrwhoknows.csgeeks.ui.home_page.MainActivity
 import com.mrwhoknows.csgeeks.util.Constants
@@ -31,8 +32,6 @@ import com.mrwhoknows.csgeeks.util.Resource
 import com.mrwhoknows.csgeeks.util.collapseKeyboardIfFocusOutsideEditText
 import com.mrwhoknows.csgeeks.viewmodels.BlogViewModel
 import com.mrwhoknows.csgeeks.viewmodels.BlogViewModelFactory
-import kotlinx.android.synthetic.main.activity_admin.*
-import kotlinx.android.synthetic.main.header_nav_view.view.*
 
 private const val TAG = "AdminActivity"
 
@@ -43,6 +42,7 @@ class AdminActivity : AppCompatActivity() {
     private lateinit var tvHeaderAuthorName: TextView
     private lateinit var tvHeaderAuthorMail: TextView
     private lateinit var ivHeaderAuthorProfile: ImageView
+    private val binding by lazy { ActivityAdminBinding.inflate(layoutInflater) }
     lateinit var viewModel: BlogViewModel
     var userToken = ""
     var authorName = ""
@@ -50,8 +50,8 @@ class AdminActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_admin)
-        setSupportActionBar(adminToolbar)
+        setContentView(binding.root)
+        setSupportActionBar(binding.adminToolbar)
         appSettingPrefs = getSharedPreferences(Constants.APP_THEME_SHARED_PREFS, MODE_PRIVATE)
         AppCompatDelegate.setDefaultNightMode(
             appSettingPrefs.getInt(
@@ -65,21 +65,21 @@ class AdminActivity : AppCompatActivity() {
             BlogViewModelFactory(
                 blogRepository
             )
-        viewModel = ViewModelProvider(this, viewModelFactory).get(BlogViewModel::class.java)
+        viewModel = ViewModelProvider(this, viewModelFactory)[BlogViewModel::class.java]
 
         adminSharedPrefs = this.getSharedPreferences(TOKEN_SHARED_PREFF, 0)
         userToken = adminSharedPrefs.getString(LOGIN_TOKEN, null).toString()
         authorName = adminSharedPrefs.getString(AUTHOR_NAME, null).toString()
 
-        val navHeaderLayout = adminNavView.getHeaderView(0)
-        tvHeaderAuthorName = navHeaderLayout.tvHeaderAuthorName.apply {
+        val navHeaderLayout = binding.adminNavView.getHeaderView(0)
+        tvHeaderAuthorName = navHeaderLayout.findViewById<TextView>(R.id.tvHeaderAuthorName).apply {
             visibility = View.VISIBLE
             text = authorName
         }
-        ivHeaderAuthorProfile = navHeaderLayout.ivHeaderAuthorProfile.apply {
+        ivHeaderAuthorProfile = navHeaderLayout.findViewById<ImageView>(R.id.ivHeaderAuthorProfile).apply {
             visibility = View.VISIBLE
         }
-        tvHeaderAuthorMail = navHeaderLayout.tvHeaderAuthorMail.apply {
+        tvHeaderAuthorMail = navHeaderLayout.findViewById<TextView>(R.id.tvHeaderAuthorMail).apply {
             visibility = View.VISIBLE
         }
 
@@ -106,18 +106,19 @@ class AdminActivity : AppCompatActivity() {
         }
 
         setNavMenuItemClicks()
-        val navHostFragment = supportFragmentManager.findFragmentById(R.id.adminNavHostFragment) as NavHostFragment
+        val navHostFragment =
+            supportFragmentManager.findFragmentById(R.id.adminNavHostFragment) as NavHostFragment
         val navController = navHostFragment.navController
-        NavigationUI.setupWithNavController(adminNavView, navController)
-        NavigationUI.setupActionBarWithNavController(this, navController, adminDrawerLayout)
+        NavigationUI.setupWithNavController(binding.adminNavView, navController)
+        NavigationUI.setupActionBarWithNavController(this, navController, binding.adminDrawerLayout)
     }
 
     private fun setNavMenuItemClicks() {
-        adminNavView.menu.getItem(4).setOnMenuItemClickListener {
+        binding.adminNavView.menu.getItem(4).setOnMenuItemClickListener {
             setLogoutDialog()
             true
         }
-        adminNavView.menu.getItem(3).setOnMenuItemClickListener {
+        binding.adminNavView.menu.getItem(3).setOnMenuItemClickListener {
             setAppThemeDialog()
             true
         }
@@ -205,7 +206,7 @@ class AdminActivity : AppCompatActivity() {
         viewModel.logoutUserFromLiveData.observe(this) {
             when (it) {
                 is Resource.Success -> {
-                    Snackbar.make(adminToolbar, "Log Out Success!", Snackbar.LENGTH_SHORT).show()
+                    Snackbar.make(binding.adminToolbar, "Log Out Success!", Snackbar.LENGTH_SHORT).show()
                     editor.putString(LOGIN_TOKEN, null).apply()
                     val intent = Intent(this, MainActivity::class.java).apply {
                         flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
@@ -214,11 +215,11 @@ class AdminActivity : AppCompatActivity() {
                     finish()
                 }
                 is Resource.Error -> {
-                    Snackbar.make(adminToolbar, "Something Went Wrong", Snackbar.LENGTH_SHORT)
+                    Snackbar.make(binding.adminToolbar, "Something Went Wrong", Snackbar.LENGTH_SHORT)
                         .show()
                 }
                 is Resource.Loading -> {
-                    Snackbar.make(adminToolbar, "Logging Out...", Snackbar.LENGTH_SHORT)
+                    Snackbar.make(binding.adminToolbar, "Logging Out...", Snackbar.LENGTH_SHORT)
                         .show()
                 }
             }
@@ -227,7 +228,7 @@ class AdminActivity : AppCompatActivity() {
 
     override fun onSupportNavigateUp(): Boolean {
         val navController = this.findNavController(R.id.adminNavHostFragment)
-        return NavigationUI.navigateUp(navController, adminDrawerLayout)
+        return NavigationUI.navigateUp(navController, binding.adminDrawerLayout)
     }
 
     //    Collapse the keyboard when the user taps outside the EditText
