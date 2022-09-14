@@ -45,7 +45,7 @@ class AllArticlesFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel = (activity as AdminActivity).viewModel
+        viewModel = (requireActivity() as AdminActivity).viewModel
         showAllArticles()
         blogTags()
         sortSheet()

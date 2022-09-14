@@ -24,7 +24,7 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel = (activity as MainActivity).viewModel
+        viewModel = (requireActivity() as MainActivity).viewModel
 
         btLogin.setOnClickListener {
             val username = usernameTextInput.editText!!.text.toString()

@@ -50,7 +50,7 @@ class YourArticlesFragment : Fragment() {
             loginToken = it
         }
 
-        viewModel = (activity as AdminActivity).viewModel
+        viewModel = (requireActivity() as AdminActivity).viewModel
 
         showYourArticles()
         Snackbar.make(

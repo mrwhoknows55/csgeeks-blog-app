@@ -43,7 +43,7 @@ class CreateArticleBodyFragment : Fragment() {
             loginToken = it
         }
 
-        viewModel = (activity as AdminActivity).viewModel
+        viewModel = (requireActivity() as AdminActivity).viewModel
 
         val markwon: Markwon = Markwon.create(requireContext())
         val editor: MarkwonEditor = MarkwonEditor.create(markwon)

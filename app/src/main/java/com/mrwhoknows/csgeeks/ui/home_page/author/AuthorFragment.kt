@@ -35,7 +35,7 @@ class AuthorFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel = (activity as MainActivity).viewModel
+        viewModel = (requireActivity() as MainActivity).viewModel
 
         val authorName = args.authorName
         Log.d(TAG, "authorName: $authorName")

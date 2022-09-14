@@ -14,6 +14,7 @@ import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.NavigationUI
 import com.bumptech.glide.Glide
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -83,7 +84,7 @@ class AdminActivity : AppCompatActivity() {
         }
 
         viewModel.getAuthor(authorName)
-        viewModel.author.observe(this, { authorResource ->
+        viewModel.author.observe(this) { authorResource ->
             when (authorResource) {
                 is Resource.Success -> {
                     authorResource.data?.let { data ->
@@ -102,10 +103,11 @@ class AdminActivity : AppCompatActivity() {
                     Log.d(TAG, "onCreate: author details didn't load")
                 }
             }
-        })
+        }
 
         setNavMenuItemClicks()
-        val navController = findNavController(R.id.adminNavHostFragment)
+        val navHostFragment = supportFragmentManager.findFragmentById(R.id.adminNavHostFragment) as NavHostFragment
+        val navController = navHostFragment.navController
         NavigationUI.setupWithNavController(adminNavView, navController)
         NavigationUI.setupActionBarWithNavController(this, navController, adminDrawerLayout)
     }
@@ -200,7 +202,7 @@ class AdminActivity : AppCompatActivity() {
         val editor = adminSharedPrefs.edit()
         viewModel.logoutUserFromServer(userToken)
 
-        viewModel.logoutUserFromLiveData.observe(this, {
+        viewModel.logoutUserFromLiveData.observe(this) {
             when (it) {
                 is Resource.Success -> {
                     Snackbar.make(adminToolbar, "Log Out Success!", Snackbar.LENGTH_SHORT).show()
@@ -220,7 +222,7 @@ class AdminActivity : AppCompatActivity() {
                         .show()
                 }
             }
-        })
+        }
     }
 
     override fun onSupportNavigateUp(): Boolean {

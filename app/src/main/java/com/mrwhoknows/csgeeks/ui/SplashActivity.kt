@@ -18,6 +18,7 @@ import com.mrwhoknows.csgeeks.viewmodels.BlogViewModelFactory
 
 private const val TAG = "SplashActivity"
 
+// TODO use new splash_screen api
 class SplashActivity : AppCompatActivity() {
 
     lateinit var viewModel: BlogViewModel
@@ -56,7 +57,7 @@ class SplashActivity : AppCompatActivity() {
                 navigateToActivity(main)
             }
 
-            viewModel.isLoggedIn.observe(this, {
+            viewModel.isLoggedIn.observe(this) {
                 when (it) {
                     is Resource.Success -> {
                         if (it.data!!.success)
@@ -72,7 +73,7 @@ class SplashActivity : AppCompatActivity() {
                         Log.d(TAG, "onCreate: loading")
                     }
                 }
-            })
+            }
         } else {
             navigateToActivity(main)
             Log.d(TAG, "called main2")
