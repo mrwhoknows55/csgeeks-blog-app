@@ -1,0 +1,35 @@
+name: Android CI
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master, dev ]
+
+jobs:
+  build:
+    name: Android Build CI
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - name: JDK 12 setup
+        uses: actions/setup-java@v1
+        with:
+          java-version: 12
+      - name: Gradle wrapper and cache
+        uses: actions/cache@v2
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-
+      - name: Grant Permission to Execute
+        run: chmod +x gradlew
+      - name: Gradle build
+        run: ./gradlew assembleDebug
+      - name: Upload apk
+        uses: actions/upload-artifact@v2
+        with:
+          name: app
+          path: app/build/**/*.apk

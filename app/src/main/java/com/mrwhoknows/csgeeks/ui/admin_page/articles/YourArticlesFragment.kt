@@ -2,7 +2,9 @@ package com.mrwhoknows.csgeeks.ui.admin_page.articles
 
 import android.os.Bundle
 import android.util.Log
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
@@ -13,22 +15,33 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 import com.mrwhoknows.csgeeks.R
 import com.mrwhoknows.csgeeks.adapter.ArticleListAdapter
+import com.mrwhoknows.csgeeks.databinding.FragmentManageArticlesBinding
 import com.mrwhoknows.csgeeks.model.ArticleList
 import com.mrwhoknows.csgeeks.ui.admin_page.AdminActivity
 import com.mrwhoknows.csgeeks.util.LoginInfo
 import com.mrwhoknows.csgeeks.util.Resource
 import com.mrwhoknows.csgeeks.util.Util
 import com.mrwhoknows.csgeeks.viewmodels.BlogViewModel
-import kotlinx.android.synthetic.main.fragment_manage_articles.*
 
 private const val TAG = "YourArticlesFragment"
 
-class YourArticlesFragment : Fragment(R.layout.fragment_manage_articles) {
+class YourArticlesFragment : Fragment() {
 
     private lateinit var articleAdapter: ArticleListAdapter
     private lateinit var viewModel: BlogViewModel
+    private lateinit var binding: FragmentManageArticlesBinding
     private var authorName: String = ""
     private var loginToken: String = ""
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        binding = FragmentManageArticlesBinding.inflate(inflater, container, false)
+        return binding.root
+    }
+
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -41,7 +54,7 @@ class YourArticlesFragment : Fragment(R.layout.fragment_manage_articles) {
             loginToken = it
         }
 
-        viewModel = (activity as AdminActivity).viewModel
+        viewModel = (requireActivity() as AdminActivity).viewModel
 
         showYourArticles()
         Snackbar.make(
@@ -56,7 +69,7 @@ class YourArticlesFragment : Fragment(R.layout.fragment_manage_articles) {
     }
 
     private fun initRecyclerView(data: ArticleList) {
-        rv_articleList.apply {
+       binding.rvArticleList.apply {
             articleAdapter = ArticleListAdapter(data)
             layoutManager = LinearLayoutManager(context)
             adapter = articleAdapter
@@ -66,11 +79,11 @@ class YourArticlesFragment : Fragment(R.layout.fragment_manage_articles) {
     private fun showYourArticles() {
         viewModel.getArticlesByAuthor(authorName)
         Log.d(TAG, "showYourArticles: $authorName")
-        viewModel.articles.observe(viewLifecycleOwner, { response ->
+        viewModel.articles.observe(viewLifecycleOwner) { response ->
             when (response) {
                 is Resource.Success -> {
-                    Util.isLoading(bounceLoader, false)
-                    Util.isLoading(bounceLoaderBG, false)
+                    Util.isLoading(binding.bounceLoader, false)
+                    Util.isLoading(binding.bounceLoaderBG, false)
                     response.data?.let { articleList ->
                         if (!articleList.articles.isNullOrEmpty()) {
                             initRecyclerView(articleList)
@@ -96,19 +109,19 @@ class YourArticlesFragment : Fragment(R.layout.fragment_manage_articles) {
                     }
                 }
                 is Resource.Error -> {
-                    Util.isLoading(bounceLoader, false)
-                    Util.isLoading(bounceLoaderBG, false)
+                    Util.isLoading(binding.bounceLoader, false)
+                    Util.isLoading(binding.bounceLoaderBG, false)
                     response.message?.let {
                         Log.e(TAG, "Error: $it")
                         Snackbar.make(requireView(), "Error: $it", Snackbar.LENGTH_SHORT).show()
                     }
                 }
                 is Resource.Loading -> {
-                    Util.isLoading(bounceLoader, true)
-                    Util.isLoading(bounceLoaderBG, true)
+                    Util.isLoading(binding.bounceLoader, true)
+                    Util.isLoading(binding.bounceLoaderBG, true)
                 }
             }
-        })
+        }
     }
 
     private fun swipeToDeleteArticle() {
@@ -138,6 +151,7 @@ class YourArticlesFragment : Fragment(R.layout.fragment_manage_articles) {
                         )
                     )
                     .setNegativeButton("No") { _, _ ->
+                        // TODO use diff utils
                         articleAdapter.notifyDataSetChanged()
                     }
                     .setPositiveButton("Yes") { _, _ ->
@@ -148,31 +162,31 @@ class YourArticlesFragment : Fragment(R.layout.fragment_manage_articles) {
         }
 
         ItemTouchHelper(itemTouchHelperCallback).apply {
-            attachToRecyclerView(rv_articleList)
+            attachToRecyclerView(binding.rvArticleList)
         }
     }
 
     private fun deleteArticle(article: ArticleList.Article) {
         viewModel.deleteArticleToServer(article.id.toString(), loginToken)
-        viewModel.deleteArticleResponse.observe(viewLifecycleOwner, { selectedArticle ->
+        viewModel.deleteArticleResponse.observe(viewLifecycleOwner) { selectedArticle ->
             when (selectedArticle) {
                 is Resource.Success -> {
-                    Util.isLoading(bounceLoader, false)
-                    Util.isLoading(bounceLoaderBG, false)
+                    Util.isLoading(binding.bounceLoader, false)
+                    Util.isLoading(binding.bounceLoaderBG, false)
                 }
                 is Resource.Loading -> {
-                    Util.isLoading(bounceLoader, true)
-                    Util.isLoading(bounceLoaderBG, true)
+                    Util.isLoading(binding.bounceLoader, true)
+                    Util.isLoading(binding.bounceLoaderBG, true)
                 }
                 is Resource.Error -> {
-                    Util.isLoading(bounceLoader, false)
-                    Util.isLoading(bounceLoaderBG, false)
+                    Util.isLoading(binding.bounceLoader, false)
+                    Util.isLoading(binding.bounceLoaderBG, false)
                     selectedArticle.message?.let {
                         Log.e(TAG, "Error: $it")
                         Snackbar.make(requireView(), "Error: $it", Snackbar.LENGTH_SHORT).show()
                     }
                 }
             }
-        })
+        }
     }
 }
