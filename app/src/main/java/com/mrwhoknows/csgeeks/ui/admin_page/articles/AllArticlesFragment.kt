@@ -170,8 +170,10 @@ class AllArticlesFragment : Fragment() {
                     }
                     binding.chipsCategories.isSingleSelection = true
 
-                    binding.chipsCategories.setOnCheckedChangeListener { _, id ->
-                        val chip = binding.chipsCategories.findViewById<Chip>(id)
+                    binding.chipsCategories.setOnCheckedStateChangeListener { _, id ->
+                        val chip =  id.first()?.let {
+                            binding.chipsCategories.findViewById<Chip>(it)
+                        }
                         if (chip != null) {
                             Log.d(TAG, "chip sel: ${chip.text}")
                             selectedTag = chip.text.toString()
