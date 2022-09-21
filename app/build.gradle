@@ -70,6 +70,9 @@ dependencies {
 
     // progress bar
     implementation 'com.agrawalsuneet.androidlibs:dotsloader:1.4.2'
+
+    // splash screen
+    implementation 'androidx.core:core-splashscreen:1.0.0'
 }
 
 kapt {

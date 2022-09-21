@@ -19,7 +19,9 @@
             android:exported="false">
             <nav-graph android:value="@navigation/admin_nav_graph" />
         </activity>
-        <activity android:name=".ui.SplashActivity"
+        <activity
+            android:theme="@style/Theme.App.Starting"
+            android:name=".ui.SplashActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
