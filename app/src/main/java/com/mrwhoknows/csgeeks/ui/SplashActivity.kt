@@ -7,7 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.lifecycle.ViewModelProvider
 import com.mrwhoknows.csgeeks.databinding.ActivitySplashBinding
-import com.mrwhoknows.csgeeks.repository.BlogRepository
+import com.mrwhoknows.csgeeks.repository.BlogRepositoryImpl
 import com.mrwhoknows.csgeeks.ui.admin_page.AdminActivity
 import com.mrwhoknows.csgeeks.ui.home_page.MainActivity
 import com.mrwhoknows.csgeeks.util.Constants
@@ -40,7 +40,7 @@ class SplashActivity : AppCompatActivity() {
         val main = Intent(this, MainActivity::class.java)
         val admin = Intent(this, AdminActivity::class.java)
 
-        val blogRepository = BlogRepository()
+        val blogRepository = BlogRepositoryImpl()
         val viewModelFactory =
             BlogViewModelFactory(
                 blogRepository

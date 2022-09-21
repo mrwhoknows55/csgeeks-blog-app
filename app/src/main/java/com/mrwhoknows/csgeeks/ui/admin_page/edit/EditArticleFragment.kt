@@ -11,7 +11,7 @@ import androidx.navigation.fragment.findNavController
 import com.google.android.material.snackbar.Snackbar
 import com.mrwhoknows.csgeeks.databinding.FragmentCreateArticleBinding
 import com.mrwhoknows.csgeeks.model.SendArticle
-import com.mrwhoknows.csgeeks.repository.BlogRepository
+import com.mrwhoknows.csgeeks.repository.BlogRepositoryImpl
 import com.mrwhoknows.csgeeks.util.Resource
 import com.mrwhoknows.csgeeks.util.Util
 import com.mrwhoknows.csgeeks.viewmodels.BlogViewModel
@@ -43,7 +43,7 @@ class EditArticleFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         args = EditArticleFragmentArgs.fromBundle(requireArguments())
-        val blogRepository = BlogRepository()
+        val blogRepository = BlogRepositoryImpl()
         val viewModelFactory =
             BlogViewModelFactory(
                 blogRepository

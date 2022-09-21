@@ -176,7 +176,6 @@ class ArticlesListFragment : Fragment() {
                                 requireContext(),
                                 R.color.colorBackgroundDark3
                             )
-
                             chip.isClickable = true
                             chip.isCheckable = true
                             binding.chipsCategories.addView(chip)
@@ -184,10 +183,11 @@ class ArticlesListFragment : Fragment() {
                     }
                     binding.chipsCategories.isSingleSelection = true
 
-                    binding.chipsCategories.setOnCheckedStateChangeListener { _, id ->
-                        val chip =  id.first()?.let {
+                    binding.chipsCategories.setOnCheckedStateChangeListener { _, checkedIds ->
+                        val chip = if (checkedIds.isNotEmpty()) checkedIds.first()?.let {
                             binding.chipsCategories.findViewById<Chip>(it)
-                        }
+                        } else null
+
                         if (chip != null) {
                             Log.d(TAG, "chip sel: ${chip.text}")
                             selectedTag = chip.text.toString()
@@ -210,7 +210,8 @@ class ArticlesListFragment : Fragment() {
                 is Resource.Error -> {
                     Util.isLoading(binding.bounceLoader, true)
                     Util.isLoading(binding.bounceLoaderBG, true)
-                    Snackbar.make(requireView(), "Something Went Wrong", Snackbar.LENGTH_LONG)
+                    Snackbar
+                        .make(requireView(), "Something Went Wrong", Snackbar.LENGTH_LONG)
                         .show()
                 }
 

@@ -21,7 +21,7 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 import com.mrwhoknows.csgeeks.R
 import com.mrwhoknows.csgeeks.databinding.ActivityAdminBinding
-import com.mrwhoknows.csgeeks.repository.BlogRepository
+import com.mrwhoknows.csgeeks.repository.BlogRepositoryImpl
 import com.mrwhoknows.csgeeks.ui.home_page.MainActivity
 import com.mrwhoknows.csgeeks.util.Constants
 import com.mrwhoknows.csgeeks.util.Constants.AUTHOR_NAME
@@ -60,7 +60,7 @@ class AdminActivity : AppCompatActivity() {
             )
         )
 
-        val blogRepository = BlogRepository()
+        val blogRepository = BlogRepositoryImpl()
         val viewModelFactory =
             BlogViewModelFactory(
                 blogRepository

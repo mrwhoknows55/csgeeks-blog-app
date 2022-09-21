@@ -16,7 +16,7 @@ import androidx.navigation.ui.NavigationUI
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.mrwhoknows.csgeeks.R
 import com.mrwhoknows.csgeeks.databinding.ActivityMainBinding
-import com.mrwhoknows.csgeeks.repository.BlogRepository
+import com.mrwhoknows.csgeeks.repository.BlogRepositoryImpl
 import com.mrwhoknows.csgeeks.util.Constants
 import com.mrwhoknows.csgeeks.util.collapseKeyboardIfFocusOutsideEditText
 import com.mrwhoknows.csgeeks.viewmodels.BlogViewModel
@@ -40,7 +40,7 @@ class MainActivity : AppCompatActivity() {
             )
         )
 
-        val blogRepository = BlogRepository()
+        val blogRepository = BlogRepositoryImpl()
         val viewModelFactory =
             BlogViewModelFactory(
                 blogRepository

@@ -12,7 +12,7 @@ import com.bumptech.glide.request.target.Target
 import com.google.android.material.snackbar.Snackbar
 import com.mrwhoknows.csgeeks.R
 import com.mrwhoknows.csgeeks.databinding.FragmentArticleBinding
-import com.mrwhoknows.csgeeks.repository.BlogRepository
+import com.mrwhoknows.csgeeks.repository.BlogRepositoryImpl
 import com.mrwhoknows.csgeeks.util.Constants
 import com.mrwhoknows.csgeeks.util.Resource
 import com.mrwhoknows.csgeeks.util.Util
@@ -48,7 +48,7 @@ class ArticleFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         setHasOptionsMenu(true)
 
-        val blogRepository = BlogRepository()
+        val blogRepository = BlogRepositoryImpl()
         val viewModelFactory =
             BlogViewModelFactory(
                 blogRepository
