@@ -17,7 +17,7 @@ Demo author credentials:
 
 ## You can download & install latest app ⬇   
 
-[![CS Geeks Blog App](https://img.shields.io/badge/Download-Latest-App?style=for-the-badge&logo=android)](https://github.com/mrwhoknows55/csgeeks-blog-app/releases/download/v1.1/csgeeks.apk)
+[![CS Geeks Blog App](https://img.shields.io/badge/Download-Latest-App?style=for-the-badge&logo=android)](https://github.com/mrwhoknows55/csgeeks-blog-app/releases/download/2.0/app-release.apk)
 
 ## Screenshots
 <table>
