@@ -19,6 +19,7 @@ android {
         buildConfigField "String", "BLOG_LINK_WITHOUT_HTTP", "\"jaypowar00.github.io/csgeeksblog\""
         resValue "string", "blog_by_id_deeplink", "jaypowar00.github.io/csgeeksblog/post.html?id={articleID}"
         resValue "string", "blog_author_deeplink", "jaypowar00.github.io/csgeeksblog/author.html?name={authorName}"
+        resValue "string", "blog_host_deeplink", "\"jaypowar00.github.io\""
     }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
