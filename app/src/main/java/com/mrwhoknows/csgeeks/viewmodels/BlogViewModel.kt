@@ -11,14 +11,14 @@ import com.mrwhoknows.csgeeks.model.Author
 import com.mrwhoknows.csgeeks.model.LoginResponse
 import com.mrwhoknows.csgeeks.model.ResultResponse
 import com.mrwhoknows.csgeeks.model.SendArticle
-import com.mrwhoknows.csgeeks.repository.BlogRepository
+import com.mrwhoknows.csgeeks.repository.BlogRepositoryImpl
 import com.mrwhoknows.csgeeks.util.Resource
 import kotlinx.coroutines.launch
 import retrofit2.Response
 import java.io.IOException
 
 class BlogViewModel(
-    private val repository: BlogRepository
+    private val repository: BlogRepositoryImpl
 ) : ViewModel() {
 
     private val _articles: MutableLiveData<Resource<ArticleList>> = MutableLiveData()

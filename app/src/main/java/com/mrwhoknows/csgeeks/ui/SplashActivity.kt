@@ -5,9 +5,10 @@ import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
+import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.lifecycle.ViewModelProvider
 import com.mrwhoknows.csgeeks.databinding.ActivitySplashBinding
-import com.mrwhoknows.csgeeks.repository.BlogRepository
+import com.mrwhoknows.csgeeks.repository.BlogRepositoryImpl
 import com.mrwhoknows.csgeeks.ui.admin_page.AdminActivity
 import com.mrwhoknows.csgeeks.ui.home_page.MainActivity
 import com.mrwhoknows.csgeeks.util.Constants
@@ -18,13 +19,13 @@ import com.mrwhoknows.csgeeks.viewmodels.BlogViewModelFactory
 
 private const val TAG = "SplashActivity"
 
-// TODO use new splash_screen api
 class SplashActivity : AppCompatActivity() {
 
     lateinit var viewModel: BlogViewModel
     private val binding by lazy { ActivitySplashBinding.inflate(layoutInflater) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        val splashScreen = installSplashScreen()
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
         val appSettingPrefs = getSharedPreferences(Constants.APP_THEME_SHARED_PREFS, MODE_PRIVATE)
@@ -40,12 +41,13 @@ class SplashActivity : AppCompatActivity() {
         val main = Intent(this, MainActivity::class.java)
         val admin = Intent(this, AdminActivity::class.java)
 
-        val blogRepository = BlogRepository()
+        val blogRepository = BlogRepositoryImpl()
         val viewModelFactory =
             BlogViewModelFactory(
                 blogRepository
             )
-        viewModel = ViewModelProvider(this, viewModelFactory).get(BlogViewModel::class.java)
+        viewModel = ViewModelProvider(this, viewModelFactory)[BlogViewModel::class.java]
+        splashScreen.setKeepOnScreenCondition { true }
 
         Log.d(TAG, "isLoggedIn: " + loginInfo.isLoggedIn)
         if (loginInfo.isLoggedIn) {
@@ -57,7 +59,6 @@ class SplashActivity : AppCompatActivity() {
             } else {
                 navigateToActivity(main)
             }
-
             viewModel.isLoggedIn.observe(this) {
                 when (it) {
                     is Resource.Success -> {

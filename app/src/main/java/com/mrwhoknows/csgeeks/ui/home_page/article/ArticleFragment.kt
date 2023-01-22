@@ -12,8 +12,9 @@ import com.bumptech.glide.request.target.Target
 import com.google.android.material.snackbar.Snackbar
 import com.mrwhoknows.csgeeks.R
 import com.mrwhoknows.csgeeks.databinding.FragmentArticleBinding
-import com.mrwhoknows.csgeeks.repository.BlogRepository
+import com.mrwhoknows.csgeeks.repository.BlogRepositoryImpl
 import com.mrwhoknows.csgeeks.util.Constants
+import com.mrwhoknows.csgeeks.util.Constants.BLOG_SITE_URL_WITH_HTTPS
 import com.mrwhoknows.csgeeks.util.Resource
 import com.mrwhoknows.csgeeks.util.Util
 import com.mrwhoknows.csgeeks.viewmodels.BlogViewModel
@@ -48,13 +49,13 @@ class ArticleFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         setHasOptionsMenu(true)
 
-        val blogRepository = BlogRepository()
+        val blogRepository = BlogRepositoryImpl()
         val viewModelFactory =
             BlogViewModelFactory(
                 blogRepository
             )
         viewModel =
-            ViewModelProvider(requireActivity(), viewModelFactory).get(BlogViewModel::class.java)
+            ViewModelProvider(requireActivity(), viewModelFactory)[BlogViewModel::class.java]
 
         articleID = args.articleID
 
@@ -79,8 +80,7 @@ class ArticleFragment : Fragment() {
                             "dd, MMM yyyy hh:mm a"
                         )
 
-                        val authorDeepLink =
-                            "https://csgeeks-blog.000webhostapp.com/author.html?name=${data.author}"
+                        val authorDeepLink = BLOG_SITE_URL_WITH_HTTPS + "/author.html?name=${data.author}"
 
                         val articleHeader =
                             "# ${data.title}\n![thumb](${data.thumbnail})  \n\nCreated by," +
@@ -136,7 +136,7 @@ class ArticleFragment : Fragment() {
                 type = "text/plain"
                 putExtra(
                     Intent.EXTRA_TEXT,
-                    "Checkout awesome article: ${Constants.BLOG_SITE_URL}/post.html?id=$articleID"
+                    "Checkout awesome article: ${Constants.BLOG_SITE_URL_WITHOUT_HTTPS}/post.html?id=$articleID"
                 )
             }
             startActivity(Intent.createChooser(intent, "Share The Article"))

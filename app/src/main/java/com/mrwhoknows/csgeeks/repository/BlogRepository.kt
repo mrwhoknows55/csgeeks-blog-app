@@ -1,52 +1,39 @@
 package com.mrwhoknows.csgeeks.repository
 
-import com.mrwhoknows.csgeeks.api.RetrofitInstance
-import com.mrwhoknows.csgeeks.model.SendArticle
+import com.mrwhoknows.csgeeks.model.*
+import retrofit2.Response
 
-class BlogRepository {
+interface BlogRepository {
 
-    suspend fun getAllArticles() =
-        RetrofitInstance.api.getAllArticles()
+    suspend fun getAllArticles(): Response<ArticleList>
 
-    suspend fun getArticleById(id: String) =
-        RetrofitInstance.api.getArticleById(id)
+    suspend fun getArticleById(id: String): Response<Article>
 
-    suspend fun searchArticles(query: String) =
-        RetrofitInstance.api.searchArticles(query)
+    suspend fun searchArticles(query: String): Response<ArticleList>
 
-    suspend fun getArticlesByAuthor(authorName: String) =
-        RetrofitInstance.api.getArticlesByAuthor(authorName)
+    suspend fun getArticlesByAuthor(authorName: String): Response<ArticleList>
 
-    suspend fun orderArticlesBy(orderBy: String, order: String) =
-        RetrofitInstance.api.orderArticlesBy(orderBy, order)
+    suspend fun orderArticlesBy(orderBy: String, order: String): Response<ArticleList>
 
-    suspend fun orderArticlesBy(tag:String, orderBy: String, order: String) =
-        RetrofitInstance.api.orderArticlesBy(tag, orderBy, order)
+    suspend fun orderArticlesBy(tag: String, orderBy: String, order: String): Response<ArticleList>
 
-    suspend fun getAuthor(authorName: String) =
-        RetrofitInstance.api.getAuthor(authorName)
+    suspend fun getAuthor(authorName: String): Response<Author>
 
-    suspend fun createArticle(article: SendArticle, token: String) =
-        RetrofitInstance.api.createArticle(article, token)
+    suspend fun createArticle(article: SendArticle, token: String): Response<ResultResponse>
 
-    suspend fun updateArticle(id: String, article: SendArticle, token: String) =
-        RetrofitInstance.api.updateArticle(id, article, token)
+    suspend fun updateArticle(
+        id: String, article: SendArticle, token: String
+    ): Response<ResultResponse>
 
-    suspend fun deleteArticle(id: String, token: String) =
-        RetrofitInstance.api.deleteArticle(id, token)
+    suspend fun deleteArticle(id: String, token: String): Response<ResultResponse>
 
-    suspend fun getArticleTags() =
-        RetrofitInstance.api.getTags()
+    suspend fun getArticleTags(): Response<ArticleTags>
 
-    suspend fun getArticleByTag(tag: String) =
-        RetrofitInstance.api.getArticleByTag(tag)
+    suspend fun getArticleByTag(tag: String): Response<ArticleList>
 
-    suspend fun login(username: String, passwd: String) =
-        RetrofitInstance.api.login(username, passwd)
+    suspend fun login(username: String, passwd: String): Response<LoginResponse>
 
-    suspend fun logoutUser(token: String) =
-        RetrofitInstance.api.logoutUser(token)
+    suspend fun logoutUser(token: String): Response<LoginResponse>
 
-    suspend fun isLoggedIn(token: String) =
-        RetrofitInstance.api.isLoggedIn(token)
+    suspend fun isLoggedIn(token: String): Response<LoginResponse>
 }
