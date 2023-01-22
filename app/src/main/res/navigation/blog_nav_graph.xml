@@ -43,8 +43,9 @@
             app:popEnterAnim="@anim/nav_default_pop_enter_anim"
             app:popExitAnim="@anim/nav_default_pop_exit_anim" />
         <deepLink
+            android:autoVerify="true"
             android:id="@+id/deepLink4"
-            app:uri="csgeeks-blog.000webhostapp.com/post.html?id={articleID}" />
+            app:uri="@string/blog_by_id_deeplink" />
     </fragment>
     <fragment
         android:id="@+id/authorFragment"
@@ -56,8 +57,9 @@
             app:argType="string"
             app:nullable="true" />
         <deepLink
+            android:autoVerify="true"
             android:id="@+id/deepLink3"
-            app:uri="csgeeks-blog.000webhostapp.com/author.html?name={authorName}" />
+            app:uri="@string/blog_author_deeplink" />
     </fragment>
     <fragment
         android:id="@+id/loginFragment"

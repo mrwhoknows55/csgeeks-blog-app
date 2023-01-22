@@ -1,6 +1,6 @@
 package com.mrwhoknows.csgeeks.api
 
-import com.mrwhoknows.csgeeks.util.Constants.BASE_URL
+import com.mrwhoknows.csgeeks.util.Constants.BASE_API_URL
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -16,13 +16,13 @@ class RetrofitInstance {
                 .addInterceptor(logging)
                 .build()
             Retrofit.Builder()
-                .baseUrl(BASE_URL)
+                .baseUrl(BASE_API_URL)
                 .addConverterFactory(ScalarsConverterFactory.create())
                 .addConverterFactory(GsonConverterFactory.create())
                 .client(client)
                 .build()
         }
-        val api by lazy {
+        val api: BlogApi by lazy {
             retrofit.create(BlogApi::class.java)
         }
     }
